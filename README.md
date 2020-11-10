@@ -77,7 +77,8 @@ NodeJS (>= v10.13) & NPM (>= v6.4.1):
 
 ### API (Excerpt)
 
-- `allIs(condition, ...items)`
+- `decrypt(data, key)`
+- `encrypt(data, key)`
 
 ### Example (Excerpt)
 
