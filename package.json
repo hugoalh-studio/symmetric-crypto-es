@@ -1,0 +1,29 @@
+{
+	"name": "@hugoalh/symmetric-crypto",
+	"version": "1.0.0",
+	"description": "A library/module to provide a easier symmetric crypto.",
+	"keywords": [
+		"nodejs",
+		"crypto",
+		"symmetric"
+	],
+	"homepage": "https://github.com/hugoalh-studio/NodeJS.SymmetricCrypto#readme",
+	"bugs": {
+		"url": "https://github.com/hugoalh-studio/NodeJS.SymmetricCrypto/issues"
+	},
+	"license": "MIT",
+	"author": "hugoalh",
+	"main": "lib/main.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hugoalh-studio/NodeJS.SymmetricCrypto.git"
+	},
+	"dependencies": {
+		"@hugoalh/advanced-determine": "^4.0.0"
+	},
+	"engines": {
+		"node": ">= 10.13.0",
+		"npm": ">= 6.4.1"
+	},
+	"private": false
+}
