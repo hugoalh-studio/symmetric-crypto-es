@@ -59,7 +59,7 @@ A NodeJS library/module to provide a easier symmetric crypto.
 
 ## 📜 Description
 
-*This package was inspired by "symencdec ([GitHub](https://github.com/nire0510/symencdec))([NPM](https://www.npmjs.com/package/symencdec))".*
+*This package was inspired by "symencdec" ([GitHub](https://github.com/nire0510/symencdec))([NPM](https://www.npmjs.com/package/symencdec)).*
 
 Symmetric crypto is a password based encryption and decryption, but have some improvements.
 
