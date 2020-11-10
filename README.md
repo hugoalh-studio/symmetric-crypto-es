@@ -78,10 +78,28 @@ NodeJS (>= v10.13) & NPM (>= v6.4.1):
 ### API (Excerpt)
 
 - `decrypt(data, key)`
+- `decryptMultipleLine(data, key)`
 - `encrypt(data, key)`
+- `encryptMultipleLine(data, key)`
 
 ### Example (Excerpt)
 
 ```javascript
 const symmetricCrypto = require("@hugoalh/symmetric-crypto");
+
+let data = "Hello, world!\nFoo.\nBar.",
+    key = "githubnode";
+let firstEncrypted = symmetricCrypto.encrypt(data, key),
+    secondEncrypted = symmetricCrypto.encryptMultipleLine(data, key);
+console.log(firstEncrypted);// "awpojpwojqmrmklmklmkljicvjifjogjotrj"
+console.log(secondEncrypted);
+/*
+spjerpawakmsfnklasklfnkljljkasjkdlaz
+sdjfljslejifklejrlkmslkfmklpmqhnoubd
+psdofipskpdokfepkasdpoaiwopejkqmatyn
+*/
+let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, key),
+    secondDecrypted = symmetricCrypto.decryptMultipleLine(secondEncrypted, key);
+console.log(firstDecrypted);// "Hello, world!\nFoo.\nBar."
+console.log(secondDecrypted);// "Hello, world!\nFoo.\nBar."
 ```
