@@ -19,7 +19,7 @@
 		"url": "git+https://github.com/hugoalh-studio/NodeJS.SymmetricCrypto.git"
 	},
 	"dependencies": {
-		"@hugoalh/advanced-determine": "^4.0.0"
+		"@hugoalh/advanced-determine": "^4.2.0"
 	},
 	"engines": {
 		"node": ">= 10.13.0",
