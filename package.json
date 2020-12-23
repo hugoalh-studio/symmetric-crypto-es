@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/symmetric-crypto",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "A library/module to provide a easier symmetric crypto.",
 	"keywords": [
 		"nodejs",
@@ -22,8 +22,8 @@
 		"@hugoalh/advanced-determine": "^4.2.0"
 	},
 	"engines": {
-		"node": ">= 10.13.0",
-		"npm": ">= 6.4.1"
+		"node": ">= 14.15.0",
+		"npm": ">= 6.14.8"
 	},
 	"private": false
 }
