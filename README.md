@@ -71,7 +71,7 @@ Symmetric crypto is a password based encryption and decryption, but have some im
 
 NodeJS (>= v14.15) & NPM (>= v6.14.8):
 
-```powershell
+```sh
 > npm install @hugoalh/symmetric-crypto
 ```
 
