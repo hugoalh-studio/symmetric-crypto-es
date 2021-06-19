@@ -77,10 +77,10 @@ NodeJS (>= v14.15.0) & NPM (>= v6.14.8):
 
 ### API (Excerpt)
 
-- `decrypt(data, key)`
-- `decryptMultipleLine(data, key)`
-- `encrypt(data, key)`
-- `encryptMultipleLine(data, key)`
+- `decrypt(data, passphrase)`
+- `decryptMultipleLine(data, passphrase)`
+- `encrypt(data, passphrase)`
+- `encryptMultipleLine(data, passphrase)`
 
 ### Example (Excerpt)
 
@@ -88,9 +88,9 @@ NodeJS (>= v14.15.0) & NPM (>= v6.14.8):
 const symmetricCrypto = require("@hugoalh/symmetric-crypto");
 
 let data = "Hello, world!\nFoo.\nBar.",
-    key = "githubnode";
-let firstEncrypted = symmetricCrypto.encrypt(data, key),
-    secondEncrypted = symmetricCrypto.encryptMultipleLine(data, key);
+    passphrase = "githubnode";
+let firstEncrypted = symmetricCrypto.encrypt(data, passphrase),
+    secondEncrypted = symmetricCrypto.encryptMultipleLine(data, passphrase);
 console.log(firstEncrypted);// "awpojpwojqmrmklmklmkljicvjifjogjotrj"
 console.log(secondEncrypted);
 /*
@@ -98,8 +98,8 @@ spjerpawakmsfnklasklfnkljljkasjkdlaz
 sdjfljslejifklejrlkmslkfmklpmqhnoubd
 psdofipskpdokfepkasdpoaiwopejkqmatyn
 */
-let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, key),
-    secondDecrypted = symmetricCrypto.decryptMultipleLine(secondEncrypted, key);
+let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, passphrase),
+    secondDecrypted = symmetricCrypto.decryptMultipleLine(secondEncrypted, passphrase);
 console.log(firstDecrypted);// "Hello, world!\nFoo.\nBar."
 console.log(secondDecrypted);// "Hello, world!\nFoo.\nBar."
 ```
