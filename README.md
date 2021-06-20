@@ -11,7 +11,7 @@
   <img align="center" alt="GitHub Fork" src="https://img.shields.io/github/forks/hugoalh-studio/symmetric-crypto-nodejs?logo=github&logoColor=ffffff&style=flat-square" />
 </details>
 
-A module for NodeJS to provide an easier symmetric crypto.
+A NodeJS module to provide an easier symmetric crypto.
 
 <table>
   <tr>
