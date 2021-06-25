@@ -46,7 +46,7 @@ NodeJS (>= v14.15.0) & NPM (>= v6.14.8):
 
 ### Example (Excerpt)
 
-```javascript
+```js
 const symmetricCrypto = require("@hugoalh/symmetric-crypto");
 
 let data = "Hello, world!\nFoo.\nBar.",
