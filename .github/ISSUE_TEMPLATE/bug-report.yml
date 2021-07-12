@@ -15,22 +15,18 @@ body:
       description: "What the bug is?"
     validations:
       required: false
-  - type: "checkboxes"
+  - type: "dropdown"
     id: "version"
     attributes:
       label: "Version"
       description: "What version(s) is affected? Must be a supported version(s) listed in the \"Security Policy\" (/.github/SECURITY.md)."
+      multiple: true
       options:
-        - label: "1.1.2"
-          required: false
-        - label: "1.1.1"
-          required: false
-        - label: "1.1.0"
-          required: false
-        - label: "1.0.1"
-          required: false
-        - label: "1.0.0"
-          required: false
+        - "v1.1.2"
+        - "v1.1.1"
+        - "v1.1.0"
+        - "v1.0.1"
+        - "v1.0.0"
     validations:
       required: false
   - type: "textarea"

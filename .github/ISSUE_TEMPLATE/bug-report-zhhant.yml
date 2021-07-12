@@ -15,22 +15,18 @@ body:
       description: "是甚麼錯誤？"
     validations:
       required: false
-  - type: "checkboxes"
+  - type: "dropdown"
     id: "version"
     attributes:
       label: "版本"
       description: "甚麼版本受到影響？必須是「安全政策（英文）」（/.github/SECURITY.md）中列出的受支持版本。"
+      multiple: true
       options:
-        - label: "1.1.2"
-          required: false
-        - label: "1.1.1"
-          required: false
-        - label: "1.1.0"
-          required: false
-        - label: "1.0.1"
-          required: false
-        - label: "1.0.0"
-          required: false
+        - "v1.1.2"
+        - "v1.1.1"
+        - "v1.1.0"
+        - "v1.0.1"
+        - "v1.0.0"
     validations:
       required: false
   - type: "textarea"
