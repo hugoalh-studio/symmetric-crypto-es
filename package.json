@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/symmetric-crypto",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "A module to provide an easier symmetric crypto.",
 	"keywords": [
 		"crypto",
