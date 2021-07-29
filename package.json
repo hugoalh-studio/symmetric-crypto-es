@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/symmetric-crypto",
-	"version": "1.2.1",
+	"version": "1.3.0",
 	"description": "A module to provide an easier symmetric crypto.",
 	"keywords": [
 		"crypto",
@@ -12,7 +12,11 @@
 	},
 	"license": "MIT",
 	"author": "hugoalh",
-	"main": "lib/main.js",
+	"main": "./lib/main.js",
+	"exports": {
+		"import": "./lib/main.mjs",
+		"require": "./lib/main.js"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/hugoalh-studio/symmetric-crypto-nodejs.git"
