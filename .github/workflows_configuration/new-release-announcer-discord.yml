@@ -28,5 +28,5 @@ embeds:
         value: "https://www.npmjs.com/package/@hugoalh/symmetric-crypto"
         inline: false
       - name: "Repository"
-        value: "https://github.com/hugoalh-studio/symmetric-crypto-nodejs"
+        value: "%payload.repository.html_url%"
         inline: false
