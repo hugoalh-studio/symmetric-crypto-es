@@ -50,10 +50,10 @@ npm install @hugoalh/symmetric-crypto
 ```js
 const symmetricCrypto = require("@hugoalh/symmetric-crypto");
 
-let data = "Hello, world!\nFoo.\nBar.",
-    passphrase = "githubnode";
-let firstEncrypted = symmetricCrypto.encrypt(data, passphrase),
-    secondEncrypted = symmetricCrypto.encryptMultipleLine(data, passphrase);
+let data = "Hello, world!\nFoo.\nBar.";
+let passphrase = "githubnode";
+let firstEncrypted = symmetricCrypto.encrypt(data, passphrase);
+let secondEncrypted = symmetricCrypto.encryptMultipleLine(data, passphrase);
 console.log(firstEncrypted);// "awpojpwojqmrmklmklmkljicvjifjogjotrj"
 console.log(secondEncrypted);
 /*
@@ -61,8 +61,8 @@ spjerpawakmsfnklasklfnkljljkasjkdlaz
 sdjfljslejifklejrlkmslkfmklpmqhnoubd
 psdofipskpdokfepkasdpoaiwopejkqmatyn
 */
-let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, passphrase),
-    secondDecrypted = symmetricCrypto.decryptMultipleLine(secondEncrypted, passphrase);
+let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, passphrase);
+let secondDecrypted = symmetricCrypto.decryptMultipleLine(secondEncrypted, passphrase);
 console.log(firstDecrypted);// "Hello, world!\nFoo.\nBar."
 console.log(secondDecrypted);// "Hello, world!\nFoo.\nBar."
 ```
