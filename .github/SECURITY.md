@@ -4,15 +4,16 @@
 
 > | **Legend** | **Description** |
 > |:-:|:--|
-> | L | **LTS:** This is long term supported. |
-> | ✔ | **Yes:** This is supported. |
-> | 👎 | **Partly:** This is partly supported due to this version(s) is deprecated by a newer version(s). |
-> | ❌ | **No:** This is not supported due to this version(s) is too old. |
-> | ⚠ | **Issue:** This is not supported due to this version(s) is confirmed contains bug(s) and/or issue(s). |
+> | L | **LTS:** This version(s) is long term supported. |
+> | ✔ | **Yes:** This version(s) is supported. |
+> | 👎 | **Partly:** This version(s) is partly supported due to deprecated by a newer version(s). |
+> | ❌ | **No:** This version(s) is not supported due to too old. |
+> | ⚠ | **Issue:** This version(s) is not supported due to confirmed contains bug(s) and/or issue(s). |
 
 | **Tag / Version** | **Target** | **Support** |
 |:-:|:-:|:-:|
-| v1.2.X | NodeJS v14.15.0 + NPM v6.14.8 | L |
+| v1.3.X | NodeJS v14.15.0 + NPM v6.14.8 | L |
+| v1.2.X | NodeJS v14.15.0 + NPM v6.14.8 | ✔ |
 | v1.1.X | NodeJS v14.15.0 + NPM v6.14.8 | 👎⚠ |
 | v1.0.X | NodeJS v10.13.0 + NPM v6.4.1 | 👎⚠ |
 

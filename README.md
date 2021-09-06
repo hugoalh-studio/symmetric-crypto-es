@@ -1,7 +1,6 @@
 # Symmetric Crypto (NodeJS Edition)
 
-[`SymmetricCrypto.NodeJS`](https://github.com/hugoalh-studio/symmetric-crypto-nodejs) - A NodeJS module to provide an easier symmetric crypto.
-
+[`SymmetricCrypto.NodeJS`](https://github.com/hugoalh-studio/symmetric-crypto-nodejs)
 [![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh-studio/symmetric-crypto-nodejs?label=Contributors&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/graphs/contributors)
 [![GitHub Issues](https://img.shields.io/github/issues-raw/hugoalh-studio/symmetric-crypto-nodejs?label=Issues&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/hugoalh-studio/symmetric-crypto-nodejs?label=Pull%20Requests&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/pulls)
@@ -14,12 +13,14 @@
 ![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/g/hugoalh-studio/symmetric-crypto-nodejs?label=Grade&logo=lgtm&logoColor=ffffff&style=flat-square)](https://lgtm.com/projects/g/hugoalh-studio/symmetric-crypto-nodejs)
 [![License](https://img.shields.io/static/v1?label=License&message=MIT&color=brightgreen&style=flat-square)](./LICENSE.md)
 
-| **Release** | **Latest** | **Pre** |
+| **Release** | **Latest** (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh-studio/symmetric-crypto-nodejs?label=%20&style=flat-square)) | **Pre** (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh-studio/symmetric-crypto-nodejs?label=%20&style=flat-square)) |
 |:-:|:-:|:-:|
-| [**GitHub**](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/releases) ![GitHub Total Downloads](https://img.shields.io/github/downloads/hugoalh-studio/symmetric-crypto-nodejs/total?label=%20&style=flat-square) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?sort=semver&label=%20&style=flat-square) (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh-studio/symmetric-crypto-nodejs?label=%20&style=flat-square)) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?include_prereleases&sort=semver&label=%20&style=flat-square) (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh-studio/symmetric-crypto-nodejs?label=%20&style=flat-square)) |
+| [**GitHub**](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/releases) ![GitHub Total Downloads](https://img.shields.io/github/downloads/hugoalh-studio/symmetric-crypto-nodejs/total?label=%20&style=flat-square) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?sort=semver&label=%20&style=flat-square) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?include_prereleases&sort=semver&label=%20&style=flat-square) |
 | [**NPM**](https://www.npmjs.com/package/@hugoalh/symmetric-crypto) ![NPM Total Downloads](https://img.shields.io/npm/dt/@hugoalh/symmetric-crypto?label=%20&style=flat-square) | ![NPM Latest Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/latest?label=%20&style=flat-square) | ![NPM Latest Pre-Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/pre?label=%20&style=flat-square) |
 
 ## 📝 Description
+
+A NodeJS module to provide an easier symmetric crypto.
 
 *This project is inspired from:*
 - *symencdec ([GitHub](https://github.com/nire0510/symencdec))([NPM](https://www.npmjs.com/package/symencdec))*
@@ -32,7 +33,7 @@ Symmetric crypto is a password based encryption and decryption, but this module 
 
 ### Getting Started (Excerpt)
 
-NodeJS (>= v14.15.0) & NPM (>= v6.14.8):
+NodeJS (>= v14.15.0) + NPM (>= v6.14.8):
 
 ```sh
 npm install @hugoalh/symmetric-crypto
