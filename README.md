@@ -33,13 +33,29 @@ Symmetric crypto is a password based encryption and decryption, but this module 
 
 ### Getting Started (Excerpt)
 
+#### Install
+
 NodeJS (>= v14.15.0) + NPM (>= v6.14.8):
 
 ```sh
 npm install @hugoalh/symmetric-crypto
 ```
 
+#### Use In CommonJS
+
+```js
+const symmetricCrypto = require("@hugoalh/symmetric-crypto");
+```
+
+#### Use In ModuleJS
+
+```js
+import * as symmetricCrypto from "@hugoalh/symmetric-crypto";
+```
+
 ### API (Excerpt)
+
+#### Function
 
 - `decrypt(data, passphrase)`
 - `decryptMultipleLine(data, passphrase)`
@@ -49,21 +65,25 @@ npm install @hugoalh/symmetric-crypto
 ### Example (Excerpt)
 
 ```js
-const symmetricCrypto = require("@hugoalh/symmetric-crypto");
-
 let data = "Hello, world!\nFoo.\nBar.";
 let passphrase = "githubnode";
 let firstEncrypted = symmetricCrypto.encrypt(data, passphrase);
 let secondEncrypted = symmetricCrypto.encryptMultipleLine(data, passphrase);
-console.log(firstEncrypted);// "awpojpwojqmrmklmklmkljicvjifjogjotrj"
+console.log(firstEncrypted);
+// "awpojpwojqmrmklmklmkljicvjifjogjotrj"
+
 console.log(secondEncrypted);
 /*
-spjerpawakmsfnklasklfnkljljkasjkdlaz
+`spjerpawakmsfnklasklfnkljljkasjkdlaz
 sdjfljslejifklejrlkmslkfmklpmqhnoubd
-psdofipskpdokfepkasdpoaiwopejkqmatyn
+psdofipskpdokfepkasdpoaiwopejkqmatyn`
 */
+
 let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, passphrase);
 let secondDecrypted = symmetricCrypto.decryptMultipleLine(secondEncrypted, passphrase);
-console.log(firstDecrypted);// "Hello, world!\nFoo.\nBar."
-console.log(secondDecrypted);// "Hello, world!\nFoo.\nBar."
+console.log(firstDecrypted);
+// "Hello, world!\nFoo.\nBar."
+
+console.log(secondDecrypted);
+// "Hello, world!\nFoo.\nBar."
 ```
