@@ -13,8 +13,8 @@
 | **Tag / Version** | **Target** | **Support** |
 |:-:|:-:|:-:|
 | v1.2.X | NodeJS v14.15.0 + NPM v6.14.8 | L |
-| v1.1.X | NodeJS v14.15.0 + NPM v6.14.8 | 👎⚠ |
-| v1.0.X | NodeJS v10.13.0 + NPM v6.4.1 | 👎⚠ |
+| v1.1.X | NodeJS v14.15.0 + NPM v6.14.8 | ❌⚠ |
+| v1.0.X | NodeJS v10.13.0 + NPM v6.4.1 | ❌⚠ |
 
 ## Report Vulnerability
 

@@ -1,6 +1,6 @@
 {
 	"name": "@hugoalh/symmetric-crypto",
-	"version": "1.2.6",
+	"version": "1.2.7",
 	"description": "A module to provide an easier symmetric crypto.",
 	"keywords": [
 		"crypto",
@@ -22,7 +22,7 @@
 		"url": "git+https://github.com/hugoalh-studio/symmetric-crypto-nodejs.git"
 	},
 	"dependencies": {
-		"@hugoalh/advanced-determine": "^6.1.2"
+		"@hugoalh/advanced-determine": "^6.2.0"
 	},
 	"engines": {
 		"node": ">= 14.15.0",
