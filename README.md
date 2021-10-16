@@ -69,13 +69,13 @@ let passphrase = "githubnode";
 let firstEncrypted = symmetricCrypto.encrypt(data, passphrase);
 let secondEncrypted = symmetricCrypto.encryptMultipleLine(data, passphrase);
 console.log(firstEncrypted);
-// "awpojpwojqmrmklmklmkljicvjifjogjotrj"
+// "TIdMOTTeor6q79ilfKkcInvWqQ/U4UUK5oXRSXxWhTbNpL88i/QDly9NFCt1d6JwkDWJ0nkLGKwsWbcA6tM2yg=="
 
 console.log(secondEncrypted);
 /*
-`spjerpawakmsfnklasklfnkljljkasjkdlaz
-sdjfljslejifklejrlkmslkfmklpmqhnoubd
-psdofipskpdokfepkasdpoaiwopejkqmatyn`
+`LO1uspz3yPXlbDdi20Xk5kYPc06kZO3h0SH6mN+gCI/+xTRpeanWPNat17ufGpxE
+NdLVDbUWDAeBK1MdXoO4rIbpBbwiCyaPU0ut8HOCCLXnidGM9EEbevuL8EGjQVSS
+nh3fuCzHOXWhtBLHuIZyiz5n9/Om0uPZdHdEikei8ydjnpaVLaCT2p78Uamxc3m1`
 */
 
 let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, passphrase);

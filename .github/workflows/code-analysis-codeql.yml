@@ -12,10 +12,26 @@ on:
       - "edited"
       - "reopened"
       - "synchronize"
+  workflow_dispatch:
 jobs:
+  checkout-repository:
+    name: "Checkout Repository"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout Repository"
+        uses: "actions/checkout@v2.3.4"
+        with:
+          fetch-depth: 2
+      - name: "Cache Workspace"
+        uses: "actions/cache@v2.1.6"
+        with:
+          key: "${{github.repository}}-${{github.sha}}-${{github.run_id}}"
+          path: "${{github.workspace}}/**"
   code-analysis-codeql:
     name: "Code Analysis - CodeQL"
     runs-on: "ubuntu-latest"
+    needs:
+      - "checkout-repository"
     strategy:
       fail-fast: false
       matrix:
@@ -27,17 +43,18 @@ jobs:
           - "javascript"
           - "python"
     steps:
-      - name: "Checkout Repository"
-        uses: "actions/checkout@v2.3.4"
+      - name: "Restore Workspace"
+        uses: "actions/cache@v2.1.6"
         with:
-          fetch-depth: 2
+          key: "${{github.repository}}-${{github.sha}}-${{github.run_id}}"
+          path: "${{github.workspace}}/**"
       - name: "Initialize CodeQL"
         uses: "github/codeql-action/init@v1"
         with:
           languages: "${{matrix.language}}"
           queries: "+security-and-quality"
-      # Auto build attempts to build any compiled languages (C/C++, C#, or Java).
-      - name: "Auto Build"
+      # Automatically build attempts to build any compiled languages (C/C++, C#, or Java).
+      - name: "Automatically Build"
         if: "${{matrix.language == 'cpp' || matrix.language == 'csharp' || matrix.language == 'java'}}"
         uses: "github/codeql-action/autobuild@v1"
         continue-on-error: true

@@ -4,17 +4,18 @@
 
 > | **Legend** | **Description** |
 > |:-:|:--|
-> | L | **LTS:** This version(s) is long term supported. |
-> | ✔ | **Yes:** This version(s) is supported. |
-> | 👎 | **Partly:** This version(s) is partly supported due to deprecated by a newer version(s). |
-> | ❌ | **No:** This version(s) is not supported due to too old. |
-> | ⚠ | **Issue:** This version(s) is not supported due to confirmed contains bug(s) and/or issue(s). |
+> | L | **LTS:** Long term supported. |
+> | ✔ | **Yes:** Supported. |
+> | 👎{🐛} | **Partly (Issue):** Partly supported due to confirmed contains bugs and/or issues. |
+> | 👎{🧓} | **Partly (Old):** Partly supported due to deprecated by newer versions. |
+> | ❌{🐛} | **No (Issue):** Not supported due to confirmed contains bugs and/or issues. |
+> | ❌{🧓} | **No (Old):** Not supported due to too old. |
 
 | **Tag / Version** | **Target** | **Support** |
 |:-:|:-:|:-:|
 | v1.2.X | NodeJS v14.15.0 + NPM v6.14.8 | L |
-| v1.1.X | NodeJS v14.15.0 + NPM v6.14.8 | ❌⚠ |
-| v1.0.X | NodeJS v10.13.0 + NPM v6.4.1 | ❌⚠ |
+| v1.1.X | NodeJS v14.15.0 + NPM v6.14.8 | ❌{🐛} |
+| v1.0.X | NodeJS v10.13.0 + NPM v6.4.1 | ❌{🐛} |
 
 ## Report Vulnerability
 
@@ -28,8 +29,8 @@ Send an email to anyone who listed in here (click the link to obtain the email a
 
 - Your GitHub account username (e.g.: `@octocat`)
 - Project identification name
-- Affected version(s) (must be a supported version(s))
-- Affected file(s)
-- Issue(s) to cause this security issue
-- Common Vulnerabilities and Exposures (CVE) identification number(s)
-- Reference of this security issue
+- Affected versions (versions must be listed as supported)
+- Affected files
+- Issues to cause this security issue
+- Common Vulnerabilities and Exposures (CVE) identification numbers
+- References of this security issue
