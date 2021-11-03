@@ -13,7 +13,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v2.3.5"
+        uses: "actions/checkout@v2.4.0"
         with:
           ref: "v${{github.event.inputs.tag}}"
       - name: "Correct Package Name"
