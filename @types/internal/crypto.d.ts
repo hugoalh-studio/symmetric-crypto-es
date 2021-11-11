@@ -21,3 +21,4 @@ export function encrypt(data: string, hash: any): string;
  * @returns {Buffer}
  */
 export function hashDigest(passphrase: string): any;
+//# sourceMappingURL=crypto.d.ts.map

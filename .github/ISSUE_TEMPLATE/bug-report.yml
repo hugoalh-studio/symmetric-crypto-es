@@ -19,6 +19,7 @@ body:
       description: "What versions are affected? Versions must be listed as supported in the Security Policy (/.github/SECURITY.md)."
       multiple: true
       options:
+        - "v1.2.11"
         - "v1.2.10"
         - "v1.2.9"
         - "v1.2.8"

@@ -7,3 +7,4 @@ export = $check;
  * @returns {void}
  */
 declare function $check(data: any, passphrase: any): void;
+//# sourceMappingURL=check.d.ts.map

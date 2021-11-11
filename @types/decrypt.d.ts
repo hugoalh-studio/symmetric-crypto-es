@@ -7,3 +7,4 @@ export = decrypt;
  * @returns {string} A decrypted data.
  */
 declare function decrypt(data: string, passphrase: string): string;
+//# sourceMappingURL=decrypt.d.ts.map

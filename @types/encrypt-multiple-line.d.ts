@@ -9,3 +9,4 @@ export = encryptMultipleLine;
  * @returns {string} An encrypted data.
  */
 declare function encryptMultipleLine(data: string, passphrase: string): string;
+//# sourceMappingURL=encrypt-multiple-line.d.ts.map
