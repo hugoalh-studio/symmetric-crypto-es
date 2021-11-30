@@ -5,7 +5,7 @@
  * @param {Buffer} hash
  * @returns {string}
  */
-export function decrypt(data: string, hash: any): string;
+export function decrypt(data: string, hash: Buffer): string;
 /**
  * @private
  * @function encrypt
@@ -13,12 +13,12 @@ export function decrypt(data: string, hash: any): string;
  * @param {Buffer} hash
  * @returns {string}
  */
-export function encrypt(data: string, hash: any): string;
+export function encrypt(data: string, hash: Buffer): string;
 /**
  * @private
  * @function hashDigest
  * @param {string} passphrase
  * @returns {Buffer}
  */
-export function hashDigest(passphrase: string): any;
+export function hashDigest(passphrase: string): Buffer;
 //# sourceMappingURL=crypto.d.ts.map
