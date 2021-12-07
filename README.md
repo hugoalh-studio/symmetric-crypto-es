@@ -54,6 +54,10 @@ import * as symmetricCrypto from "@hugoalh/symmetric-crypto";
 
 ### API (Excerpt)
 
+#### Class
+
+- `SymmetricCryptor`
+
 #### Function
 
 - `decrypt(data, passphrase)`
