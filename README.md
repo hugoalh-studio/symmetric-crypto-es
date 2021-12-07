@@ -57,13 +57,18 @@ import * as symmetricCrypto from "@hugoalh/symmetric-crypto";
 #### Class
 
 - `SymmetricCryptor`
+  - `@constructor(passpharse)`
+  - `decrypt(data, times?)`
+  - `decryptMultipleLine(data, times?)`
+  - `encrypt(data, times?)`
+  - `encryptMultipleLine(data, times?)`
 
 #### Function
 
-- `decrypt(data, passphrase)`
-- `decryptMultipleLine(data, passphrase)`
-- `encrypt(data, passphrase)`
-- `encryptMultipleLine(data, passphrase)`
+- `decrypt(data, passphrase, times?)`
+- `decryptMultipleLine(data, passphrase, times?)`
+- `encrypt(data, passphrase, times?)`
+- `encryptMultipleLine(data, passphrase, times?)`
 
 ### Example (Excerpt)
 
