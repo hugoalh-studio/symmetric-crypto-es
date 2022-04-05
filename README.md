@@ -49,7 +49,10 @@ const symmetricCrypto = require("@hugoalh/symmetric-crypto");
 #### Use In ModuleJS
 
 ```js
-import * as symmetricCrypto from "@hugoalh/symmetric-crypto";
+/* Either */
+import * as symmetricCrypto from "@hugoalh/symmetric-crypto";// All
+import symmetricCrypto from "@hugoalh/symmetric-crypto";// All (>= v1.3.1)
+import { ... } from "@hugoalh/symmetric-crypto";// Part / Tree-shake
 ```
 
 ### API (Excerpt)
