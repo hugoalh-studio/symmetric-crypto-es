@@ -34,8 +34,8 @@ Symmetric crypto is a password based encryption and decryption, but this module 
 
 #### Install
 
-- NodeJS >= v14.15.0
-- NPM >= v6.14.8
+- NodeJS >= v10.13.0
+- NPM >= v6.4.1
 
 ```sh
 npm install @hugoalh/symmetric-crypto
