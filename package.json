@@ -24,7 +24,7 @@
 		"url": "git+https://github.com/hugoalh-studio/symmetric-crypto-nodejs.git"
 	},
 	"dependencies": {
-		"@hugoalh/advanced-determine": "^7.1.1"
+		"@hugoalh/advanced-determine": "^7.1.2"
 	},
 	"engines": {
 		"node": ">= 10.13.0",
