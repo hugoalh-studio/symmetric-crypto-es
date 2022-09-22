@@ -1,20 +1,20 @@
 # Symmetric Crypto (NodeJS)
 
 [`SymmetricCrypto.NodeJS`](https://github.com/hugoalh-studio/symmetric-crypto-nodejs)
-[![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh-studio/symmetric-crypto-nodejs?label=Contributors&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/graphs/contributors)
-[![GitHub Issues](https://img.shields.io/github/issues-raw/hugoalh-studio/symmetric-crypto-nodejs?label=Issues&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/hugoalh-studio/symmetric-crypto-nodejs?label=Pull%20Requests&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/pulls)
-[![GitHub Discussions](https://img.shields.io/github/discussions/hugoalh-studio/symmetric-crypto-nodejs?label=Discussions&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/discussions)
-[![GitHub Stars](https://img.shields.io/github/stars/hugoalh-studio/symmetric-crypto-nodejs?label=Stars&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/hugoalh-studio/symmetric-crypto-nodejs?label=Forks&logo=github&logoColor=ffffff&style=flat-square)](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/network/members)
-![GitHub Languages](https://img.shields.io/github/languages/count/hugoalh-studio/symmetric-crypto-nodejs?label=Languages&logo=github&logoColor=ffffff&style=flat-square)
-[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/hugoalh-studio/symmetric-crypto-nodejs?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square)](https://www.codefactor.io/repository/github/hugoalh-studio/symmetric-crypto-nodejs)
-[![License](https://img.shields.io/static/v1?label=License&message=MIT&style=flat-square)](./LICENSE.md)
 
-| **Release** | **Latest** (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh-studio/symmetric-crypto-nodejs?label=%20&style=flat-square)) | **Pre** (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh-studio/symmetric-crypto-nodejs?label=%20&style=flat-square)) |
+![NodeJS](https://img.shields.io/badge/NodeJS-339933?logo=nodedotjs&logoColor=ffffff&style=flat-square "NodeJS")
+![License](https://img.shields.io/static/v1?label=License&message=MIT&style=flat-square "License")
+[![GitHub Stars](https://img.shields.io/github/stars/hugoalh-studio/symmetric-crypto-nodejs?label=Stars&logo=github&logoColor=ffffff&style=flat-square "GitHub Stars")](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/stargazers)
+[![GitHub Contributors](https://img.shields.io/github/contributors/hugoalh-studio/symmetric-crypto-nodejs?label=Contributors&logo=github&logoColor=ffffff&style=flat-square "GitHub Contributors")](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/graphs/contributors)
+[![GitHub Issues](https://img.shields.io/github/issues-raw/hugoalh-studio/symmetric-crypto-nodejs?label=Issues&logo=github&logoColor=ffffff&style=flat-square "GitHub Issues")](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/hugoalh-studio/symmetric-crypto-nodejs?label=Pull%20Requests&logo=github&logoColor=ffffff&style=flat-square "GitHub Pull Requests")](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/pulls)
+[![GitHub Discussions](https://img.shields.io/github/discussions/hugoalh-studio/symmetric-crypto-nodejs?label=Discussions&logo=github&logoColor=ffffff&style=flat-square "GitHub Discussions")](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/discussions)
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/hugoalh-studio/symmetric-crypto-nodejs?label=Grade&logo=codefactor&logoColor=ffffff&style=flat-square "CodeFactor Grade")](https://www.codefactor.io/repository/github/hugoalh-studio/symmetric-crypto-nodejs)
+
+| **Releases** | **Latest** (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh-studio/symmetric-crypto-nodejs?label=&style=flat-square "GitHub Latest Release Date")) | **Pre** (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh-studio/symmetric-crypto-nodejs?label=&style=flat-square "GitHub Latest Pre-Release Date")) |
 |:-:|:-:|:-:|
-| [**GitHub**](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/releases) ![GitHub Total Downloads](https://img.shields.io/github/downloads/hugoalh-studio/symmetric-crypto-nodejs/total?label=%20&style=flat-square) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?sort=semver&label=%20&style=flat-square) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?include_prereleases&sort=semver&label=%20&style=flat-square) |
-| [**NPM**](https://www.npmjs.com/package/@hugoalh/symmetric-crypto) ![NPM Total Downloads](https://img.shields.io/npm/dt/@hugoalh/symmetric-crypto?label=%20&style=flat-square) | ![NPM Latest Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/latest?label=%20&style=flat-square) | ![NPM Latest Pre-Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/pre?label=%20&style=flat-square) |
+| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/releases) ![GitHub Total Downloads](https://img.shields.io/github/downloads/hugoalh-studio/symmetric-crypto-nodejs/total?label=&style=flat-square "GitHub Total Downloads") | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?sort=semver&label=&style=flat-square "GitHub Latest Release Version") | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?include_prereleases&sort=semver&label=&style=flat-square "GitHub Latest Pre-Release Version") |
+| [![NPM](https://img.shields.io/badge/NPM-CB3837?logo=npm&logoColor=ffffff&style=flat-square "NPM")](https://www.npmjs.com/package/@hugoalh/symmetric-crypto) ![NPM Total Downloads](https://img.shields.io/npm/dt/@hugoalh/symmetric-crypto?label=&style=flat-square "NPM Total Downloads") | ![NPM Latest Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/latest?label=&style=flat-square "NPM Latest Release Version") | ![NPM Latest Pre-Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/pre?label=&style=flat-square "NPM Latest Pre-Release Version") |
 
 ## 📝 Description
 
@@ -24,28 +24,21 @@ A NodeJS module to provide an easier symmetric crypto.
 
 Symmetric crypto is a password based encryption and decryption, but this module has some addition improvements.
 
-## 📚 Documentation
+## 📚 Documentation (Excerpt)
 
-*For the official documentation, please visit [GitHub Repository Wiki](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/wiki).*
+For the full documentation, please visit the [GitHub Repository Wiki](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/wiki).
 
-### Getting Started (Excerpt)
+### Getting Started
 
 #### Install
 
-- NodeJS >= v12.13.0
-- NPM >= v6.12.0
+- NodeJS ^ v12.20.0 || ^ v14.15.0 || >= v16.13.0
 
 ```sh
 npm install @hugoalh/symmetric-crypto
 ```
 
-#### Use In CommonJS
-
-```js
-const symmetricCrypto = require("@hugoalh/symmetric-crypto");
-```
-
-#### Use In ModuleJS
+#### Use
 
 ```js
 /* Either */
@@ -54,7 +47,7 @@ import symmetricCrypto from "@hugoalh/symmetric-crypto";// All (>= v1.3.1)
 import { ... } from "@hugoalh/symmetric-crypto";// Part / Tree-shake
 ```
 
-### API (Excerpt)
+### API
 
 #### Class
 
@@ -72,7 +65,7 @@ import { ... } from "@hugoalh/symmetric-crypto";// Part / Tree-shake
 - `encrypt(data, passphrase, times?)`
 - `encryptMultipleLine(data, passphrase, times?)`
 
-### Example (Excerpt)
+### Example
 
 ```js
 let data = "Hello, world!\nFoo.\nBar.";

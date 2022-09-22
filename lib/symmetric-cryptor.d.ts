@@ -1,4 +1,4 @@
-export = SymmetricCryptor;
+export default SymmetricCryptor;
 /**
  * @class SymmetricCryptor
  * @description A password based cryptor.

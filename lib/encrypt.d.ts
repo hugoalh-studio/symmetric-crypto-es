@@ -1,4 +1,4 @@
-export = encrypt;
+export default encrypt;
 /**
  * @function encrypt
  * @description Encrypt data.

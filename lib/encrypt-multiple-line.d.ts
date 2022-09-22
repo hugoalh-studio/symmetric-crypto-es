@@ -1,4 +1,4 @@
-export = encryptMultipleLine;
+export default encryptMultipleLine;
 /**
  * @function encryptMultipleLine
  * @alias encryptML

@@ -1,4 +1,4 @@
-export = decrypt;
+export default decrypt;
 /**
  * @function decrypt
  * @description Decrypt data.
