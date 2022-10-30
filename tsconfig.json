@@ -4,6 +4,7 @@
 		"allowJs": true,
 		"declaration": true,
 		"declarationMap": true,
+		"emitBOM": false,
 		"emitDeclarationOnly": false,
 		"esModuleInterop": true,
 		"module": "NodeNext",
