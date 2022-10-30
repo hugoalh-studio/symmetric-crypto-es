@@ -1,4 +1,4 @@
-export default encryptMultipleLine;
+import SymmetricCryptor from "./symmetric-cryptor.js";
 /**
  * @function encryptMultipleLine
  * @alias encryptML
@@ -9,5 +9,7 @@ export default encryptMultipleLine;
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} An encrypted data.
  */
-declare function encryptMultipleLine(data: string, passphrase: string, times?: number): string;
-//# sourceMappingURL=encrypt-multiple-line.d.ts.map
+function encryptMultipleLine(data, passphrase, times = 1) {
+    return new SymmetricCryptor(passphrase).encryptMultipleLine(data, times);
+}
+export default encryptMultipleLine;
