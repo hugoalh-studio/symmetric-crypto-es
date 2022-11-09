@@ -6,6 +6,9 @@ import SymmetricCryptor from "./symmetric-cryptor.js";
  * @param {string} passphrase Passphrase that need to encrypt data.
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} An encrypted data.
+ * @throws {TypeError} Argument `data` is not a valid string.
+ * @throws {TypeError} Argument `passphrase` is not a valid string.
+ * @throws {TypeError} Argument `times` is not a valid number.
  */
 function encrypt(data: string, passphrase: string, times: number = 1): string {
 	return new SymmetricCryptor(passphrase).encrypt(data, times);

@@ -5,6 +5,7 @@ import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cry
  * @function $checkData
  * @param {string} data
  * @returns {void}
+ * @throws {TypeError} Argument `data` is not a valid string.
  */
 function $checkData(data: string): void {
 	if (!adIsString(data, { empty: false })) {
@@ -16,6 +17,7 @@ function $checkData(data: string): void {
  * @function $checkTimes
  * @param {number} times
  * @returns {void}
+ * @throws {TypeError} Argument `times` is not a valid number.
  */
 function $checkTimes(times: number): void {
 	if (!adIsNumber(times, {
@@ -61,6 +63,7 @@ class SymmetricCryptor {
 	/**
 	 * @constructor
 	 * @param {string} passphrase Passphrase that need to crypto data.
+	 * @throws {TypeError} Argument `passphrase` is not a valid string.
 	 */
 	constructor(passphrase: string) {
 		if (!adIsString(passphrase, { minimumLength: 4 })) {
@@ -74,6 +77,8 @@ class SymmetricCryptor {
 	 * @param {string} data Data that need to symmetric decrypt.
 	 * @param {number} [times=1] Crypto rotation.
 	 * @returns {string} A decrypted data.
+	 * @throws {TypeError} Argument `data` is not a valid string.
+	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	decrypt(data: string, times: number = 1): string {
 		$checkData(data);
@@ -90,6 +95,8 @@ class SymmetricCryptor {
 	 * @param {string} data Data that need to symmetric decrypt.
 	 * @param {number} [times=1] Crypto rotation.
 	 * @returns {string} A decrypted data.
+	 * @throws {TypeError} Argument `data` is not a valid string.
+	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	decryptMultipleLine(data: string, times: number = 1): string {
 		$checkData(data);
@@ -110,6 +117,8 @@ class SymmetricCryptor {
 	 * @param {string} data Data that need to symmetric encrypt.
 	 * @param {number} [times=1] Crypto rotation.
 	 * @returns {string} An encrypted data.
+	 * @throws {TypeError} Argument `data` is not a valid string.
+	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	encrypt(data: string, times: number = 1): string {
 		$checkData(data);
@@ -126,6 +135,8 @@ class SymmetricCryptor {
 	 * @param {string} data Data that need to symmetric encrypt.
 	 * @param {number} [times=1] Crypto rotation.
 	 * @returns {string} An encrypted data.
+	 * @throws {TypeError} Argument `data` is not a valid string.
+	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	encryptMultipleLine(data: string, times: number = 1): string {
 		$checkData(data);
