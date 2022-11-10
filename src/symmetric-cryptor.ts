@@ -1,25 +1,18 @@
 import { isNumber as adIsNumber, isString as adIsString } from "@hugoalh/advanced-determine";
-import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, randomBytes as cryptoRandomBytes } from "node:crypto";
+import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, Decipher, randomBytes as cryptoRandomBytes } from "node:crypto";
 /**
- * @private
- * @function $checkData
+ * @access private
+ * @function checkInternal
  * @param {string} data
+ * @param {number} times
  * @returns {void}
  * @throws {TypeError} Argument `data` is not a valid string.
+ * @throws {TypeError} Argument `times` is not a valid number.
  */
-function $checkData(data: string): void {
+function checkInternal(data: string, times: number): void {
 	if (!adIsString(data, { empty: false })) {
 		throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
 	}
-}
-/**
- * @private
- * @function $checkTimes
- * @param {number} times
- * @returns {void}
- * @throws {TypeError} Argument `times` is not a valid number.
- */
-function $checkTimes(times: number): void {
 	if (!adIsNumber(times, {
 		integer: true,
 		minimum: 1,
@@ -29,26 +22,26 @@ function $checkTimes(times: number): void {
 	}
 }
 /**
- * @private
- * @function $decrypt
+ * @access private
+ * @function decryptInternal
  * @param {string} data
  * @param {Buffer} hash
  * @returns {string}
  */
-function $decrypt(data: string, hash: Buffer): string {
+function decryptInternal(data: string, hash: Buffer): string {
 	let encrypted: Buffer = Buffer.from(data, "base64");
-	let decipher = cryptoCreateDecipheriv("AES-256-CBC", hash, encrypted.subarray(0, 16));
+	let decipher: Decipher = cryptoCreateDecipheriv("AES-256-CBC", hash, encrypted.subarray(0, 16));
 	let decrypted: string = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
 	return decrypted.substring(0, decrypted.length - decrypted.charCodeAt(decrypted.length - 1));
 }
 /**
- * @private
- * @function $encrypt
+ * @access private
+ * @function encryptInternal
  * @param {string} data
  * @param {Buffer} hash
  * @returns {string}
  */
-function $encrypt(data: string, hash: Buffer): string {
+function encryptInternal(data: string, hash: Buffer): string {
 	let iv: Buffer = cryptoRandomBytes(16);
 	let tone: number = 16 - data.length % 16;
 	let cipher: Cipher = cryptoCreateCipheriv("AES-256-CBC", hash, iv);
@@ -81,11 +74,10 @@ class SymmetricCryptor {
 	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	decrypt(data: string, times: number = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkInternal(data, times);
 		let result: string = data;
 		for (let index: number = 0; index < times; index++) {
-			result = $decrypt(result, this.#passphraseStorage);
+			result = decryptInternal(result, this.#passphraseStorage);
 		}
 		return result;
 	}
@@ -99,18 +91,20 @@ class SymmetricCryptor {
 	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	decryptMultipleLine(data: string, times: number = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkInternal(data, times);
 		let result: string = data;
 		for (let index: number = 0; index < times; index++) {
 			result = result.split("\r\n").map((itemRN: string): string => {
 				return itemRN.split("\n").map((itemN: string): string => {
-					return ((itemN.length === 0) ? "" : $decrypt(itemN, this.#passphraseStorage));
+					return ((itemN.length === 0) ? "" : decryptInternal(itemN, this.#passphraseStorage));
 				}).join("\n");
 			}).join("\r\n");
 		}
 		return result;
 	}
+	decryptML: typeof this.decryptMultipleLine = this.decryptMultipleLine;
+	decryptMultiline: typeof this.decryptMultipleLine = this.decryptMultipleLine;
+	decryptMultiLine: typeof this.decryptMultipleLine = this.decryptMultipleLine;
 	/**
 	 * @method encrypt
 	 * @description Encrypt data.
@@ -121,11 +115,10 @@ class SymmetricCryptor {
 	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	encrypt(data: string, times: number = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkInternal(data, times);
 		let result: string = data;
 		for (let index: number = 0; index < times; index++) {
-			result = $encrypt(result, this.#passphraseStorage);
+			result = encryptInternal(result, this.#passphraseStorage);
 		}
 		return result;
 	}
@@ -139,17 +132,19 @@ class SymmetricCryptor {
 	 * @throws {TypeError} Argument `times` is not a valid number.
 	 */
 	encryptMultipleLine(data: string, times: number = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkInternal(data, times);
 		let result: string = data;
 		for (let index: number = 0; index < times; index++) {
 			result = result.split("\r\n").map((itemRN: string): string => {
 				return itemRN.split("\n").map((itemN: string): string => {
-					return ((itemN.length === 0) ? "" : $encrypt(itemN, this.#passphraseStorage));
+					return ((itemN.length === 0) ? "" : encryptInternal(itemN, this.#passphraseStorage));
 				}).join("\n");
 			}).join("\r\n");
 		}
 		return result;
 	}
+	encryptML: typeof this.encryptMultipleLine = this.encryptMultipleLine;
+	encryptMultiline: typeof this.encryptMultipleLine = this.encryptMultipleLine;
+	encryptMultiLine: typeof this.encryptMultipleLine = this.encryptMultipleLine;
 }
 export default SymmetricCryptor;

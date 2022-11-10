@@ -1,6 +1,7 @@
 /**
  * @function decryptMultipleLine
  * @alias decryptML
+ * @alias decryptMultiline
  * @alias decryptMultiLine
  * @description Decrypt data.
  * @param {string} data Data that need to symmetric decrypt.

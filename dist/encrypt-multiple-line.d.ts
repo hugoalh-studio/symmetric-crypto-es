@@ -1,6 +1,7 @@
 /**
  * @function encryptMultipleLine
  * @alias encryptML
+ * @alias encryptMultiline
  * @alias encryptMultiLine
  * @description Encrypt data.
  * @param {string} data Data that need to symmetric encrypt.

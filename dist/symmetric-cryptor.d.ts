@@ -30,6 +30,9 @@ declare class SymmetricCryptor {
      * @throws {TypeError} Argument `times` is not a valid number.
      */
     decryptMultipleLine(data: string, times?: number): string;
+    decryptML: typeof this.decryptMultipleLine;
+    decryptMultiline: typeof this.decryptMultipleLine;
+    decryptMultiLine: typeof this.decryptMultipleLine;
     /**
      * @method encrypt
      * @description Encrypt data.
@@ -50,6 +53,9 @@ declare class SymmetricCryptor {
      * @throws {TypeError} Argument `times` is not a valid number.
      */
     encryptMultipleLine(data: string, times?: number): string;
+    encryptML: typeof this.encryptMultipleLine;
+    encryptMultiline: typeof this.encryptMultipleLine;
+    encryptMultiLine: typeof this.encryptMultipleLine;
 }
 export default SymmetricCryptor;
 //# sourceMappingURL=symmetric-cryptor.d.ts.map
