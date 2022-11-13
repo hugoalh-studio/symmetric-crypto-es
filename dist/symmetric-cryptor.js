@@ -18,19 +18,17 @@ import { createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreat
  * @param {string} data
  * @param {number} times
  * @returns {void}
- * @throws {TypeError} Argument `data` is not a valid string.
- * @throws {TypeError} Argument `times` is not a valid number.
  */
 function checkInternal(data, times) {
     if (!adIsString(data, { empty: false })) {
-        throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
+        throw new TypeError(`Argument \`data\` must be type of string (non-empty).`);
     }
     if (!adIsNumber(times, {
         integer: true,
         minimum: 1,
         safe: true
     })) {
-        throw new TypeError(`Argument \`times\` must be type of number (integer and safe) and > 0!`);
+        throw new TypeError(`Argument \`times\` must be type of number (integer and safe) and > 0.`);
     }
 }
 /**
@@ -67,7 +65,6 @@ class SymmetricCryptor {
     /**
      * @constructor
      * @param {string} passphrase Passphrase that need to crypto data.
-     * @throws {TypeError} Argument `passphrase` is not a valid string.
      */
     constructor(passphrase) {
         _SymmetricCryptor_passphraseStorage.set(this, void 0);
@@ -78,7 +75,7 @@ class SymmetricCryptor {
         this.encryptMultiline = this.encryptMultipleLine;
         this.encryptMultiLine = this.encryptMultipleLine;
         if (!adIsString(passphrase, { minimumLength: 4 })) {
-            throw new TypeError(`Argument \`passphrase\` must be type of string and at least 4 characters!`);
+            throw new TypeError(`Argument \`passphrase\` must be type of string and at least 4 characters.`);
         }
         __classPrivateFieldSet(this, _SymmetricCryptor_passphraseStorage, cryptoCreateHash("sha256").update(passphrase).digest().subarray(0, 32), "f");
     }
@@ -88,8 +85,6 @@ class SymmetricCryptor {
      * @param {string} data Data that need to symmetric decrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} A decrypted data.
-     * @throws {TypeError} Argument `data` is not a valid string.
-     * @throws {TypeError} Argument `times` is not a valid number.
      */
     decrypt(data, times = 1) {
         checkInternal(data, times);
@@ -105,8 +100,6 @@ class SymmetricCryptor {
      * @param {string} data Data that need to symmetric decrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} A decrypted data.
-     * @throws {TypeError} Argument `data` is not a valid string.
-     * @throws {TypeError} Argument `times` is not a valid number.
      */
     decryptMultipleLine(data, times = 1) {
         checkInternal(data, times);
@@ -126,8 +119,6 @@ class SymmetricCryptor {
      * @param {string} data Data that need to symmetric encrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} An encrypted data.
-     * @throws {TypeError} Argument `data` is not a valid string.
-     * @throws {TypeError} Argument `times` is not a valid number.
      */
     encrypt(data, times = 1) {
         checkInternal(data, times);
@@ -143,8 +134,6 @@ class SymmetricCryptor {
      * @param {string} data Data that need to symmetric encrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} An encrypted data.
-     * @throws {TypeError} Argument `data` is not a valid string.
-     * @throws {TypeError} Argument `times` is not a valid number.
      */
     encryptMultipleLine(data, times = 1) {
         checkInternal(data, times);
