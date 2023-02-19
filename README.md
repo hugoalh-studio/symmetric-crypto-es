@@ -51,18 +51,13 @@ import { ... } from "@hugoalh/symmetric-crypto";// Part / Tree-shake
 #### Class
 
 - `SymmetricCryptor`
-  - `@constructor(passphrase)`
-  - `decrypt(data, times?)`
-  - `decryptMultipleLine(data, times?)`
-  - `encrypt(data, times?)`
-  - `encryptMultipleLine(data, times?)`
 
 #### Function
 
-- `decrypt(data, passphrase, times?)`
-- `decryptMultipleLine(data, passphrase, times?)`
-- `encrypt(data, passphrase, times?)`
-- `encryptMultipleLine(data, passphrase, times?)`
+- `decrypt`
+- `decryptMultipleLine`
+- `encrypt`
+- `encryptMultipleLine`
 
 ### Example
 
