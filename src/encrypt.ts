@@ -7,7 +7,7 @@ import SymmetricCryptor from "./symmetric-cryptor.js";
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} An encrypted data.
  */
-function encrypt(data, passphrase, times = 1) {
+function encrypt(data: string, passphrase: string, times = 1): string {
 	return new SymmetricCryptor(passphrase).encrypt(data, times);
 }
 export default encrypt;

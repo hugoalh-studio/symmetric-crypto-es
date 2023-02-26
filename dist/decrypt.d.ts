@@ -1,4 +1,3 @@
-import SymmetricCryptor from "./symmetric-cryptor.js";
 /**
  * @function decrypt
  * @description Decrypt data.
@@ -7,7 +6,6 @@ import SymmetricCryptor from "./symmetric-cryptor.js";
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} A decrypted data.
  */
-function decrypt(data, passphrase, times = 1) {
-	return new SymmetricCryptor(passphrase).decrypt(data, times);
-}
+declare function decrypt(data: string, passphrase: string, times?: number): string;
 export default decrypt;
+//# sourceMappingURL=decrypt.d.ts.map

@@ -1,9 +1,9 @@
-export default SymmetricCryptor;
 /**
  * @class SymmetricCryptor
  * @description A password based cryptor.
  */
 declare class SymmetricCryptor {
+    #private;
     /**
      * @constructor
      * @param {string} passphrase Passphrase that need to crypto data.
@@ -41,6 +41,6 @@ declare class SymmetricCryptor {
      * @returns {string} An encrypted data.
      */
     encryptMultipleLine(data: string, times?: number): string;
-    #private;
 }
+export default SymmetricCryptor;
 //# sourceMappingURL=symmetric-cryptor.d.ts.map
