@@ -1,5 +1,11 @@
 import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, Decipher, randomBytes as cryptoRandomBytes } from "node:crypto";
 import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
+const numberTimesFilter = new NumberItemFilter({
+	integer: true,
+	minimum: 1,
+	safe: true
+});
+const stringFilter = new StringItemFilter();
 /**
  * @private
  * @function $checkData
@@ -7,7 +13,7 @@ import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine"
  * @returns {void}
  */
 function $checkData(data: string): void {
-	if (!(new StringItemFilter().test(data))) {
+	if (!stringFilter.test(data)) {
 		throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
 	}
 }
@@ -18,11 +24,7 @@ function $checkData(data: string): void {
  * @returns {void}
  */
 function $checkTimes(times: number): void {
-	if (!(new NumberItemFilter({
-		integer: true,
-		minimum: 1,
-		safe: true
-	}).test(times))) {
+	if (!numberTimesFilter.test(times)) {
 		throw new TypeError(`Argument \`times\` must be type of number (integer and safe) and > 0!`);
 	}
 }
