@@ -9,7 +9,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _SymmetricCryptor_passphraseStorage;
+var _a, _SymmetricCryptor_passphraseStorage;
 import { createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, randomBytes as cryptoRandomBytes } from "node:crypto";
 import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
 const numberTimesFilter = new NumberItemFilter({
@@ -103,6 +103,17 @@ class SymmetricCryptor {
         return result;
     }
     /**
+     * @static decrypt
+     * @description Decrypt data.
+     * @param {string} data Data that need to symmetric decrypt.
+     * @param {string} passphrase Passphrase that need to decrypt data.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} A decrypted data.
+     */
+    static decrypt(data, passphrase, times = 1) {
+        return new this(passphrase).decrypt(data, times);
+    }
+    /**
      * @method decryptMultipleLine
      * @alias decryptML
      * @alias decryptMultiLine
@@ -125,6 +136,19 @@ class SymmetricCryptor {
         return result;
     }
     /**
+     * @static decryptMultipleLine
+     * @alias decryptML
+     * @alias decryptMultiLine
+     * @description Decrypt data.
+     * @param {string} data Data that need to symmetric decrypt.
+     * @param {string} passphrase Passphrase that need to decrypt data.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} A decrypted data.
+     */
+    static decryptMultipleLine(data, passphrase, times = 1) {
+        return new this(passphrase).decryptMultipleLine(data, times);
+    }
+    /**
      * @method encrypt
      * @description Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
@@ -139,6 +163,17 @@ class SymmetricCryptor {
             result = $encrypt(result, __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"));
         }
         return result;
+    }
+    /**
+     * @static encrypt
+     * @description Encrypt data.
+     * @param {string} data Data that need to symmetric encrypt.
+     * @param {string} passphrase Passphrase that need to encrypt data.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} An encrypted data.
+     */
+    static encrypt(data, passphrase, times = 1) {
+        return new this(passphrase).encrypt(data, times);
     }
     /**
      * @method encryptMultipleLine
@@ -162,6 +197,23 @@ class SymmetricCryptor {
         }
         return result;
     }
+    /**
+     * @static encryptMultipleLine
+     * @alias encryptML
+     * @alias encryptMultiLine
+     * @description Encrypt data.
+     * @param {string} data Data that need to symmetric encrypt.
+     * @param {string} passphrase Passphrase that need to encrypt data.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} An encrypted data.
+     */
+    static encryptMultipleLine(data, passphrase, times = 1) {
+        return new this(passphrase).encryptMultipleLine(data, times);
+    }
 }
-_SymmetricCryptor_passphraseStorage = new WeakMap();
+_a = SymmetricCryptor, _SymmetricCryptor_passphraseStorage = new WeakMap();
+SymmetricCryptor.decryptML = _a.decryptMultipleLine;
+SymmetricCryptor.decryptMultiLine = _a.decryptMultipleLine;
+SymmetricCryptor.encryptML = _a.encryptMultipleLine;
+SymmetricCryptor.encryptMultiLine = _a.encryptMultipleLine;
 export default SymmetricCryptor;
