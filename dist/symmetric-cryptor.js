@@ -19,7 +19,7 @@ const numberTimesFilter = new NumberItemFilter({
 });
 const stringFilter = new StringItemFilter();
 /**
- * @private
+ * @access private
  * @function $checkData
  * @param {string} data
  * @returns {void}
@@ -30,7 +30,7 @@ function $checkData(data) {
     }
 }
 /**
- * @private
+ * @access private
  * @function $checkTimes
  * @param {number} times
  * @returns {void}
@@ -41,7 +41,7 @@ function $checkTimes(times) {
     }
 }
 /**
- * @private
+ * @access private
  * @function $decrypt
  * @param {string} data
  * @param {Buffer} hash
@@ -54,7 +54,7 @@ function $decrypt(data, hash) {
     return decrypted.substring(0, decrypted.length - decrypted.charCodeAt(decrypted.length - 1));
 }
 /**
- * @private
+ * @access private
  * @function $encrypt
  * @param {string} data
  * @param {Buffer} hash
@@ -77,6 +77,10 @@ class SymmetricCryptor {
      */
     constructor(passphrase) {
         _SymmetricCryptor_passphraseStorage.set(this, void 0);
+        this.decryptML = this.decryptMultipleLine;
+        this.decryptMultiLine = this.decryptMultipleLine;
+        this.encryptML = this.encryptMultipleLine;
+        this.encryptMultiLine = this.encryptMultipleLine;
         if (!new StringItemFilter({ minimumLength: 4 }).test(passphrase)) {
             throw new TypeError(`Argument \`passphrase\` must be type of string and at least 4 characters!`);
         }
@@ -100,6 +104,8 @@ class SymmetricCryptor {
     }
     /**
      * @method decryptMultipleLine
+     * @alias decryptML
+     * @alias decryptMultiLine
      * @description Decrypt data.
      * @param {string} data Data that need to symmetric decrypt.
      * @param {number} [times=1] Crypto rotation.
@@ -136,6 +142,8 @@ class SymmetricCryptor {
     }
     /**
      * @method encryptMultipleLine
+     * @alias encryptML
+     * @alias encryptMultiLine
      * @description Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
      * @param {number} [times=1] Crypto rotation.
