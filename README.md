@@ -42,7 +42,6 @@ npm install @hugoalh/symmetric-crypto
 ```js
 /* Either */
 import * as symmetricCrypto from "@hugoalh/symmetric-crypto";// All
-import symmetricCrypto from "@hugoalh/symmetric-crypto";// All (>= v1.3.1)
 import { ... } from "@hugoalh/symmetric-crypto";// Part / Tree-shake
 ```
 
