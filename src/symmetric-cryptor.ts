@@ -5,6 +5,7 @@ const numberTimesFilter = new NumberItemFilter({
 	minimum: 1,
 	safe: true
 });
+const passphraseFilter = new StringItemFilter({ minimumLength: 4 });
 const stringFilter = new StringItemFilter();
 /**
  * @access private
@@ -65,7 +66,7 @@ class SymmetricCryptor {
 	 * @param {string} passphrase Passphrase that need to crypto data.
 	 */
 	constructor(passphrase: string) {
-		if (!new StringItemFilter({ minimumLength: 4 }).test(passphrase)) {
+		if (!passphraseFilter.test(passphrase)) {
 			throw new TypeError(`Argument \`passphrase\` must be type of string and at least 4 characters!`);
 		}
 		this.#passphraseStorage = cryptoCreateHash("sha256").update(passphrase).digest().subarray(0, 32);

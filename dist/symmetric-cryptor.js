@@ -17,6 +17,7 @@ const numberTimesFilter = new NumberItemFilter({
     minimum: 1,
     safe: true
 });
+const passphraseFilter = new StringItemFilter({ minimumLength: 4 });
 const stringFilter = new StringItemFilter();
 /**
  * @access private
@@ -81,7 +82,7 @@ class SymmetricCryptor {
         this.decryptMultiLine = this.decryptMultipleLine;
         this.encryptML = this.encryptMultipleLine;
         this.encryptMultiLine = this.encryptMultipleLine;
-        if (!new StringItemFilter({ minimumLength: 4 }).test(passphrase)) {
+        if (!passphraseFilter.test(passphrase)) {
             throw new TypeError(`Argument \`passphrase\` must be type of string and at least 4 characters!`);
         }
         __classPrivateFieldSet(this, _SymmetricCryptor_passphraseStorage, cryptoCreateHash("sha256").update(passphrase).digest().subarray(0, 32), "f");
