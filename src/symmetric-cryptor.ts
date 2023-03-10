@@ -87,6 +87,17 @@ class SymmetricCryptor {
 		return result;
 	}
 	/**
+	 * @static decrypt
+	 * @description Decrypt data.
+	 * @param {string} data Data that need to symmetric decrypt.
+	 * @param {string} passphrase Passphrase that need to decrypt data.
+	 * @param {number} [times=1] Crypto rotation.
+	 * @returns {string} A decrypted data.
+	 */
+	static decrypt(data: string, passphrase: string, times = 1): string {
+		return new this(passphrase).decrypt(data, times);
+	}
+	/**
 	 * @method decryptMultipleLine
 	 * @alias decryptML
 	 * @alias decryptMultiLine
@@ -111,6 +122,21 @@ class SymmetricCryptor {
 	decryptML = this.decryptMultipleLine;
 	decryptMultiLine = this.decryptMultipleLine;
 	/**
+	 * @static decryptMultipleLine
+	 * @alias decryptML
+	 * @alias decryptMultiLine
+	 * @description Decrypt data.
+	 * @param {string} data Data that need to symmetric decrypt.
+	 * @param {string} passphrase Passphrase that need to decrypt data.
+	 * @param {number} [times=1] Crypto rotation.
+	 * @returns {string} A decrypted data.
+	 */
+	static decryptMultipleLine(data: string, passphrase: string, times = 1): string {
+		return new this(passphrase).decryptMultipleLine(data, times);
+	}
+	static decryptML = this.decryptMultipleLine;
+	static decryptMultiLine = this.decryptMultipleLine;
+	/**
 	 * @method encrypt
 	 * @description Encrypt data.
 	 * @param {string} data Data that need to symmetric encrypt.
@@ -125,6 +151,17 @@ class SymmetricCryptor {
 			result = $encrypt(result, this.#passphraseStorage);
 		}
 		return result;
+	}
+	/**
+	 * @static encrypt
+	 * @description Encrypt data.
+	 * @param {string} data Data that need to symmetric encrypt.
+	 * @param {string} passphrase Passphrase that need to encrypt data.
+	 * @param {number} [times=1] Crypto rotation.
+	 * @returns {string} An encrypted data.
+	 */
+	static encrypt(data: string, passphrase: string, times = 1): string {
+		return new this(passphrase).encrypt(data, times);
 	}
 	/**
 	 * @method encryptMultipleLine
@@ -150,5 +187,20 @@ class SymmetricCryptor {
 	}
 	encryptML = this.encryptMultipleLine;
 	encryptMultiLine = this.encryptMultipleLine;
+	/**
+	 * @static encryptMultipleLine
+	 * @alias encryptML
+	 * @alias encryptMultiLine
+	 * @description Encrypt data.
+	 * @param {string} data Data that need to symmetric encrypt.
+	 * @param {string} passphrase Passphrase that need to encrypt data.
+	 * @param {number} [times=1] Crypto rotation.
+	 * @returns {string} An encrypted data.
+	 */
+	static encryptMultipleLine(data: string, passphrase: string, times = 1): string {
+		return new this(passphrase).encryptMultipleLine(data, times);
+	}
+	static encryptML = this.encryptMultipleLine;
+	static encryptMultiLine = this.encryptMultipleLine;
 }
 export default SymmetricCryptor;
