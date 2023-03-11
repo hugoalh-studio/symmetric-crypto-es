@@ -64,8 +64,8 @@ import symmetricCrypto from "@hugoalh/symmetric-crypto";// Default Import
 ```js
 let data = "Hello, world!\nFoo.\nBar.";
 let passphrase = "githubnode";
-let firstEncrypted = symmetricCrypto.encrypt(data, passphrase);
-let secondEncrypted = symmetricCrypto.encryptMultipleLine(data, passphrase);
+let firstEncrypted = encrypt(data, passphrase);
+let secondEncrypted = encryptMultipleLine(data, passphrase);
 console.log(firstEncrypted);
 // "TIdMOTTeor6q79ilfKkcInvWqQ/U4UUK5oXRSXxWhTbNpL88i/QDly9NFCt1d6JwkDWJ0nkLGKwsWbcA6tM2yg=="
 
@@ -76,8 +76,8 @@ NdLVDbUWDAeBK1MdXoO4rIbpBbwiCyaPU0ut8HOCCLXnidGM9EEbevuL8EGjQVSS
 nh3fuCzHOXWhtBLHuIZyiz5n9/Om0uPZdHdEikei8ydjnpaVLaCT2p78Uamxc3m1`
 */
 
-let firstDecrypted = symmetricCrypto.decrypt(firstEncrypted, passphrase);
-let secondDecrypted = symmetricCrypto.decryptMultipleLine(secondEncrypted, passphrase);
+let firstDecrypted = decrypt(firstEncrypted, passphrase);
+let secondDecrypted = decryptMultipleLine(secondEncrypted, passphrase);
 console.log(firstDecrypted);
 // "Hello, world!\nFoo.\nBar."
 
