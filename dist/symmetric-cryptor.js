@@ -12,13 +12,13 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _a, _SymmetricCryptor_passphraseStorage;
 import { createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, randomBytes as cryptoRandomBytes } from "node:crypto";
 import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
-const numberTimesFilter = new NumberItemFilter({
+const passphraseFilter = new StringItemFilter({ minimumLength: 4 });
+const stringFilter = new StringItemFilter();
+const timesFilter = new NumberItemFilter({
     integer: true,
     minimum: 1,
     safe: true
 });
-const passphraseFilter = new StringItemFilter({ minimumLength: 4 });
-const stringFilter = new StringItemFilter();
 /**
  * @access private
  * @function $checkData
@@ -37,7 +37,7 @@ function $checkData(data) {
  * @returns {void}
  */
 function $checkTimes(times) {
-    if (!numberTimesFilter.test(times)) {
+    if (!timesFilter.test(times)) {
         throw new TypeError(`Argument \`times\` must be type of number (integer and safe) and > 0!`);
     }
 }
