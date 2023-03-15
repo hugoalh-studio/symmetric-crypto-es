@@ -1,4 +1,4 @@
-import SymmetricCryptor from "./symmetric-cryptor.js";
+import { SymmetricCryptor } from "./symmetric-cryptor.js";
 /**
  * @function encryptMultipleLine
  * @alias encryptML
@@ -12,4 +12,4 @@ import SymmetricCryptor from "./symmetric-cryptor.js";
 function encryptMultipleLine(data, passphrase, times = 1) {
     return new SymmetricCryptor(passphrase).encryptMultipleLine(data, times);
 }
-export default encryptMultipleLine;
+export { encryptMultipleLine };

@@ -94,5 +94,5 @@ declare class SymmetricCryptor {
     static encryptML: typeof SymmetricCryptor.encryptMultipleLine;
     static encryptMultiLine: typeof SymmetricCryptor.encryptMultipleLine;
 }
-export default SymmetricCryptor;
+export { SymmetricCryptor };
 //# sourceMappingURL=symmetric-cryptor.d.ts.map

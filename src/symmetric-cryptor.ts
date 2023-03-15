@@ -1,4 +1,4 @@
-import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, Decipher, randomBytes as cryptoRandomBytes } from "node:crypto";
+import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, Decipher, randomBytes } from "node:crypto";
 import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
 const passphraseFilter = new StringItemFilter({ minimumLength: 4 });
 const stringFilter = new StringItemFilter();
@@ -9,34 +9,34 @@ const timesFilter = new NumberItemFilter({
 });
 /**
  * @access private
- * @function $checkData
+ * @function checkData
  * @param {string} data
  * @returns {void}
  */
-function $checkData(data: string): void {
+function checkData(data: string): void {
 	if (!stringFilter.test(data)) {
 		throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
 	}
 }
 /**
  * @access private
- * @function $checkTimes
+ * @function checkTimes
  * @param {number} times
  * @returns {void}
  */
-function $checkTimes(times: number): void {
+function checkTimes(times: number): void {
 	if (!timesFilter.test(times)) {
 		throw new TypeError(`Argument \`times\` must be type of number (integer and safe) and > 0!`);
 	}
 }
 /**
  * @access private
- * @function $decrypt
+ * @function decrypt
  * @param {string} data
  * @param {Buffer} hash
  * @returns {string}
  */
-function $decrypt(data: string, hash: Buffer): string {
+function decrypt(data: string, hash: Buffer): string {
 	let encrypted: Buffer = Buffer.from(data, "base64");
 	let decipher: Decipher = cryptoCreateDecipheriv("AES-256-CBC", hash, encrypted.subarray(0, 16));
 	let decrypted: string = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
@@ -44,13 +44,13 @@ function $decrypt(data: string, hash: Buffer): string {
 }
 /**
  * @access private
- * @function $encrypt
+ * @function encrypt
  * @param {string} data
  * @param {Buffer} hash
  * @returns {string}
  */
-function $encrypt(data: string, hash: Buffer): string {
-	let iv: Buffer = cryptoRandomBytes(16);
+function encrypt(data: string, hash: Buffer): string {
+	let iv: Buffer = randomBytes(16);
 	let tone: number = 16 - data.length % 16;
 	let cipher: Cipher = cryptoCreateCipheriv("AES-256-CBC", hash, iv);
 	return Buffer.concat([iv, Buffer.concat([cipher.update(data.padEnd(data.length + tone, String.fromCharCode(tone))), cipher.final()])]).toString("base64");
@@ -79,11 +79,11 @@ class SymmetricCryptor {
 	 * @returns {string} A decrypted data.
 	 */
 	decrypt(data: string, times = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkData(data);
+		checkTimes(times);
 		let result: string = data;
 		for (let index = 0; index < times; index++) {
-			result = $decrypt(result, this.#passphraseStorage);
+			result = decrypt(result, this.#passphraseStorage);
 		}
 		return result;
 	}
@@ -108,13 +108,13 @@ class SymmetricCryptor {
 	 * @returns {string} A decrypted data.
 	 */
 	decryptMultipleLine(data: string, times = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkData(data);
+		checkTimes(times);
 		let result: string = data;
 		for (let index = 0; index < times; index++) {
 			result = result.split("\r\n").map((itemRN: string): string => {
 				return itemRN.split("\n").map((itemN: string): string => {
-					return ((itemN.length === 0) ? "" : $decrypt(itemN, this.#passphraseStorage));
+					return ((itemN.length === 0) ? "" : decrypt(itemN, this.#passphraseStorage));
 				}).join("\n");
 			}).join("\r\n");
 		}
@@ -145,11 +145,11 @@ class SymmetricCryptor {
 	 * @returns {string} An encrypted data.
 	 */
 	encrypt(data: string, times = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkData(data);
+		checkTimes(times);
 		let result: string = data;
 		for (let index = 0; index < times; index++) {
-			result = $encrypt(result, this.#passphraseStorage);
+			result = encrypt(result, this.#passphraseStorage);
 		}
 		return result;
 	}
@@ -174,13 +174,13 @@ class SymmetricCryptor {
 	 * @returns {string} An encrypted data.
 	 */
 	encryptMultipleLine(data: string, times = 1): string {
-		$checkData(data);
-		$checkTimes(times);
+		checkData(data);
+		checkTimes(times);
 		let result: string = data;
 		for (let index = 0; index < times; index++) {
 			result = result.split("\r\n").map((itemRN: string): string => {
 				return itemRN.split("\n").map((itemN: string): string => {
-					return ((itemN.length === 0) ? "" : $encrypt(itemN, this.#passphraseStorage));
+					return ((itemN.length === 0) ? "" : encrypt(itemN, this.#passphraseStorage));
 				}).join("\n");
 			}).join("\r\n");
 		}
@@ -204,4 +204,6 @@ class SymmetricCryptor {
 	static encryptML = this.encryptMultipleLine;
 	static encryptMultiLine = this.encryptMultipleLine;
 }
-export default SymmetricCryptor;
+export {
+	SymmetricCryptor
+};

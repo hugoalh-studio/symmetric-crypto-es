@@ -9,5 +9,5 @@
  * @returns {string} An encrypted data.
  */
 declare function encryptMultipleLine(data: string, passphrase: string, times?: number): string;
-export default encryptMultipleLine;
+export { encryptMultipleLine };
 //# sourceMappingURL=encrypt-multiple-line.d.ts.map

@@ -1,4 +1,4 @@
-import SymmetricCryptor from "./symmetric-cryptor.js";
+import { SymmetricCryptor } from "./symmetric-cryptor.js";
 /**
  * @function decrypt
  * @description Decrypt data.
@@ -10,4 +10,6 @@ import SymmetricCryptor from "./symmetric-cryptor.js";
 function decrypt(data: string, passphrase: string, times = 1): string {
 	return new SymmetricCryptor(passphrase).decrypt(data, times);
 }
-export default decrypt;
+export {
+	decrypt
+};

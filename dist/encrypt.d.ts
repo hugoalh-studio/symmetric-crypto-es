@@ -7,5 +7,5 @@
  * @returns {string} An encrypted data.
  */
 declare function encrypt(data: string, passphrase: string, times?: number): string;
-export default encrypt;
+export { encrypt };
 //# sourceMappingURL=encrypt.d.ts.map

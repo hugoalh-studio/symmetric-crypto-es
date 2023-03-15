@@ -9,5 +9,5 @@
  * @returns {string} A decrypted data.
  */
 declare function decryptMultipleLine(data: string, passphrase: string, times?: number): string;
-export default decryptMultipleLine;
+export { decryptMultipleLine };
 //# sourceMappingURL=decrypt-multiple-line.d.ts.map
