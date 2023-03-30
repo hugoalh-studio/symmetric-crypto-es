@@ -31,7 +31,7 @@ For the full documentation, please visit the [GitHub Repository Wiki](https://gi
 
 #### Install
 
-- NodeJS ^ v12.20.0 || ^ v14.15.0 || >= v16.13.0
+- NodeJS >= v16.13.0
 
 ```sh
 npm install @hugoalh/symmetric-crypto
