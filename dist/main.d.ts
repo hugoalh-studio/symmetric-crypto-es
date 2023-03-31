@@ -1,18 +1,18 @@
 import { decrypt } from "./decrypt.js";
-import { decryptMultipleLine } from "./decrypt-multiple-line.js";
+import { decryptML, decryptMultiLine, decryptMultipleLine } from "./decrypt-multiple-line.js";
 import { encrypt } from "./encrypt.js";
-import { encryptMultipleLine } from "./encrypt-multiple-line.js";
+import { encryptML, encryptMultiLine, encryptMultipleLine } from "./encrypt-multiple-line.js";
 import { SymmetricCryptor } from "./symmetric-cryptor.js";
-export { decrypt, decryptMultipleLine as decryptML, decryptMultipleLine as decryptMultiLine, decryptMultipleLine, encrypt, encryptMultipleLine as encryptML, encryptMultipleLine as encryptMultiLine, encryptMultipleLine, SymmetricCryptor };
+export { decrypt, decryptML, decryptMultiLine, decryptMultipleLine, encrypt, encryptML, encryptMultiLine, encryptMultipleLine, SymmetricCryptor };
 declare const _default: {
     decrypt: typeof decrypt;
-    decryptML: typeof decryptMultipleLine;
-    decryptMultiLine: typeof decryptMultipleLine;
-    decryptMultipleLine: typeof decryptMultipleLine;
+    decryptML: typeof decryptML;
+    decryptMultiLine: typeof decryptML;
+    decryptMultipleLine: typeof decryptML;
     encrypt: typeof encrypt;
-    encryptML: typeof encryptMultipleLine;
-    encryptMultiLine: typeof encryptMultipleLine;
-    encryptMultipleLine: typeof encryptMultipleLine;
+    encryptML: typeof encryptML;
+    encryptMultiLine: typeof encryptML;
+    encryptMultipleLine: typeof encryptML;
     SymmetricCryptor: typeof SymmetricCryptor;
 };
 export default _default;

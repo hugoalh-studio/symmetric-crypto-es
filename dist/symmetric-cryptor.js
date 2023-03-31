@@ -9,11 +9,11 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _a, _SymmetricCryptor_passphraseStorage;
+var _SymmetricCryptor_instances, _a, _SymmetricCryptor_passphraseStorage, _SymmetricCryptor_decrypt, _SymmetricCryptor_encrypt;
 import { createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, randomBytes } from "node:crypto";
 import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
+const dataFilter = new StringItemFilter();
 const passphraseFilter = new StringItemFilter({ minimumLength: 4 });
-const stringFilter = new StringItemFilter();
 const timesFilter = new NumberItemFilter({
     integer: true,
     minimum: 1,
@@ -26,7 +26,7 @@ const timesFilter = new NumberItemFilter({
  * @returns {void}
  */
 function checkData(data) {
-    if (!stringFilter.test(data)) {
+    if (!dataFilter.test(data)) {
         throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
     }
 }
@@ -42,32 +42,6 @@ function checkTimes(times) {
     }
 }
 /**
- * @access private
- * @function decrypt
- * @param {string} data
- * @param {Buffer} hash
- * @returns {string}
- */
-function decrypt(data, hash) {
-    let encrypted = Buffer.from(data, "base64");
-    let decipher = cryptoCreateDecipheriv("AES-256-CBC", hash, encrypted.subarray(0, 16));
-    let decrypted = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
-    return decrypted.substring(0, decrypted.length - decrypted.charCodeAt(decrypted.length - 1));
-}
-/**
- * @access private
- * @function encrypt
- * @param {string} data
- * @param {Buffer} hash
- * @returns {string}
- */
-function encrypt(data, hash) {
-    let iv = randomBytes(16);
-    let tone = 16 - data.length % 16;
-    let cipher = cryptoCreateCipheriv("AES-256-CBC", hash, iv);
-    return Buffer.concat([iv, Buffer.concat([cipher.update(data.padEnd(data.length + tone, String.fromCharCode(tone))), cipher.final()])]).toString("base64");
-}
-/**
  * @class SymmetricCryptor
  * @description A password based cryptor.
  */
@@ -77,11 +51,12 @@ class SymmetricCryptor {
      * @param {string} passphrase Passphrase that need to crypto data.
      */
     constructor(passphrase) {
+        _SymmetricCryptor_instances.add(this);
         _SymmetricCryptor_passphraseStorage.set(this, void 0);
-        this.decryptML = this.decryptMultipleLine;
-        this.decryptMultiLine = this.decryptMultipleLine;
-        this.encryptML = this.encryptMultipleLine;
-        this.encryptMultiLine = this.encryptMultipleLine;
+        /** @alias decryptMultipleLine */ this.decryptML = this.decryptMultipleLine;
+        /** @alias decryptMultipleLine */ this.decryptMultiLine = this.decryptMultipleLine;
+        /** @alias encryptMultipleLine */ this.encryptML = this.encryptMultipleLine;
+        /** @alias encryptMultipleLine */ this.encryptMultiLine = this.encryptMultipleLine;
         if (!passphraseFilter.test(passphrase)) {
             throw new TypeError(`Argument \`passphrase\` must be type of string and at least 4 characters!`);
         }
@@ -99,7 +74,7 @@ class SymmetricCryptor {
         checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
-            result = decrypt(result, __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"));
+            result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_decrypt).call(this, result);
         }
         return result;
     }
@@ -116,8 +91,6 @@ class SymmetricCryptor {
     }
     /**
      * @method decryptMultipleLine
-     * @alias decryptML
-     * @alias decryptMultiLine
      * @description Decrypt data.
      * @param {string} data Data that need to symmetric decrypt.
      * @param {number} [times=1] Crypto rotation.
@@ -130,7 +103,7 @@ class SymmetricCryptor {
         for (let index = 0; index < times; index++) {
             result = result.split("\r\n").map((itemRN) => {
                 return itemRN.split("\n").map((itemN) => {
-                    return ((itemN.length === 0) ? "" : decrypt(itemN, __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f")));
+                    return ((itemN.length === 0) ? "" : __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_decrypt).call(this, itemN));
                 }).join("\n");
             }).join("\r\n");
         }
@@ -138,8 +111,6 @@ class SymmetricCryptor {
     }
     /**
      * @static decryptMultipleLine
-     * @alias decryptML
-     * @alias decryptMultiLine
      * @description Decrypt data.
      * @param {string} data Data that need to symmetric decrypt.
      * @param {string} passphrase Passphrase that need to decrypt data.
@@ -161,7 +132,7 @@ class SymmetricCryptor {
         checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
-            result = encrypt(result, __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"));
+            result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encrypt).call(this, result);
         }
         return result;
     }
@@ -178,8 +149,6 @@ class SymmetricCryptor {
     }
     /**
      * @method encryptMultipleLine
-     * @alias encryptML
-     * @alias encryptMultiLine
      * @description Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
      * @param {number} [times=1] Crypto rotation.
@@ -192,7 +161,7 @@ class SymmetricCryptor {
         for (let index = 0; index < times; index++) {
             result = result.split("\r\n").map((itemRN) => {
                 return itemRN.split("\n").map((itemN) => {
-                    return ((itemN.length === 0) ? "" : encrypt(itemN, __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f")));
+                    return ((itemN.length === 0) ? "" : __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encrypt).call(this, itemN));
                 }).join("\n");
             }).join("\r\n");
         }
@@ -200,8 +169,6 @@ class SymmetricCryptor {
     }
     /**
      * @static encryptMultipleLine
-     * @alias encryptML
-     * @alias encryptMultiLine
      * @description Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
      * @param {string} passphrase Passphrase that need to encrypt data.
@@ -212,9 +179,19 @@ class SymmetricCryptor {
         return new this(passphrase).encryptMultipleLine(data, times);
     }
 }
-_a = SymmetricCryptor, _SymmetricCryptor_passphraseStorage = new WeakMap();
-SymmetricCryptor.decryptML = _a.decryptMultipleLine;
-SymmetricCryptor.decryptMultiLine = _a.decryptMultipleLine;
-SymmetricCryptor.encryptML = _a.encryptMultipleLine;
-SymmetricCryptor.encryptMultiLine = _a.encryptMultipleLine;
+_a = SymmetricCryptor, _SymmetricCryptor_passphraseStorage = new WeakMap(), _SymmetricCryptor_instances = new WeakSet(), _SymmetricCryptor_decrypt = function _SymmetricCryptor_decrypt(data) {
+    let encrypted = Buffer.from(data, "base64");
+    let decipher = cryptoCreateDecipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), encrypted.subarray(0, 16));
+    let decrypted = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
+    return decrypted.substring(0, decrypted.length - decrypted.charCodeAt(decrypted.length - 1));
+}, _SymmetricCryptor_encrypt = function _SymmetricCryptor_encrypt(data) {
+    let iv = randomBytes(16);
+    let tone = 16 - data.length % 16;
+    let cipher = cryptoCreateCipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), iv);
+    return Buffer.concat([iv, Buffer.concat([cipher.update(data.padEnd(data.length + tone, String.fromCharCode(tone))), cipher.final()])]).toString("base64");
+};
+/** @alias decryptMultipleLine */ SymmetricCryptor.decryptML = _a.decryptMultipleLine;
+/** @alias decryptMultipleLine */ SymmetricCryptor.decryptMultiLine = _a.decryptMultipleLine;
+/** @alias encryptMultipleLine */ SymmetricCryptor.encryptML = _a.encryptMultipleLine;
+/** @alias encryptMultipleLine */ SymmetricCryptor.encryptMultiLine = _a.encryptMultipleLine;
 export { SymmetricCryptor };
