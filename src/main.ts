@@ -1,7 +1,7 @@
 import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, Decipher, randomBytes } from "node:crypto";
 import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
 const dataFilter = new StringItemFilter();
-const passphraseFilter = new StringItemFilter({ minimumLength: 4 });
+const passphraseFilter = new StringItemFilter({ lengthMinimum: 4 });
 const timesFilter = new NumberItemFilter({
 	integer: true,
 	minimum: 1,
