@@ -32,7 +32,7 @@ function $checkData(data) {
  * @returns {void}
  */
 function $checkTimes(times) {
-    if (typeof times !== "number") {
+    if (!(typeof times === "number" && !Number.isNaN(times))) {
         throw new TypeError(`Argument \`times\` must be type of number!`);
     }
     if (!(Number.isSafeInteger(times) && times >= 1)) {

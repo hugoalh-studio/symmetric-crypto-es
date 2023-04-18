@@ -20,7 +20,7 @@ function $checkData(data: string): void {
  * @returns {void}
  */
 function $checkTimes(times: number): void {
-	if (typeof times !== "number") {
+	if (!(typeof times === "number" && !Number.isNaN(times))) {
 		throw new TypeError(`Argument \`times\` must be type of number!`);
 	}
 	if (!(Number.isSafeInteger(times) && times >= 1)) {
