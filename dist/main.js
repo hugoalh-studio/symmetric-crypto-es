@@ -9,36 +9,34 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _SymmetricCryptor_instances, _a, _SymmetricCryptor_passphraseStorage, _SymmetricCryptor_decrypt, _SymmetricCryptor_encrypt;
+var _SymmetricCryptor_instances, _a, _SymmetricCryptor_passphraseStorage, _SymmetricCryptor_decryptor, _SymmetricCryptor_encryptor;
 import { createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, randomBytes } from "node:crypto";
-import { NumberItemFilter, StringItemFilter } from "@hugoalh/advanced-determine";
-const dataFilter = new StringItemFilter();
-const passphraseFilter = new StringItemFilter({ lengthMinimum: 4 });
-const timesFilter = new NumberItemFilter({
-    integer: true,
-    minimum: 1,
-    safe: true
-});
 /**
  * @access private
- * @function checkData
+ * @function $checkData
  * @param {string} data
  * @returns {void}
  */
-function checkData(data) {
-    if (!dataFilter.test(data)) {
-        throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
+function $checkData(data) {
+    if (typeof data !== "string") {
+        throw new TypeError(`Argument \`data\` must be type of string!`);
+    }
+    if (!(data.length > 0)) {
+        throw new Error(`Argument \`data\` must be a string which is non-empty!`);
     }
 }
 /**
  * @access private
- * @function checkTimes
+ * @function $checkTimes
  * @param {number} times
  * @returns {void}
  */
-function checkTimes(times) {
-    if (!timesFilter.test(times)) {
-        throw new TypeError(`Argument \`times\` must be type of number (integer and safe) and > 0!`);
+function $checkTimes(times) {
+    if (typeof times !== "number") {
+        throw new TypeError(`Argument \`times\` must be type of number!`);
+    }
+    if (!(Number.isSafeInteger(times) && times >= 1)) {
+        throw new RangeError(`Argument \`times\` must be a number which is integer, safe, and >= 1!`);
     }
 }
 /**
@@ -57,8 +55,11 @@ class SymmetricCryptor {
         /** @alias decryptMultipleLine */ this.decryptMultiLine = this.decryptMultipleLine;
         /** @alias encryptMultipleLine */ this.encryptML = this.encryptMultipleLine;
         /** @alias encryptMultipleLine */ this.encryptMultiLine = this.encryptMultipleLine;
-        if (!passphraseFilter.test(passphrase)) {
-            throw new TypeError(`Argument \`passphrase\` must be type of string and at least 4 characters!`);
+        if (typeof passphrase !== "string") {
+            throw new TypeError(`Argument \`passphrase\` must be type of string!`);
+        }
+        if (!(passphrase.length >= 4)) {
+            throw new Error(`Argument \`passphrase\` must be a string which is at least 4 characters!`);
         }
         __classPrivateFieldSet(this, _SymmetricCryptor_passphraseStorage, cryptoCreateHash("sha256").update(passphrase).digest().subarray(0, 32), "f");
     }
@@ -70,11 +71,11 @@ class SymmetricCryptor {
      * @returns {string} A decrypted data.
      */
     decrypt(data, times = 1) {
-        checkData(data);
-        checkTimes(times);
+        $checkData(data);
+        $checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
-            result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_decrypt).call(this, result);
+            result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_decryptor).call(this, result);
         }
         return result;
     }
@@ -97,13 +98,13 @@ class SymmetricCryptor {
      * @returns {string} A decrypted data.
      */
     decryptMultipleLine(data, times = 1) {
-        checkData(data);
-        checkTimes(times);
+        $checkData(data);
+        $checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
             result = result.split("\r\n").map((itemRN) => {
                 return itemRN.split("\n").map((itemN) => {
-                    return ((itemN.length === 0) ? "" : __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_decrypt).call(this, itemN));
+                    return ((itemN.length === 0) ? "" : __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_decryptor).call(this, itemN));
                 }).join("\n");
             }).join("\r\n");
         }
@@ -128,11 +129,11 @@ class SymmetricCryptor {
      * @returns {string} An encrypted data.
      */
     encrypt(data, times = 1) {
-        checkData(data);
-        checkTimes(times);
+        $checkData(data);
+        $checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
-            result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encrypt).call(this, result);
+            result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encryptor).call(this, result);
         }
         return result;
     }
@@ -155,13 +156,13 @@ class SymmetricCryptor {
      * @returns {string} An encrypted data.
      */
     encryptMultipleLine(data, times = 1) {
-        checkData(data);
-        checkTimes(times);
+        $checkData(data);
+        $checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
             result = result.split("\r\n").map((itemRN) => {
                 return itemRN.split("\n").map((itemN) => {
-                    return ((itemN.length === 0) ? "" : __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encrypt).call(this, itemN));
+                    return ((itemN.length === 0) ? "" : __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encryptor).call(this, itemN));
                 }).join("\n");
             }).join("\r\n");
         }
@@ -179,12 +180,12 @@ class SymmetricCryptor {
         return new this(passphrase).encryptMultipleLine(data, times);
     }
 }
-_a = SymmetricCryptor, _SymmetricCryptor_passphraseStorage = new WeakMap(), _SymmetricCryptor_instances = new WeakSet(), _SymmetricCryptor_decrypt = function _SymmetricCryptor_decrypt(data) {
+_a = SymmetricCryptor, _SymmetricCryptor_passphraseStorage = new WeakMap(), _SymmetricCryptor_instances = new WeakSet(), _SymmetricCryptor_decryptor = function _SymmetricCryptor_decryptor(data) {
     let encrypted = Buffer.from(data, "base64");
     let decipher = cryptoCreateDecipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), encrypted.subarray(0, 16));
     let decrypted = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
     return decrypted.substring(0, decrypted.length - decrypted.charCodeAt(decrypted.length - 1));
-}, _SymmetricCryptor_encrypt = function _SymmetricCryptor_encrypt(data) {
+}, _SymmetricCryptor_encryptor = function _SymmetricCryptor_encryptor(data) {
     let iv = randomBytes(16);
     let tone = 16 - data.length % 16;
     let cipher = cryptoCreateCipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), iv);

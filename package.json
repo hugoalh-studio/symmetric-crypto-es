@@ -22,9 +22,6 @@
 		"type": "git",
 		"url": "git+https://github.com/hugoalh-studio/symmetric-crypto-nodejs.git"
 	},
-	"dependencies": {
-		"@hugoalh/advanced-determine": "^10.3.3"
-	},
 	"devDependencies": {
 		"@types/node": "^18.15.11",
 		"@typescript-eslint/eslint-plugin": "^5.59.0",
