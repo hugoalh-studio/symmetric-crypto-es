@@ -85,17 +85,6 @@ class SymmetricCryptor {
 		return result;
 	}
 	/**
-	 * @static decrypt
-	 * @description Decrypt data.
-	 * @param {string} data Data that need to symmetric decrypt.
-	 * @param {string} passphrase Passphrase that need to decrypt data.
-	 * @param {number} [times=1] Crypto rotation.
-	 * @returns {string} A decrypted data.
-	 */
-	static decrypt(data: string, passphrase: string, times = 1): string {
-		return new this(passphrase).decrypt(data, times);
-	}
-	/**
 	 * @method decryptMultipleLine
 	 * @description Decrypt data.
 	 * @param {string} data Data that need to symmetric decrypt.
@@ -116,17 +105,6 @@ class SymmetricCryptor {
 		return result;
 	}
 	/**
-	 * @static decryptMultipleLine
-	 * @description Decrypt data.
-	 * @param {string} data Data that need to symmetric decrypt.
-	 * @param {string} passphrase Passphrase that need to decrypt data.
-	 * @param {number} [times=1] Crypto rotation.
-	 * @returns {string} A decrypted data.
-	 */
-	static decryptMultipleLine(data: string, passphrase: string, times = 1): string {
-		return new this(passphrase).decryptMultipleLine(data, times);
-	}
-	/**
 	 * @method encrypt
 	 * @description Encrypt data.
 	 * @param {string} data Data that need to symmetric encrypt.
@@ -141,17 +119,6 @@ class SymmetricCryptor {
 			result = this.#encryptor(result);
 		}
 		return result;
-	}
-	/**
-	 * @static encrypt
-	 * @description Encrypt data.
-	 * @param {string} data Data that need to symmetric encrypt.
-	 * @param {string} passphrase Passphrase that need to encrypt data.
-	 * @param {number} [times=1] Crypto rotation.
-	 * @returns {string} An encrypted data.
-	 */
-	static encrypt(data: string, passphrase: string, times = 1): string {
-		return new this(passphrase).encrypt(data, times);
 	}
 	/**
 	 * @method encryptMultipleLine
@@ -173,6 +140,45 @@ class SymmetricCryptor {
 		}
 		return result;
 	}
+	/** @alias decryptMultipleLine */decryptML = this.decryptMultipleLine;
+	/** @alias decryptMultipleLine */decryptMultiLine = this.decryptMultipleLine;
+
+	/** @alias encryptMultipleLine */encryptML = this.encryptMultipleLine;
+
+	/** @alias encryptMultipleLine */encryptMultiLine = this.encryptMultipleLine;
+	/**
+	 * @static decrypt
+	 * @description Decrypt data.
+	 * @param {string} data Data that need to symmetric decrypt.
+	 * @param {string} passphrase Passphrase that need to decrypt data.
+	 * @param {number} [times=1] Crypto rotation.
+	 * @returns {string} A decrypted data.
+	 */
+	static decrypt(data: string, passphrase: string, times = 1): string {
+		return new this(passphrase).decrypt(data, times);
+	}
+	/**
+	 * @static decryptMultipleLine
+	 * @description Decrypt data.
+	 * @param {string} data Data that need to symmetric decrypt.
+	 * @param {string} passphrase Passphrase that need to decrypt data.
+	 * @param {number} [times=1] Crypto rotation.
+	 * @returns {string} A decrypted data.
+	 */
+	static decryptMultipleLine(data: string, passphrase: string, times = 1): string {
+		return new this(passphrase).decryptMultipleLine(data, times);
+	}
+	/**
+	 * @static encrypt
+	 * @description Encrypt data.
+	 * @param {string} data Data that need to symmetric encrypt.
+	 * @param {string} passphrase Passphrase that need to encrypt data.
+	 * @param {number} [times=1] Crypto rotation.
+	 * @returns {string} An encrypted data.
+	 */
+	static encrypt(data: string, passphrase: string, times = 1): string {
+		return new this(passphrase).encrypt(data, times);
+	}
 	/**
 	 * @static encryptMultipleLine
 	 * @description Encrypt data.
@@ -184,12 +190,8 @@ class SymmetricCryptor {
 	static encryptMultipleLine(data: string, passphrase: string, times = 1): string {
 		return new this(passphrase).encryptMultipleLine(data, times);
 	}
-	/** @alias decryptMultipleLine */decryptML = this.decryptMultipleLine;
-	/** @alias decryptMultipleLine */decryptMultiLine = this.decryptMultipleLine;
 	/** @alias decryptMultipleLine */static decryptML = this.decryptMultipleLine;
 	/** @alias decryptMultipleLine */static decryptMultiLine = this.decryptMultipleLine;
-	/** @alias encryptMultipleLine */encryptML = this.encryptMultipleLine;
-	/** @alias encryptMultipleLine */encryptMultiLine = this.encryptMultipleLine;
 	/** @alias encryptMultipleLine */static encryptML = this.encryptMultipleLine;
 	/** @alias encryptMultipleLine */static encryptMultiLine = this.encryptMultipleLine;
 }

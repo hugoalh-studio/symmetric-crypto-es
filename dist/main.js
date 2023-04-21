@@ -80,17 +80,6 @@ class SymmetricCryptor {
         return result;
     }
     /**
-     * @static decrypt
-     * @description Decrypt data.
-     * @param {string} data Data that need to symmetric decrypt.
-     * @param {string} passphrase Passphrase that need to decrypt data.
-     * @param {number} [times=1] Crypto rotation.
-     * @returns {string} A decrypted data.
-     */
-    static decrypt(data, passphrase, times = 1) {
-        return new this(passphrase).decrypt(data, times);
-    }
-    /**
      * @method decryptMultipleLine
      * @description Decrypt data.
      * @param {string} data Data that need to symmetric decrypt.
@@ -111,17 +100,6 @@ class SymmetricCryptor {
         return result;
     }
     /**
-     * @static decryptMultipleLine
-     * @description Decrypt data.
-     * @param {string} data Data that need to symmetric decrypt.
-     * @param {string} passphrase Passphrase that need to decrypt data.
-     * @param {number} [times=1] Crypto rotation.
-     * @returns {string} A decrypted data.
-     */
-    static decryptMultipleLine(data, passphrase, times = 1) {
-        return new this(passphrase).decryptMultipleLine(data, times);
-    }
-    /**
      * @method encrypt
      * @description Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
@@ -136,17 +114,6 @@ class SymmetricCryptor {
             result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encryptor).call(this, result);
         }
         return result;
-    }
-    /**
-     * @static encrypt
-     * @description Encrypt data.
-     * @param {string} data Data that need to symmetric encrypt.
-     * @param {string} passphrase Passphrase that need to encrypt data.
-     * @param {number} [times=1] Crypto rotation.
-     * @returns {string} An encrypted data.
-     */
-    static encrypt(data, passphrase, times = 1) {
-        return new this(passphrase).encrypt(data, times);
     }
     /**
      * @method encryptMultipleLine
@@ -167,6 +134,39 @@ class SymmetricCryptor {
             }).join("\r\n");
         }
         return result;
+    }
+    /**
+     * @static decrypt
+     * @description Decrypt data.
+     * @param {string} data Data that need to symmetric decrypt.
+     * @param {string} passphrase Passphrase that need to decrypt data.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} A decrypted data.
+     */
+    static decrypt(data, passphrase, times = 1) {
+        return new this(passphrase).decrypt(data, times);
+    }
+    /**
+     * @static decryptMultipleLine
+     * @description Decrypt data.
+     * @param {string} data Data that need to symmetric decrypt.
+     * @param {string} passphrase Passphrase that need to decrypt data.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} A decrypted data.
+     */
+    static decryptMultipleLine(data, passphrase, times = 1) {
+        return new this(passphrase).decryptMultipleLine(data, times);
+    }
+    /**
+     * @static encrypt
+     * @description Encrypt data.
+     * @param {string} data Data that need to symmetric encrypt.
+     * @param {string} passphrase Passphrase that need to encrypt data.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} An encrypted data.
+     */
+    static encrypt(data, passphrase, times = 1) {
+        return new this(passphrase).encrypt(data, times);
     }
     /**
      * @static encryptMultipleLine

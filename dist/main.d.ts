@@ -18,6 +18,34 @@ declare class SymmetricCryptor {
      */
     decrypt(data: string, times?: number): string;
     /**
+     * @method decryptMultipleLine
+     * @description Decrypt data.
+     * @param {string} data Data that need to symmetric decrypt.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} A decrypted data.
+     */
+    decryptMultipleLine(data: string, times?: number): string;
+    /**
+     * @method encrypt
+     * @description Encrypt data.
+     * @param {string} data Data that need to symmetric encrypt.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} An encrypted data.
+     */
+    encrypt(data: string, times?: number): string;
+    /**
+     * @method encryptMultipleLine
+     * @description Encrypt data.
+     * @param {string} data Data that need to symmetric encrypt.
+     * @param {number} [times=1] Crypto rotation.
+     * @returns {string} An encrypted data.
+     */
+    encryptMultipleLine(data: string, times?: number): string;
+    /** @alias decryptMultipleLine */ decryptML: (data: string, times?: number) => string;
+    /** @alias decryptMultipleLine */ decryptMultiLine: (data: string, times?: number) => string;
+    /** @alias encryptMultipleLine */ encryptML: (data: string, times?: number) => string;
+    /** @alias encryptMultipleLine */ encryptMultiLine: (data: string, times?: number) => string;
+    /**
      * @static decrypt
      * @description Decrypt data.
      * @param {string} data Data that need to symmetric decrypt.
@@ -26,14 +54,6 @@ declare class SymmetricCryptor {
      * @returns {string} A decrypted data.
      */
     static decrypt(data: string, passphrase: string, times?: number): string;
-    /**
-     * @method decryptMultipleLine
-     * @description Decrypt data.
-     * @param {string} data Data that need to symmetric decrypt.
-     * @param {number} [times=1] Crypto rotation.
-     * @returns {string} A decrypted data.
-     */
-    decryptMultipleLine(data: string, times?: number): string;
     /**
      * @static decryptMultipleLine
      * @description Decrypt data.
@@ -44,14 +64,6 @@ declare class SymmetricCryptor {
      */
     static decryptMultipleLine(data: string, passphrase: string, times?: number): string;
     /**
-     * @method encrypt
-     * @description Encrypt data.
-     * @param {string} data Data that need to symmetric encrypt.
-     * @param {number} [times=1] Crypto rotation.
-     * @returns {string} An encrypted data.
-     */
-    encrypt(data: string, times?: number): string;
-    /**
      * @static encrypt
      * @description Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
@@ -61,14 +73,6 @@ declare class SymmetricCryptor {
      */
     static encrypt(data: string, passphrase: string, times?: number): string;
     /**
-     * @method encryptMultipleLine
-     * @description Encrypt data.
-     * @param {string} data Data that need to symmetric encrypt.
-     * @param {number} [times=1] Crypto rotation.
-     * @returns {string} An encrypted data.
-     */
-    encryptMultipleLine(data: string, times?: number): string;
-    /**
      * @static encryptMultipleLine
      * @description Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
@@ -77,12 +81,8 @@ declare class SymmetricCryptor {
      * @returns {string} An encrypted data.
      */
     static encryptMultipleLine(data: string, passphrase: string, times?: number): string;
-    /** @alias decryptMultipleLine */ decryptML: (data: string, times?: number) => string;
-    /** @alias decryptMultipleLine */ decryptMultiLine: (data: string, times?: number) => string;
     /** @alias decryptMultipleLine */ static decryptML: typeof SymmetricCryptor.decryptMultipleLine;
     /** @alias decryptMultipleLine */ static decryptMultiLine: typeof SymmetricCryptor.decryptMultipleLine;
-    /** @alias encryptMultipleLine */ encryptML: (data: string, times?: number) => string;
-    /** @alias encryptMultipleLine */ encryptMultiLine: (data: string, times?: number) => string;
     /** @alias encryptMultipleLine */ static encryptML: typeof SymmetricCryptor.encryptMultipleLine;
     /** @alias encryptMultipleLine */ static encryptMultiLine: typeof SymmetricCryptor.encryptMultipleLine;
 }
