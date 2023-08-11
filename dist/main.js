@@ -13,11 +13,10 @@ var _SymmetricCryptor_instances, _a, _SymmetricCryptor_passphraseStorage, _Symme
 import { createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreateDecipheriv, createHash as cryptoCreateHash, randomBytes } from "node:crypto";
 /**
  * @access private
- * @function $checkData
  * @param {string} data
  * @returns {void}
  */
-function $checkData(data) {
+function checkData(data) {
     if (typeof data !== "string") {
         throw new TypeError(`Argument \`data\` must be type of string!`);
     }
@@ -27,11 +26,10 @@ function $checkData(data) {
 }
 /**
  * @access private
- * @function $checkTimes
  * @param {number} times
  * @returns {void}
  */
-function $checkTimes(times) {
+function checkTimes(times) {
     if (!(typeof times === "number" && !Number.isNaN(times))) {
         throw new TypeError(`Argument \`times\` must be type of number!`);
     }
@@ -40,12 +38,10 @@ function $checkTimes(times) {
     }
 }
 /**
- * @class SymmetricCryptor
- * @description A password based cryptor.
+ * A password based cryptor.
  */
-class SymmetricCryptor {
+export class SymmetricCryptor {
     /**
-     * @constructor
      * @param {string} passphrase Passphrase that need to crypto data.
      */
     constructor(passphrase) {
@@ -64,15 +60,14 @@ class SymmetricCryptor {
         __classPrivateFieldSet(this, _SymmetricCryptor_passphraseStorage, cryptoCreateHash("sha256").update(passphrase).digest().subarray(0, 32), "f");
     }
     /**
-     * @method decrypt
-     * @description Decrypt data.
+     * Decrypt data.
      * @param {string} data Data that need to symmetric decrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} A decrypted data.
      */
     decrypt(data, times = 1) {
-        $checkData(data);
-        $checkTimes(times);
+        checkData(data);
+        checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
             result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_decryptor).call(this, result);
@@ -80,15 +75,14 @@ class SymmetricCryptor {
         return result;
     }
     /**
-     * @method decryptMultipleLine
-     * @description Decrypt data.
+     * Decrypt data in multiple line mode.
      * @param {string} data Data that need to symmetric decrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} A decrypted data.
      */
     decryptMultipleLine(data, times = 1) {
-        $checkData(data);
-        $checkTimes(times);
+        checkData(data);
+        checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
             result = result.split("\r\n").map((itemRN) => {
@@ -100,15 +94,14 @@ class SymmetricCryptor {
         return result;
     }
     /**
-     * @method encrypt
-     * @description Encrypt data.
+     * Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} An encrypted data.
      */
     encrypt(data, times = 1) {
-        $checkData(data);
-        $checkTimes(times);
+        checkData(data);
+        checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
             result = __classPrivateFieldGet(this, _SymmetricCryptor_instances, "m", _SymmetricCryptor_encryptor).call(this, result);
@@ -116,15 +109,14 @@ class SymmetricCryptor {
         return result;
     }
     /**
-     * @method encryptMultipleLine
-     * @description Encrypt data.
+     * Encrypt data in multiple line mode.
      * @param {string} data Data that need to symmetric encrypt.
      * @param {number} [times=1] Crypto rotation.
      * @returns {string} An encrypted data.
      */
     encryptMultipleLine(data, times = 1) {
-        $checkData(data);
-        $checkTimes(times);
+        checkData(data);
+        checkTimes(times);
         let result = data;
         for (let index = 0; index < times; index++) {
             result = result.split("\r\n").map((itemRN) => {
@@ -136,8 +128,7 @@ class SymmetricCryptor {
         return result;
     }
     /**
-     * @static decrypt
-     * @description Decrypt data.
+     * Decrypt data.
      * @param {string} data Data that need to symmetric decrypt.
      * @param {string} passphrase Passphrase that need to decrypt data.
      * @param {number} [times=1] Crypto rotation.
@@ -147,8 +138,7 @@ class SymmetricCryptor {
         return new this(passphrase).decrypt(data, times);
     }
     /**
-     * @static decryptMultipleLine
-     * @description Decrypt data.
+     * Decrypt data in multiple line mode.
      * @param {string} data Data that need to symmetric decrypt.
      * @param {string} passphrase Passphrase that need to decrypt data.
      * @param {number} [times=1] Crypto rotation.
@@ -158,8 +148,7 @@ class SymmetricCryptor {
         return new this(passphrase).decryptMultipleLine(data, times);
     }
     /**
-     * @static encrypt
-     * @description Encrypt data.
+     * Encrypt data.
      * @param {string} data Data that need to symmetric encrypt.
      * @param {string} passphrase Passphrase that need to encrypt data.
      * @param {number} [times=1] Crypto rotation.
@@ -169,8 +158,7 @@ class SymmetricCryptor {
         return new this(passphrase).encrypt(data, times);
     }
     /**
-     * @static encryptMultipleLine
-     * @description Encrypt data.
+     * Encrypt data in multiple line mode.
      * @param {string} data Data that need to symmetric encrypt.
      * @param {string} passphrase Passphrase that need to encrypt data.
      * @param {number} [times=1] Crypto rotation.
@@ -195,59 +183,46 @@ _a = SymmetricCryptor, _SymmetricCryptor_passphraseStorage = new WeakMap(), _Sym
 /** @alias decryptMultipleLine */ SymmetricCryptor.decryptMultiLine = _a.decryptMultipleLine;
 /** @alias encryptMultipleLine */ SymmetricCryptor.encryptML = _a.encryptMultipleLine;
 /** @alias encryptMultipleLine */ SymmetricCryptor.encryptMultiLine = _a.encryptMultipleLine;
+export default SymmetricCryptor;
 /**
- * @function decrypt
- * @description Decrypt data.
+ * Decrypt data.
  * @param {string} data Data that need to symmetric decrypt.
  * @param {string} passphrase Passphrase that need to decrypt data.
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} A decrypted data.
  */
-function decrypt(data, passphrase, times = 1) {
+export function decrypt(data, passphrase, times = 1) {
     return new SymmetricCryptor(passphrase).decrypt(data, times);
 }
 /**
- * @function decryptMultipleLine
- * @description Decrypt data.
+ * Decrypt data in multiple line mode.
  * @param {string} data Data that need to symmetric decrypt.
  * @param {string} passphrase Passphrase that need to decrypt data.
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} A decrypted data.
  */
-function decryptMultipleLine(data, passphrase, times = 1) {
+export function decryptMultipleLine(data, passphrase, times = 1) {
     return new SymmetricCryptor(passphrase).decryptMultipleLine(data, times);
 }
+export { decryptMultipleLine as decryptML, decryptMultipleLine as decryptMultiLine };
 /**
- * @function encrypt
- * @description Encrypt data.
+ * Encrypt data.
  * @param {string} data Data that need to symmetric encrypt.
  * @param {string} passphrase Passphrase that need to encrypt data.
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} An encrypted data.
  */
-function encrypt(data, passphrase, times = 1) {
+export function encrypt(data, passphrase, times = 1) {
     return new SymmetricCryptor(passphrase).encrypt(data, times);
 }
 /**
- * @function encryptMultipleLine
- * @description Encrypt data.
+ * Encrypt data in multiple line mode.
  * @param {string} data Data that need to symmetric encrypt.
  * @param {string} passphrase Passphrase that need to encrypt data.
  * @param {number} [times=1] Crypto rotation.
  * @returns {string} An encrypted data.
  */
-function encryptMultipleLine(data, passphrase, times = 1) {
+export function encryptMultipleLine(data, passphrase, times = 1) {
     return new SymmetricCryptor(passphrase).encryptMultipleLine(data, times);
 }
-export { decrypt, decryptMultipleLine, decryptMultipleLine as decryptML, decryptMultipleLine as decryptMultiLine, encrypt, encryptMultipleLine, encryptMultipleLine as encryptML, encryptMultipleLine as encryptMultiLine, SymmetricCryptor };
-export default {
-    decrypt,
-    decryptML: decryptMultipleLine,
-    decryptMultiLine: decryptMultipleLine,
-    decryptMultipleLine,
-    encrypt,
-    encryptML: encryptMultipleLine,
-    encryptMultiLine: encryptMultipleLine,
-    encryptMultipleLine,
-    SymmetricCryptor
-};
+export { encryptMultipleLine as encryptML, encryptMultipleLine as encryptMultiLine };

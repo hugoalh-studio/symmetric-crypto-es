@@ -29,7 +29,7 @@ npm install @hugoalh/symmetric-crypto
 /* Either */
 import { ... } from "@hugoalh/symmetric-crypto";// Named Import
 import * as symmetricCrypto from "@hugoalh/symmetric-crypto";// Namespace Import
-import symmetricCrypto from "@hugoalh/symmetric-crypto";// Default Import
+import SymmetricCryptor from "@hugoalh/symmetric-crypto";// Default Import (Class `SymmetricCryptor`)
 ```
 
 ### API
