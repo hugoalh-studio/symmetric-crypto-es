@@ -5,11 +5,8 @@ import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cry
  * @returns {void}
  */
 function checkData(data: string): void {
-	if (typeof data !== "string") {
-		throw new TypeError(`Argument \`data\` must be type of string!`);
-	}
-	if (!(data.length > 0)) {
-		throw new Error(`Argument \`data\` must be a string which is non-empty!`);
+	if (!(typeof data === "string" && data.length > 0)) {
+		throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
 	}
 }
 /**
