@@ -14,60 +14,80 @@ This project is inspired from `symencdec` ([GitHub](https://github.com/nire0510/
 
 Symmetric crypto is a password based encryption and decryption, but this module has some addition improvements.
 
-## 📓 Documentation (Excerpt)
+## 🔰 Begin
 
-For the full documentation, please visit the [GitHub Repository Wiki](https://github.com/hugoalh-studio/symmetric-crypto-nodejs/wiki).
+### Bun
 
-### Getting Started
+> **🧪 Experimental:** Bun is still under development.
 
-- NodeJS ^ v12.20.0 \|\| ^ v14.15.0 \|\| >= v16.13.0
+- **Target Version:** ^ v1.0.0, &:
+  - TypeScript >= v5.1.0 *\[Development\]*
+- **Require Permission:** *N/A*
+- **Domain/Registry:**
+  - [NPM](https://www.npmjs.com/package/@hugoalh/symmetric-crypto)
+    ```sh
+    bun add @hugoalh/symmetric-crypto
+    ```
+    ```js
+    import ... from "@hugoalh/symmetric-crypto[@<Tag>]";
+    ```
 
-```sh
-npm install @hugoalh/symmetric-crypto
-```
+> **ℹ️ Notice:** It is also able to import part of the module with sub path if available, see [file `package.json`](./package.json) property `exports` for available sub paths.
 
-```js
-/* Either */
-import { ... } from "@hugoalh/symmetric-crypto";// Named Import
-import * as symmetricCrypto from "@hugoalh/symmetric-crypto";// Namespace Import
-import SymmetricCryptor from "@hugoalh/symmetric-crypto";// Default Import (Class `SymmetricCryptor`)
-```
+### NodeJS
 
-### API
+- **Target Version:** ^ v12.20.0 \|\| ^ v14.15.0 \|\| >= v16.13.0, &:
+  - TypeScript >= v5.1.0 *\[Development\]*
+- **Require Permission:** *N/A*
+- **Domain/Registry:**
+  - [NPM](https://www.npmjs.com/package/@hugoalh/symmetric-crypto)
+    ```sh
+    npm install @hugoalh/symmetric-crypto
+    ```
+    ```js
+    import ... from "@hugoalh/symmetric-crypto";
+    ```
 
-#### Class
+> **ℹ️ Notice:** It is also able to import part of the module with sub path if available, see [file `package.json`](./package.json) property `exports` for available sub paths.
+
+## 🧩 API (Excerpt)
+
+> **ℹ️ Notice:** Documentation is included inside the script file.
+
+### Class
 
 - `SymmetricCryptor`
 
-#### Function
+### Function
 
 - `decrypt`
 - `decryptMultipleLine`
 - `encrypt`
 - `encryptMultipleLine`
 
-### Example
+## ✍️ Example
 
 - ```js
-  let data = "Hello, world!\nFoo.\nBar.";
-  let passphrase = "githubnode";
-  let firstEncrypted = encrypt(data, passphrase);
-  let secondEncrypted = encryptMultipleLine(data, passphrase);
+  import { decrypt, decryptMultipleLine, encrypt, encryptMultipleLine } from "@hugoalh/symmetric-crypto";
+  const data = "Hello, world!\nFoo.\nBar.";
+  const passphrase = "githubnode";
+  const firstEncrypted = encrypt(data, passphrase);
+  const secondEncrypted = encryptMultipleLine(data, passphrase);
   console.log(firstEncrypted);
   // "TIdMOTTeor6q79ilfKkcInvWqQ/U4UUK5oXRSXxWhTbNpL88i/QDly9NFCt1d6JwkDWJ0nkLGKwsWbcA6tM2yg=="
-  
+
   console.log(secondEncrypted);
   /*
   `LO1uspz3yPXlbDdi20Xk5kYPc06kZO3h0SH6mN+gCI/+xTRpeanWPNat17ufGpxE
   NdLVDbUWDAeBK1MdXoO4rIbpBbwiCyaPU0ut8HOCCLXnidGM9EEbevuL8EGjQVSS
   nh3fuCzHOXWhtBLHuIZyiz5n9/Om0uPZdHdEikei8ydjnpaVLaCT2p78Uamxc3m1`
   */
-  
-  let firstDecrypted = decrypt(firstEncrypted, passphrase);
-  let secondDecrypted = decryptMultipleLine(secondEncrypted, passphrase);
+
+  const firstDecrypted = decrypt(firstEncrypted, passphrase);
+  const secondDecrypted = decryptMultipleLine(secondEncrypted, passphrase);
   console.log(firstDecrypted);
   // "Hello, world!\nFoo.\nBar."
-  
+
   console.log(secondDecrypted);
   // "Hello, world!\nFoo.\nBar."
   ```
