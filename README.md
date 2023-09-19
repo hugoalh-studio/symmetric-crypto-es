@@ -26,7 +26,7 @@ Symmetric crypto is a password based encryption and decryption, but this module 
 - **Domain/Registry:**
   - [NPM](https://www.npmjs.com/package/@hugoalh/symmetric-crypto)
     ```sh
-    bun add @hugoalh/symmetric-crypto
+    bun add @hugoalh/symmetric-crypto[@<Tag>]
     ```
     ```js
     import ... from "@hugoalh/symmetric-crypto[@<Tag>]";
@@ -42,7 +42,7 @@ Symmetric crypto is a password based encryption and decryption, but this module 
 - **Domain/Registry:**
   - [NPM](https://www.npmjs.com/package/@hugoalh/symmetric-crypto)
     ```sh
-    npm install @hugoalh/symmetric-crypto
+    npm install @hugoalh/symmetric-crypto[@<Tag>]
     ```
     ```js
     import ... from "@hugoalh/symmetric-crypto";
