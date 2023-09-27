@@ -17,8 +17,8 @@ import { createCipheriv as cryptoCreateCipheriv, createDecipheriv as cryptoCreat
  * @returns {void}
  */
 function checkData(data) {
-    if (!(typeof data === "string" && data.length > 0)) {
-        throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
+    if (!(data.length > 0)) {
+        throw new TypeError(`Argument \`data\` is not a string (non-empty)!`);
     }
 }
 /**
@@ -27,11 +27,8 @@ function checkData(data) {
  * @returns {void}
  */
 function checkTimes(times) {
-    if (!(typeof times === "number" && !Number.isNaN(times))) {
-        throw new TypeError(`Argument \`times\` must be type of number!`);
-    }
     if (!(Number.isSafeInteger(times) && times >= 1)) {
-        throw new RangeError(`Argument \`times\` must be a number which is integer, safe, and >= 1!`);
+        throw new RangeError(`Argument \`times\` is not a number which is integer, safe, and >= 1!`);
     }
 }
 /**
@@ -48,11 +45,8 @@ export class SymmetricCryptor {
         /** @alias decryptMultipleLine */ this.decryptMultiLine = this.decryptMultipleLine;
         /** @alias encryptMultipleLine */ this.encryptML = this.encryptMultipleLine;
         /** @alias encryptMultipleLine */ this.encryptMultiLine = this.encryptMultipleLine;
-        if (typeof passphrase !== "string") {
-            throw new TypeError(`Argument \`passphrase\` must be type of string!`);
-        }
         if (!(passphrase.length >= 4)) {
-            throw new Error(`Argument \`passphrase\` must be a string which is at least 4 characters!`);
+            throw new Error(`Argument \`passphrase\` is not a string which is at least 4 characters!`);
         }
         __classPrivateFieldSet(this, _SymmetricCryptor_passphraseStorage, cryptoCreateHash("sha256").update(passphrase).digest().subarray(0, 32), "f");
     }
@@ -166,14 +160,14 @@ export class SymmetricCryptor {
     }
 }
 _a = SymmetricCryptor, _SymmetricCryptor_passphraseStorage = new WeakMap(), _SymmetricCryptor_instances = new WeakSet(), _SymmetricCryptor_decryptor = function _SymmetricCryptor_decryptor(data) {
-    let encrypted = Buffer.from(data, "base64");
-    let decipher = cryptoCreateDecipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), encrypted.subarray(0, 16));
-    let decrypted = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
+    const encrypted = Buffer.from(data, "base64");
+    const decipher = cryptoCreateDecipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), encrypted.subarray(0, 16));
+    const decrypted = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
     return decrypted.substring(0, decrypted.length - decrypted.charCodeAt(decrypted.length - 1));
 }, _SymmetricCryptor_encryptor = function _SymmetricCryptor_encryptor(data) {
-    let iv = randomBytes(16);
-    let tone = 16 - data.length % 16;
-    let cipher = cryptoCreateCipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), iv);
+    const iv = randomBytes(16);
+    const tone = 16 - data.length % 16;
+    const cipher = cryptoCreateCipheriv("AES-256-CBC", __classPrivateFieldGet(this, _SymmetricCryptor_passphraseStorage, "f"), iv);
     return Buffer.concat([iv, Buffer.concat([cipher.update(data.padEnd(data.length + tone, String.fromCharCode(tone))), cipher.final()])]).toString("base64");
 };
 /** @alias decryptMultipleLine */ SymmetricCryptor.decryptML = _a.decryptMultipleLine;

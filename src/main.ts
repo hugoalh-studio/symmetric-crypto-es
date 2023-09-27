@@ -5,8 +5,8 @@ import { Cipher, createCipheriv as cryptoCreateCipheriv, createDecipheriv as cry
  * @returns {void}
  */
 function checkData(data: string): void {
-	if (!(typeof data === "string" && data.length > 0)) {
-		throw new TypeError(`Argument \`data\` must be type of string (non-empty)!`);
+	if (!(data.length > 0)) {
+		throw new TypeError(`Argument \`data\` is not a string (non-empty)!`);
 	}
 }
 /**
@@ -15,11 +15,8 @@ function checkData(data: string): void {
  * @returns {void}
  */
 function checkTimes(times: number): void {
-	if (!(typeof times === "number" && !Number.isNaN(times))) {
-		throw new TypeError(`Argument \`times\` must be type of number!`);
-	}
 	if (!(Number.isSafeInteger(times) && times >= 1)) {
-		throw new RangeError(`Argument \`times\` must be a number which is integer, safe, and >= 1!`);
+		throw new RangeError(`Argument \`times\` is not a number which is integer, safe, and >= 1!`);
 	}
 }
 /**
@@ -31,11 +28,8 @@ export class SymmetricCryptor {
 	 * @param {string} passphrase Passphrase that need to crypto data.
 	 */
 	constructor(passphrase: string) {
-		if (typeof passphrase !== "string") {
-			throw new TypeError(`Argument \`passphrase\` must be type of string!`);
-		}
 		if (!(passphrase.length >= 4)) {
-			throw new Error(`Argument \`passphrase\` must be a string which is at least 4 characters!`);
+			throw new Error(`Argument \`passphrase\` is not a string which is at least 4 characters!`);
 		}
 		this.#passphraseStorage = cryptoCreateHash("sha256").update(passphrase).digest().subarray(0, 32);
 	}
@@ -44,9 +38,9 @@ export class SymmetricCryptor {
 	 * @returns {string}
 	 */
 	#decryptor(data: string): string {
-		let encrypted: Buffer = Buffer.from(data, "base64");
-		let decipher: Decipher = cryptoCreateDecipheriv("AES-256-CBC", this.#passphraseStorage, encrypted.subarray(0, 16));
-		let decrypted: string = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
+		const encrypted: Buffer = Buffer.from(data, "base64");
+		const decipher: Decipher = cryptoCreateDecipheriv("AES-256-CBC", this.#passphraseStorage, encrypted.subarray(0, 16));
+		const decrypted: string = Buffer.concat([decipher.update(encrypted.subarray(16)), decipher.final()]).toString();
 		return decrypted.substring(0, decrypted.length - decrypted.charCodeAt(decrypted.length - 1));
 	}
 	/**
@@ -54,9 +48,9 @@ export class SymmetricCryptor {
 	 * @returns {string}
 	 */
 	#encryptor(data: string): string {
-		let iv: Buffer = randomBytes(16);
-		let tone: number = 16 - data.length % 16;
-		let cipher: Cipher = cryptoCreateCipheriv("AES-256-CBC", this.#passphraseStorage, iv);
+		const iv: Buffer = randomBytes(16);
+		const tone: number = 16 - data.length % 16;
+		const cipher: Cipher = cryptoCreateCipheriv("AES-256-CBC", this.#passphraseStorage, iv);
 		return Buffer.concat([iv, Buffer.concat([cipher.update(data.padEnd(data.length + tone, String.fromCharCode(tone))), cipher.final()])]).toString("base64");
 	}
 	/**
