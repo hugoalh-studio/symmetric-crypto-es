@@ -50,20 +50,35 @@ Symmetric crypto is a password based encryption and decryption, but this module 
 
 > **ℹ️ Notice:** It is also able to import part of the module with sub path if available, see [file `package.json`](./package.json) property `exports` for available sub paths.
 
-## 🧩 API (Excerpt)
+## 🧩 API
+
+- ```ts
+  class SymmetricCryptor {
+    constructor(passphrase: string): SymmetricCryptor;
+    decrypt(data: string, times = 1): string;
+    decryptMultipleLine(data: string, times = 1): string;
+    encrypt(data: string, times = 1): string;
+    encryptMultipleLine(data: string, times = 1): string;
+    static decrypt(data: string, passphrase: string, times = 1): string;
+    static decryptMultipleLine(data: string, passphrase: string, times = 1): string;
+    static encrypt(data: string, passphrase: string, times = 1): string;
+    static encryptMultipleLine(data: string, passphrase: string, times = 1): string;
+  }
+  ```
+- ```ts
+  function decrypt(data: string, passphrase: string, times = 1): string;
+  ```
+- ```ts
+  function decryptMultipleLine(data: string, passphrase: string, times = 1): string;
+  ```
+- ```ts
+  function encrypt(data: string, passphrase: string, times = 1): string;
+  ```
+- ```ts
+  function encryptMultipleLine(data: string, passphrase: string, times = 1): string;
+  ```
 
 > **ℹ️ Notice:** Documentation is included inside the script file.
-
-### Class
-
-- `SymmetricCryptor`
-
-### Function
-
-- `decrypt`
-- `decryptMultipleLine`
-- `encrypt`
-- `encryptMultipleLine`
 
 ## ✍️ Example
 
