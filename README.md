@@ -36,7 +36,7 @@ Symmetric crypto is a password based encryption and decryption, but this module 
 
 ### NodeJS
 
-- **Target Version:** ^ v12.20.0 \|\| ^ v14.15.0 \|\| >= v16.13.0, &:
+- **Target Version:** >= v16.13.0, &:
   - TypeScript >= v5.1.0 *\[Development\]*
 - **Require Permission:** *N/A*
 - **Domain/Registry:**
