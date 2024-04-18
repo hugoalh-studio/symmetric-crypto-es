@@ -1,70 +1,191 @@
-# Symmetric Crypto (NodeJS)
+# Symmetric Crypto (ES)
 
-[⚖️ MIT](./LICENSE.md)
+[**⚖️** MIT](./LICENSE.md)
 
-|  | **Release - Latest** | **Release - Pre** |
-|:-:|:-:|:-:|
-| [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=ffffff&style=flat-square "GitHub")](https://github.com/hugoalh-studio/symmetric-crypto-nodejs) | ![GitHub Latest Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?sort=semver&label=&style=flat-square "GitHub Latest Release Version") (![GitHub Latest Release Date](https://img.shields.io/github/release-date/hugoalh-studio/symmetric-crypto-nodejs?label=&style=flat-square "GitHub Latest Release Date")) | ![GitHub Latest Pre-Release Version](https://img.shields.io/github/release/hugoalh-studio/symmetric-crypto-nodejs?include_prereleases&sort=semver&label=&style=flat-square "GitHub Latest Pre-Release Version") (![GitHub Latest Pre-Release Date](https://img.shields.io/github/release-date-pre/hugoalh-studio/symmetric-crypto-nodejs?label=&style=flat-square "GitHub Latest Pre-Release Date")) |
-| [![NPM](https://img.shields.io/badge/NPM-CB3837?logo=npm&logoColor=ffffff&style=flat-square "NPM")](https://www.npmjs.com/package/@hugoalh/symmetric-crypto) | ![NPM Latest Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/latest?label=&style=flat-square "NPM Latest Release Version") | ![NPM Latest Pre-Release Version](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto/pre?label=&style=flat-square "NPM Latest Pre-Release Version") |
+[![GitHub: hugoalh-studio/symmetric-crypto-es](https://img.shields.io/github/v/release/hugoalh-studio/symmetric-crypto-es?label=hugoalh-studio/symmetric-crypto-es&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh-studio/symmetric-crypto-es")](https://github.com/hugoalh-studio/symmetric-crypto-es)
+[![JSR: @hugoalh/symmetric-crypto](https://img.shields.io/jsr/v/@hugoalh/symmetric-crypto?label=JSR%20@hugoalh/symmetric-crypto&labelColor=F7DF1E&logoColor=000000&style=flat "JSR: @hugoalh/symmetric-crypto")](https://jsr.io/@hugoalh/symmetric-crypto)
+[![NPM: @hugoalh/symmetric-crypto](https://img.shields.io/npm/v/@hugoalh/symmetric-crypto?label=@hugoalh/symmetric-crypto&labelColor=CB3837&logo=npm&logoColor=ffffff&style=flat "NPM: @hugoalh/symmetric-crypto")](https://www.npmjs.com/package/@hugoalh/symmetric-crypto)
 
-A NodeJS module to provide an easier symmetric crypto.
+An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
 
-This project is inspired from symencdec ([GitHub](https://github.com/nire0510/symencdec))([NPM](https://www.npmjs.com/package/symencdec)).
+## 🎯 Target
 
-Symmetric crypto is a password based encryption and decryption, but this module has some addition improvements.
+- Bun ^ v1.0.0
+- Cloudflare Workers
+- Deno >= v1.34.0 / >= v1.41.1 (For JSR Only)
+  > **🛡️ Require Permission**
+  >
+  > *N/A*
+- NodeJS >= v16.13.0
 
-## 🔰 Begin
+## 🔰 Usage
 
-### NodeJS
+### Via JSR With `node_modules`
 
-- **Target Version:** >= v16.13.0, &:
-  - TypeScript >= v5.1.0 *\[Development\]*
-- **Require Permission:** *N/A*
-- **Registry:**
-  - [NPM](https://www.npmjs.com/package/@hugoalh/symmetric-crypto)
-    ```sh
-    npm install @hugoalh/symmetric-crypto[@<Tag>]
-    ```
-    ```js
+> **🎯 Supported Target**
+>
+> - Bun
+> - Cloudflare Workers
+> - NodeJS
+
+1. Install via:
+    - Bun
+      ```sh
+      bunx jsr add @hugoalh/symmetric-crypto[@${Tag}]
+      ```
+    - NPM
+      ```sh
+      npx jsr add @hugoalh/symmetric-crypto[@${Tag}]
+      ```
+    - PNPM
+      ```sh
+      pnpm dlx jsr add @hugoalh/symmetric-crypto[@${Tag}]
+      ```
+    - Yarn
+      ```sh
+      yarn dlx jsr add @hugoalh/symmetric-crypto[@${Tag}]
+      ```
+2. Import at the script:
+    ```ts
     import ... from "@hugoalh/symmetric-crypto";
     ```
 
-> **ℹ️ Notice:** It is also able to import part of the module with sub path if available, see [file `package.json`](./package.json) property `exports` for available sub paths.
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via JSR With Specifier
+
+> **🎯 Supported Target**
+>
+> - Deno
+
+1. Import at the script:
+    ```ts
+    import ... from "jsr:@hugoalh/symmetric-crypto[@${Tag}]";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via NPM With `node_modules`
+
+> **🎯 Supported Target**
+>
+> - Cloudflare Workers
+> - NodeJS
+
+1. Install via:
+    - NPM
+      ```sh
+      npm install @hugoalh/symmetric-crypto[@${Tag}]
+      ```
+    - PNPM
+      ```sh
+      pnpm add @hugoalh/symmetric-crypto[@${Tag}]
+      ```
+    - Yarn
+      ```sh
+      yarn add @hugoalh/symmetric-crypto[@${Tag}]
+      ```
+2. Import at the script:
+    ```ts
+    import ... from "@hugoalh/symmetric-crypto";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via NPM With Specifier
+
+> **🎯 Supported Target**
+>
+> - Bun
+> - Deno
+
+1. Import at the script:
+    ```ts
+    import ... from "npm:@hugoalh/symmetric-crypto[@${Tag}]";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module, it is also able to import part of the module with sub path if available, please visit [file `jsr.jsonc`](./jsr.jsonc) property `exports` for available sub paths.
+> - It is recommended to import the module with tag for immutability.
+
+### Via Remote Import
+
+> **🎯 Supported Target**
+>
+> - Deno
+
+1. Import at the script:
+    ```ts
+    /* Via GitHub Raw (Require Tag) */
+    import ... from "https://raw.githubusercontent.com/hugoalh-studio/symmetric-crypto-es/${Tag}/mod.ts";
+    ```
+
+> **ℹ️ Note**
+>
+> - Although it is recommended to import the entire module with the main path `mod.ts`, it is also able to import part of the module with sub path if available, but do not import if:
+>
+>   - it's file path has an underscore prefix (e.g.: `_foo.ts`, `_util/bar.ts`), or
+>   - it is a benchmark or test file (e.g.: `foo.bench.ts`, `foo.test.ts`), or
+>   - it's symbol has an underscore prefix (e.g.: `export function _baz() {}`).
+>
+>   These elements are not considered part of the public API, thus no stability is guaranteed for them.
+> - Although there have 3rd party services which provide enhanced, equal, or similar methods/ways to remote import the module, beware these services maybe inject unrelated elements and thus affect the security.
 
 ## 🧩 API
 
 - ```ts
   class SymmetricCryptor {
-    constructor(passphrase: string): SymmetricCryptor;
-    decrypt(data: string, times = 1): string;
-    decryptMultipleLine(data: string, times = 1): string;
-    encrypt(data: string, times = 1): string;
-    encryptMultipleLine(data: string, times = 1): string;
-    static decrypt(data: string, passphrase: string, times = 1): string;
-    static decryptMultipleLine(data: string, passphrase: string, times = 1): string;
-    static encrypt(data: string, passphrase: string, times = 1): string;
-    static encryptMultipleLine(data: string, passphrase: string, times = 1): string;
+    decrypt(data: string): Promise<string>;
+    decrypt(data: Uint8Array): Promise<Uint8Array>;
+    encrypt(data: string): Promise<string>;
+    encrypt(data: Uint8Array): Promise<Uint8Array>;
   }
   ```
 - ```ts
-  function decrypt(data: string, passphrase: string, times = 1): string;
+  function createSymmetricCryptor(key: SymmetricCryptorKeyType, times?: number): Promise<SymmetricCryptor>;
+  function createSymmetricCryptor(input: SymmetricCryptorKeyInput, times?: number): Promise<SymmetricCryptor>;
+  function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[]): Promise<SymmetricCryptor>;
   ```
 - ```ts
-  function decryptMultipleLine(data: string, passphrase: string, times = 1): string;
+  interface SymmetricCryptorKeyInput {
+    /**
+     * Algorithm of the symmetric cryptor.
+     * @default "AES-CBC"
+     */
+    algorithm?: SymmetricCryptorAlgorithmNameType;
+    /**
+     * Key of the symmetric cryptor.
+     */
+    key: SymmetricCryptorKeyType;
+  }
   ```
 - ```ts
-  function encrypt(data: string, passphrase: string, times = 1): string;
+  type SymmetricCryptorAlgorithmNameType = "AES-CBC" | "AES-CTR" | "AES-GCM";
   ```
 - ```ts
-  function encryptMultipleLine(data: string, passphrase: string, times = 1): string;
+  type SymmetricCryptorKeyType = string | ArrayBuffer | DataView | Uint8Array | Uint16Array | Uint32Array | BigUint64Array;
   ```
 
-> **ℹ️ Notice:** Documentation is included inside the script file.
+> **ℹ️ Note**
+>
+> For the prettier documentation, can visit via:
+>
+> - [Deno CLI `deno doc`](https://deno.land/manual/tools/documentation_generator)
+> - [JSR](https://jsr.io/@hugoalh/symmetric-crypto)
 
 ## ✍️ Example
 
-- ```js
-  import { decrypt, decryptMultipleLine, encrypt, encryptMultipleLine } from "@hugoalh/symmetric-crypto";
+- ```ts
   const data = "Hello, world!\nFoo.\nBar.";
   const passphrase = "githubnode";
   const firstEncrypted = encrypt(data, passphrase);

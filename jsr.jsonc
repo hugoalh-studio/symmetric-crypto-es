@@ -1,0 +1,36 @@
+// This file is only for JSR related, non-JSR related must set in the file `deno.jsonc`!
+{
+	"name": "@hugoalh/symmetric-crypto",
+	"version": "4.0.0",
+	"exports": {
+		".": "./mod.ts"
+	},
+	"imports": {
+		"https://deno.land/std@0.222.1/encoding/ascii85.ts": "jsr:@std/encoding@0.222.1/ascii85"
+	},
+	"publish": {
+		"exclude": [
+			"**/*_bench.ts",
+			"**/*_bench.tsx",
+			"**/*_test.ts",
+			"**/*_test.tsx",
+			"**/*.bench.ts",
+			"**/*.bench.tsx",
+			"**/*.test.ts",
+			"**/*.test.tsx",
+			"**/bench.ts",
+			"**/bench.tsx",
+			"**/test.ts",
+			"**/test.tsx",
+			".dnt.ts",
+			"npm/**"
+		],
+		"include": [
+			"**/*.ts",
+			"**/*.tsx",
+			"jsr.jsonc",
+			"LICENSE*.md",
+			"README*.md"
+		]
+	}
+}

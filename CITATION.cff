@@ -1,13 +1,18 @@
 # yaml-language-server: $schema=https://citation-file-format.github.io/1.2.0/schema.json
 cff-version: "1.2.0"
-title: "Symmetric Crypto (NodeJS)"
+title: "Symmetric Crypto (ES)"
 message: "If you use this software, please cite it using the metadata from this file."
 type: "software"
 authors:
   - name: "hugoalh Studio"
-repository-code: "https://github.com/hugoalh-studio/symmetric-crypto-nodejs"
+repository-code: "https://github.com/hugoalh-studio/symmetric-crypto-es"
 keywords:
   - "crypto"
-  - "nodejs"
+  - "es"
+  - "javascript"
+  - "js"
+  - "modulejs"
   - "symmetric"
+  - "ts"
+  - "typescript"
 license: "MIT"
