@@ -35,7 +35,7 @@ export class SymmetricCryptor {
 	}
 	/**
 	 * Decrypt data.
-	 * @param {string} data Data that need to symmetric decrypt.
+	 * @param {string} data Data encoded with ASCII85 that need to symmetric decrypt.
 	 * @returns {Promise<string>} A decrypted data.
 	 */
 	async decrypt(data: string): Promise<string>;
@@ -91,7 +91,7 @@ export class SymmetricCryptor {
 	/**
 	 * Encrypt data.
 	 * @param {string} data Data that need to symmetric encrypt.
-	 * @returns {Promise<string>} An encrypted data.
+	 * @returns {Promise<string>} An encrypted data encoded with ASCII85.
 	 */
 	async encrypt(data: string): Promise<string>;
 	/**

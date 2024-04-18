@@ -186,25 +186,11 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
 ## ✍️ Example
 
 - ```ts
-  const data = "Hello, world!\nFoo.\nBar.";
-  const passphrase = "githubnode";
-  const firstEncrypted = encrypt(data, passphrase);
-  const secondEncrypted = encryptMultipleLine(data, passphrase);
-  console.log(firstEncrypted);
-  // "TIdMOTTeor6q79ilfKkcInvWqQ/U4UUK5oXRSXxWhTbNpL88i/QDly9NFCt1d6JwkDWJ0nkLGKwsWbcA6tM2yg=="
-
-  console.log(secondEncrypted);
-  /*
-  `LO1uspz3yPXlbDdi20Xk5kYPc06kZO3h0SH6mN+gCI/+xTRpeanWPNat17ufGpxE
-  NdLVDbUWDAeBK1MdXoO4rIbpBbwiCyaPU0ut8HOCCLXnidGM9EEbevuL8EGjQVSS
-  nh3fuCzHOXWhtBLHuIZyiz5n9/Om0uPZdHdEikei8ydjnpaVLaCT2p78Uamxc3m1`
-  */
-
-  const firstDecrypted = decrypt(firstEncrypted, passphrase);
-  const secondDecrypted = decryptMultipleLine(secondEncrypted, passphrase);
-  console.log(firstDecrypted);
-  // "Hello, world!\nFoo.\nBar."
-
-  console.log(secondDecrypted);
-  // "Hello, world!\nFoo.\nBar."
+  const data = "qwertyuiop";
+  const cryptor = await createSymmetricCryptor("<PassWord123456>!!");
+  const encrypted = await cryptor.encrypt(data);
+  console.log(encrypted);
+  // "lST)L-9$J[MPqk)3Pe1qa(;,i)Wi]"4oD9+OE(Hc"
+  const decrypted = await cryptor.decrypt(encrypted);
+  // "qwertyuiop"
   ```
