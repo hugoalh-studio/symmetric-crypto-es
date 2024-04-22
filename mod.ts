@@ -1,4 +1,4 @@
-import { decodeAscii85, encodeAscii85 } from "https://deno.land/std@0.222.1/encoding/ascii85.ts";
+import { decodeAscii85, encodeAscii85 } from "https://deno.land/std@0.223.0/encoding/ascii85.ts";
 /**
  * Algorithm name of the symmetric cryptor.
  */
@@ -29,6 +29,9 @@ interface SymmetricCryptorMeta {
  * A password based cryptor.
  */
 export class SymmetricCryptor {
+	get [Symbol.toStringTag](): string {
+		return "SymmetricCryptor";
+	}
 	#cryptors: SymmetricCryptorMeta[];
 	private constructor(cryptors: SymmetricCryptorMeta[]) {
 		this.#cryptors = cryptors;
