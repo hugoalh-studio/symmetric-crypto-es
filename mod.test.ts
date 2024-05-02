@@ -1,4 +1,4 @@
-import { assertEquals } from "STD/assert/assert_equals.ts";
+import { assertEquals } from "STD/assert/assert-equals";
 import { createSymmetricCryptor } from "./mod.ts";
 Deno.test("String AES-CBC", { permissions: "none" }, async () => {
 	const sample = "qwertyuiop";

@@ -5,9 +5,7 @@
 	"exports": {
 		".": "./mod.ts"
 	},
-	"imports": {
-		"https://deno.land/std@0.223.0/encoding/ascii85.ts": "jsr:@std/encoding@0.223.0/ascii85"
-	},
+	"imports": { },
 	"publish": {
 		"exclude": [
 			"**/*_bench.ts",

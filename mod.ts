@@ -1,8 +1,17 @@
-import { decodeAscii85, encodeAscii85 } from "https://deno.land/std@0.223.0/encoding/ascii85.ts";
+import { readFile as nodejsReadFile, writeFile as nodejsWriteFile } from "node:fs/promises";
 /**
- * Algorithm name of the symmetric cryptor.
+ * Enum of the algorithm of the symmetric cryptor.
  */
-export type SymmetricCryptorAlgorithmNameType = "AES-CBC" | "AES-CTR" | "AES-GCM";
+export enum SymmetricCryptorAlgorithm {
+	"AES-CBC" = "AES-CBC",
+	"AES-CTR" = "AES-CTR",
+	"AES-GCM" = "AES-GCM",
+	AESCBC = "AES-CBC",
+	AESCTR = "AES-CTR",
+	AESGCM = "AES-GCM"
+}
+export type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array;
+export type SymmetricCryptorCipherTextEncoder = (input: Uint8Array) => string;
 /**
  * Type of the key of the symmetric cryptor.
  */
@@ -15,14 +24,14 @@ export interface SymmetricCryptorKeyInput {
 	 * Algorithm of the symmetric cryptor.
 	 * @default "AES-CBC"
 	 */
-	algorithm?: SymmetricCryptorAlgorithmNameType;
+	algorithm?: SymmetricCryptorAlgorithm | keyof typeof SymmetricCryptorAlgorithm;
 	/**
 	 * Key of the symmetric cryptor.
 	 */
 	key: SymmetricCryptorKeyType;
 }
-interface SymmetricCryptorMeta {
-	algorithm: SymmetricCryptorAlgorithmNameType;
+interface SymmetricCryptorCryptor {
+	algorithm: `${SymmetricCryptorAlgorithm}`;
 	key: CryptoKey;
 }
 /**
@@ -32,9 +41,13 @@ export class SymmetricCryptor {
 	get [Symbol.toStringTag](): string {
 		return "SymmetricCryptor";
 	}
-	#cryptors: SymmetricCryptorMeta[];
-	private constructor(cryptors: SymmetricCryptorMeta[]) {
+	#cryptors: SymmetricCryptorCryptor[];
+	#decoder: SymmetricCryptorCipherTextDecoder;
+	#encoder: SymmetricCryptorCipherTextEncoder;
+	private constructor(cryptors: SymmetricCryptorCryptor[], decoder: SymmetricCryptorCipherTextDecoder, encoder: SymmetricCryptorCipherTextEncoder) {
 		this.#cryptors = cryptors;
+		this.#decoder = decoder;
+		this.#encoder = encoder;
 	}
 	/**
 	 * Decrypt data.
@@ -56,40 +69,70 @@ export class SymmetricCryptor {
 		let storage: Uint8Array;
 		if (typeof data === "string") {
 			resultIsString = true;
-			storage = decodeAscii85(data);
+			storage = this.#decoder(data);
 		} else {
 			storage = data;
 		}
 		for (let index = this.#cryptors.length - 1; index >= 0; index -= 1) {
-			const { algorithm, key }: SymmetricCryptorMeta = this.#cryptors[index];
+			const { algorithm, key }: SymmetricCryptorCryptor = this.#cryptors[index];
+			let decryptParameterAlgorithm: AlgorithmIdentifier | AesCbcParams | AesCtrParams | AesGcmParams;
+			let decryptParameterData: BufferSource;
 			switch (algorithm) {
-				case "AES-CBC": {
-					storage = new Uint8Array(await crypto.subtle.decrypt({
+				case "AES-CBC":
+					decryptParameterAlgorithm = {
 						name: algorithm,
 						iv: storage.slice(0, 16)
-					}, key, storage.slice(16)));
-				}
+					};
+					decryptParameterData = storage.slice(16);
 					break;
-				case "AES-CTR": {
-					storage = new Uint8Array(await crypto.subtle.decrypt({
+				case "AES-CTR":
+					decryptParameterAlgorithm = {
 						name: algorithm,
 						counter: storage.slice(0, 16),
 						length: 64
-					}, key, storage.slice(16)));
-				}
+					};
+					decryptParameterData = storage.slice(16);
 					break;
-				case "AES-GCM": {
-					storage = new Uint8Array(await crypto.subtle.decrypt({
+				case "AES-GCM":
+					decryptParameterAlgorithm = {
 						name: algorithm,
 						iv: storage.slice(0, 12)
-					}, key, storage.slice(12)));
-				}
+					};
+					decryptParameterData = storage.slice(12);
 					break;
 				default:
 					throw new Error(`\`${algorithm}\` is not a valid crypto algorithm! (How did you get to here?)`);
 			}
+			storage = new Uint8Array(await crypto.subtle.decrypt(decryptParameterAlgorithm, key, decryptParameterData));
 		}
 		return (resultIsString ? new TextDecoder().decode(storage) : storage);
+	}
+	/**
+	 * Decrypt file.
+	 * 
+	 * > **🛡️ Permissions**
+	 * >
+	 * > | **Target** | **Type** | **Coverage** |
+	 * > |:--|:--|:--|
+	 * > | Deno | File System - Read (`allow-read`) | Resource |
+	 * > | Deno | File System - Write (`allow-write`) | Resource |
+	 * @param {string | URL} filePath Path of the file.
+	 * @returns {Promise<this>}
+	 */
+	async decryptFile(filePath: string | URL): Promise<this> {
+		await ((typeof Deno === "undefined")
+			? nodejsReadFile(filePath).then((value: Uint8Array): Promise<Uint8Array> => {
+				return this.decrypt(value);
+			}).then((value: Uint8Array): Promise<void> => {
+				return nodejsWriteFile(filePath, value);
+			})
+			: Deno.readFile(filePath).then((value: Uint8Array): Promise<Uint8Array> => {
+				return this.decrypt(value);
+			}).then((value: Uint8Array): Promise<void> => {
+				return Deno.writeFile(filePath, value, { create: false });
+			})
+		);
+		return this;
 	}
 	/**
 	 * Encrypt data.
@@ -116,42 +159,75 @@ export class SymmetricCryptor {
 			storage = data;
 		}
 		for (let index = 0; index < this.#cryptors.length; index += 1) {
-			const { algorithm, key }: SymmetricCryptorMeta = this.#cryptors[index];
+			const { algorithm, key }: SymmetricCryptorCryptor = this.#cryptors[index];
+			let encryptParameterAlgorithm: AlgorithmIdentifier | AesCbcParams | AesCtrParams | AesGcmParams;
+			let token: Uint8Array;
 			switch (algorithm) {
-				case "AES-CBC": {
-					const iv: Uint8Array = crypto.getRandomValues(new Uint8Array(16));
-					storage = Uint8Array.from([...iv, ...new Uint8Array(await crypto.subtle.encrypt({
+				case "AES-CBC":
+					token = /* iv */crypto.getRandomValues(new Uint8Array(16));
+					encryptParameterAlgorithm = {
 						name: algorithm,
-						iv
-					}, key, storage))]);
-				}
+						iv: token
+					};
 					break;
-				case "AES-CTR": {
-					const counter: Uint8Array = crypto.getRandomValues(new Uint8Array(16));
-					storage = Uint8Array.from([...counter, ...new Uint8Array(await crypto.subtle.encrypt({
+				case "AES-CTR":
+					token = /* counter */crypto.getRandomValues(new Uint8Array(16));
+					encryptParameterAlgorithm = {
 						name: algorithm,
-						counter,
+						counter: token,
 						length: 64
-					}, key, storage))]);
-				}
+					};
 					break;
-				case "AES-GCM": {
-					const iv: Uint8Array = crypto.getRandomValues(new Uint8Array(12));
-					storage = Uint8Array.from([...iv, ...new Uint8Array(await crypto.subtle.encrypt({
+				case "AES-GCM":
+					token = /* iv */crypto.getRandomValues(new Uint8Array(12));
+					encryptParameterAlgorithm = {
 						name: algorithm,
-						iv
-					}, key, storage))]);
-				}
+						iv: token
+					};
 					break;
 				default:
 					throw new Error(`\`${algorithm}\` is not a valid crypto algorithm! (How did you get to here?)`);
 			}
+			storage = Uint8Array.from([...token, ...new Uint8Array(await crypto.subtle.encrypt(encryptParameterAlgorithm, key, storage))]);
 		}
-		return (resultIsString ? encodeAscii85(storage) : storage);
+		return (resultIsString ? this.#encoder(storage) : storage);
+	}
+	/**
+	 * Encrypt file.
+	 * 
+	 * > **🛡️ Permissions**
+	 * >
+	 * > | **Target** | **Type** | **Coverage** |
+	 * > |:--|:--|:--|
+	 * > | Deno | File System - Read (`allow-read`) | Resource |
+	 * > | Deno | File System - Write (`allow-write`) | Resource |
+	 * @param {string | URL} filePath Path of the file.
+	 * @returns {Promise<this>}
+	 */
+	async encryptFile(filePath: string | URL): Promise<this> {
+		await ((typeof Deno === "undefined")
+			? nodejsReadFile(filePath).then((value: Uint8Array): Promise<Uint8Array> => {
+				return this.encrypt(value);
+			}).then((value: Uint8Array): Promise<void> => {
+				return nodejsWriteFile(filePath, value);
+			})
+			: Deno.readFile(filePath).then((value: Uint8Array): Promise<Uint8Array> => {
+				return this.encrypt(value);
+			}).then((value: Uint8Array): Promise<void> => {
+				return Deno.writeFile(filePath, value, { create: false });
+			})
+		);
+		return this;
 	}
 }
-async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorMeta> {
-	let algorithm: SymmetricCryptorAlgorithmNameType;
+/**
+ * Create the key for the cryptor.
+ * @access private
+ * @param {SymmetricCryptorKeyInput | SymmetricCryptorKeyType} input Input.
+ * @returns {Promise<SymmetricCryptorCryptor>} Key for the cryptor.
+ */
+async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorCryptor> {
+	let algorithm: `${SymmetricCryptorAlgorithm}`;
 	let key: SymmetricCryptorKeyType;
 	if (
 		typeof input === "string" ||
@@ -165,7 +241,11 @@ async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCrypt
 		algorithm = "AES-CBC";
 		key = input;
 	} else {
-		algorithm = input.algorithm ?? "AES-CBC";
+		const algorithmResolve: `${SymmetricCryptorAlgorithm}` | undefined = SymmetricCryptorAlgorithm[input.algorithm ?? "AES-CBC"];
+		if (typeof algorithmResolve === "undefined") {
+			throw new RangeError(`\`${input.algorithm}\` is not a valid symmetric cryptor algorithm! Only accept these values: ${Array.from(new Set<string>(Object.keys(SymmetricCryptorAlgorithm).sort()).values()).join(", ")}`);
+		}
+		algorithm = algorithmResolve;
 		key = input.key;
 	}
 	return {
@@ -174,47 +254,82 @@ async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCrypt
 	};
 }
 /**
- * Create an instance of the symmetric cryptor.
+ * Options of the class {@linkcode SymmetricCryptor}.
+ */
+export interface SymmetricCryptorOptions {
+	/**
+	 * Decoder of the stringify cipher text, must also define and exchangeable with property {@linkcode encoder}. Default to ASCII85 decoder.
+	 */
+	decoder?: SymmetricCryptorCipherTextDecoder;
+	/**
+	 * Encoder of the stringify cipher text, must also define and exchangeable with property {@linkcode decoder}. Default to ASCII85 encoder.
+	 */
+	encoder?: SymmetricCryptorCipherTextEncoder;
+	/**
+	 * Times of the crypto.
+	 * @default 1
+	 */
+	times?: number;
+}
+/**
+ * Create an instance of the class {@linkcode SymmetricCryptor}.
  * @param {SymmetricCryptorKeyType} key Key of the symmetric cryptor.
- * @param {number} [times] Times of the crypto.
- * @returns {Promise<SymmetricCryptor>} Instance of the symmetric cryptor.
+ * @param {SymmetricCryptorOptions} [options] Options of the symmetric cryptor.
+ * @returns {Promise<SymmetricCryptor>} An instance of the class {@linkcode SymmetricCryptor}.
  */
-export async function createSymmetricCryptor(key: SymmetricCryptorKeyType, times?: number): Promise<SymmetricCryptor>;
+export async function createSymmetricCryptor(key: SymmetricCryptorKeyType, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
 /**
- * Create an instance of the symmetric cryptor.
+ * Create an instance of the class {@linkcode SymmetricCryptor}.
  * @param {SymmetricCryptorKeyInput} input Input of the key of the symmetric cryptor.
- * @param {number} [times] Times of the crypto.
- * @returns {Promise<SymmetricCryptor>} Instance of the symmetric cryptor.
+ * @param {SymmetricCryptorOptions} [options] Options of the symmetric cryptor.
+ * @returns {Promise<SymmetricCryptor>} An instance of the class {@linkcode SymmetricCryptor}.
  */
-export async function createSymmetricCryptor(input: SymmetricCryptorKeyInput, times?: number): Promise<SymmetricCryptor>;
+export async function createSymmetricCryptor(input: SymmetricCryptorKeyInput, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
 /**
- * Create an instance of the symmetric cryptor.
+ * Create an instance of the class {@linkcode SymmetricCryptor}.
  * @param {(SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[]} inputs Inputs of the key of the symmetric cryptor.
- * @returns {Promise<SymmetricCryptor>} Instance of the symmetric cryptor.
+ * @param {Omit<SymmetricCryptorOptions, "times">} [options] Options of the symmetric cryptor.
+ * @returns {Promise<SymmetricCryptor>} An instance of the class {@linkcode SymmetricCryptor}.
  */
-export async function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[]): Promise<SymmetricCryptor>;
-export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | SymmetricCryptorKeyType | (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], times?: number): Promise<SymmetricCryptor> {
-	const cryptors: SymmetricCryptorMeta[] = [];
+export async function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
+export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | SymmetricCryptorKeyType | (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options: SymmetricCryptorOptions = {}): Promise<SymmetricCryptor> {
+	const { decoder, encoder } = await (async () => {
+		if (typeof options.decoder === "undefined" && typeof options.encoder === "undefined") {
+			const ascii85 = await import("jsr:@std/encoding@0.224.0/ascii85");
+			return {
+				decoder: ascii85.decodeAscii85 as SymmetricCryptorCipherTextDecoder,
+				encoder: ascii85.encodeAscii85 as SymmetricCryptorCipherTextEncoder
+			};
+		}
+		if (typeof options.decoder !== "undefined" && typeof options.encoder !== "undefined") {
+			return {
+				decoder: options.decoder,
+				encoder: options.encoder
+			};
+		}
+		throw new ReferenceError(`Arguments \`options.decoder\` and \`options.encoder\` are not defined or undefined!`);
+	})();
+	const cryptors: SymmetricCryptorCryptor[] = [];
 	if (Array.isArray(param0)) {
-		cryptors.push(...await Promise.all(param0.map((input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorMeta> => {
+		cryptors.push(...await Promise.all(param0.map((input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorCryptor> => {
 			return createCryptorKey(input);
 		})));
 	} else {
-		const cryptor: SymmetricCryptorMeta = await createCryptorKey(param0);
-		if (typeof times === "undefined") {
+		const cryptor: SymmetricCryptorCryptor = await createCryptorKey(param0);
+		if (typeof options.times === "undefined") {
 			cryptors.push(cryptor);
 		} else {
-			if (!(Number.isSafeInteger(times) && times >= 1)) {
-				throw new TypeError(`Argument \`times\` is not a number which is integer, safe, and >= 1!`);
+			if (!(Number.isSafeInteger(options.times) && options.times >= 1)) {
+				throw new TypeError(`Argument \`options.times\` is not a number which is integer, safe, and >= 1!`);
 			}
-			for (let index = 0; index < times; index += 1) {
+			for (let index = 0; index < options.times; index += 1) {
 				cryptors.push(cryptor);
 			}
 		}
 	}
 	if (cryptors.length > 0) {
 		//@ts-ignore Access private constructor.
-		return new SymmetricCryptor(cryptors);
+		return new SymmetricCryptor(cryptors, decoder, encoder);
 	}
 	throw new Error("No inputs!");
 }
