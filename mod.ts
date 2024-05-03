@@ -135,6 +135,72 @@ export class SymmetricCryptor {
 		return this;
 	}
 	/**
+	 * Decrypt files. All of the files will not decrypted when any file fail to decrypt.
+	 * 
+	 * > **🛡️ Permissions**
+	 * >
+	 * > | **Target** | **Type** | **Coverage** |
+	 * > |:--|:--|:--|
+	 * > | Deno | File System - Read (`allow-read`) | Resource |
+	 * > | Deno | File System - Write (`allow-write`) | Resource |
+	 * @param {...(string | URL)} filesPath Path of the files.
+	 * @returns {Promise<this>}
+	 */
+	async decryptFiles(...filesPath: (string | URL)[]): Promise<this> {
+		if (typeof Deno !== "undefined") {
+			const valuesEncrypted: Uint8Array[] = await Promise.all(filesPath.map((filePath: string | URL): Promise<Uint8Array> => {
+				return Deno.readFile(filePath);
+			}));
+			const valuesDecrypted: Uint8Array[] = await Promise.all(valuesEncrypted.map((valueEncrypted: Uint8Array, index: number): Promise<Uint8Array> => {
+				try {
+					return this.decrypt(valueEncrypted);
+				} catch (error) {
+					if (error instanceof Error) {
+						error.message = `Unable to decrypt file \`${filesPath[index]}\`: ${error.message}`;
+						throw error;
+					}
+					throw new Error(`Unable to decrypt file \`${filesPath[index]}\`: ${error}`);
+				}
+			}));
+			try {
+				await Promise.all(valuesDecrypted.map((valueDecrypted: Uint8Array, index: number): Promise<void> => {
+					return Deno.writeFile(filesPath[index], valueDecrypted, { create: false });
+				}));
+			} catch (error) {
+				await Promise.all(valuesEncrypted.map((valueEncrypted: Uint8Array, index: number): Promise<void> => {
+					return Deno.writeFile(filesPath[index], valueEncrypted);
+				}));
+				throw error;
+			}
+			return this;
+		}
+		const valuesEncrypted: Uint8Array[] = await Promise.all(filesPath.map((filePath: string | URL): Promise<Uint8Array> => {
+			return nodejsReadFile(filePath);
+		}));
+		const valuesDecrypted: Uint8Array[] = await Promise.all(valuesEncrypted.map((valueEncrypted: Uint8Array, index: number): Promise<Uint8Array> => {
+			try {
+				return this.decrypt(valueEncrypted);
+			} catch (error) {
+				if (error instanceof Error) {
+					error.message = `Unable to decrypt file \`${filesPath[index]}\`: ${error.message}`;
+					throw error;
+				}
+				throw new Error(`Unable to decrypt file \`${filesPath[index]}\`: ${error}`);
+			}
+		}));
+		try {
+			await Promise.all(valuesDecrypted.map((valueDecrypted: Uint8Array, index: number): Promise<void> => {
+				return nodejsWriteFile(filesPath[index], valueDecrypted);
+			}));
+		} catch (error) {
+			await Promise.all(valuesEncrypted.map((valueEncrypted: Uint8Array, index: number): Promise<void> => {
+				return nodejsWriteFile(filesPath[index], valueEncrypted);
+			}));
+			throw error;
+		}
+		return this;
+	}
+	/**
 	 * Encrypt data.
 	 * @param {string} data Data that need to symmetric encrypt.
 	 * @returns {Promise<string>} An encrypted data encoded with ASCII85.
@@ -219,6 +285,72 @@ export class SymmetricCryptor {
 		);
 		return this;
 	}
+	/**
+	 * Encrypt files. All of the files will not encrypted when any file fail to encrypt.
+	 * 
+	 * > **🛡️ Permissions**
+	 * >
+	 * > | **Target** | **Type** | **Coverage** |
+	 * > |:--|:--|:--|
+	 * > | Deno | File System - Read (`allow-read`) | Resource |
+	 * > | Deno | File System - Write (`allow-write`) | Resource |
+	 * @param {...(string | URL)} filesPath Path of the files.
+	 * @returns {Promise<this>}
+	 */
+	async encryptFiles(...filesPath: (string | URL)[]): Promise<this> {
+		if (typeof Deno !== "undefined") {
+			const valuesDecrypted: Uint8Array[] = await Promise.all(filesPath.map((filePath: string | URL): Promise<Uint8Array> => {
+				return Deno.readFile(filePath);
+			}));
+			const valuesEncrypted: Uint8Array[] = await Promise.all(valuesDecrypted.map((valueDecrypted: Uint8Array, index: number): Promise<Uint8Array> => {
+				try {
+					return this.encrypt(valueDecrypted);
+				} catch (error) {
+					if (error instanceof Error) {
+						error.message = `Unable to encrypt file \`${filesPath[index]}\`: ${error.message}`;
+						throw error;
+					}
+					throw new Error(`Unable to encrypt file \`${filesPath[index]}\`: ${error}`);
+				}
+			}));
+			try {
+				await Promise.all(valuesEncrypted.map((valueEncrypted: Uint8Array, index: number): Promise<void> => {
+					return Deno.writeFile(filesPath[index], valueEncrypted, { create: false });
+				}));
+			} catch (error) {
+				await Promise.all(valuesDecrypted.map((valueDecrypted: Uint8Array, index: number): Promise<void> => {
+					return Deno.writeFile(filesPath[index], valueDecrypted);
+				}));
+				throw error;
+			}
+			return this;
+		}
+		const valuesDecrypted: Uint8Array[] = await Promise.all(filesPath.map((filePath: string | URL): Promise<Uint8Array> => {
+			return nodejsReadFile(filePath);
+		}));
+		const valuesEncrypted: Uint8Array[] = await Promise.all(valuesDecrypted.map((valueDecrypted: Uint8Array, index: number): Promise<Uint8Array> => {
+			try {
+				return this.encrypt(valueDecrypted);
+			} catch (error) {
+				if (error instanceof Error) {
+					error.message = `Unable to encrypt file \`${filesPath[index]}\`: ${error.message}`;
+					throw error;
+				}
+				throw new Error(`Unable to encrypt file \`${filesPath[index]}\`: ${error}`);
+			}
+		}));
+		try {
+			await Promise.all(valuesEncrypted.map((valueEncrypted: Uint8Array, index: number): Promise<void> => {
+				return nodejsWriteFile(filesPath[index], valueEncrypted);
+			}));
+		} catch (error) {
+			await Promise.all(valuesDecrypted.map((valueDecrypted: Uint8Array, index: number): Promise<void> => {
+				return nodejsWriteFile(filesPath[index], valueDecrypted);
+			}));
+			throw error;
+		}
+		return this;
+	}
 }
 /**
  * Create the key for the cryptor.
@@ -295,10 +427,10 @@ export async function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput |
 export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | SymmetricCryptorKeyType | (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options: SymmetricCryptorOptions = {}): Promise<SymmetricCryptor> {
 	const { decoder, encoder } = await (async () => {
 		if (typeof options.decoder === "undefined" && typeof options.encoder === "undefined") {
-			const ascii85 = await import("jsr:@std/encoding@0.224.0/ascii85");
+			const { decodeAscii85, encodeAscii85 } = await import("jsr:@std/encoding@0.224.0/ascii85");
 			return {
-				decoder: ascii85.decodeAscii85 as SymmetricCryptorCipherTextDecoder,
-				encoder: ascii85.encodeAscii85 as SymmetricCryptorCipherTextEncoder
+				decoder: decodeAscii85 as SymmetricCryptorCipherTextDecoder,
+				encoder: encodeAscii85 as SymmetricCryptorCipherTextEncoder
 			};
 		}
 		if (typeof options.decoder !== "undefined" && typeof options.encoder !== "undefined") {
@@ -331,6 +463,6 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 		//@ts-ignore Access private constructor.
 		return new SymmetricCryptor(cryptors, decoder, encoder);
 	}
-	throw new Error("No inputs!");
+	throw new Error(`Argument \`input\` is not defined!`);
 }
 export default createSymmetricCryptor;

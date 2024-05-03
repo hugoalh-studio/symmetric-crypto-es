@@ -81,14 +81,45 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   class SymmetricCryptor {
     decrypt(data: string): Promise<string>;
     decrypt(data: Uint8Array): Promise<Uint8Array>;
+    decryptFile(filePath: string | URL): Promise<this>;
+    decryptFiles(...filesPath: (string | URL)[]): Promise<this>;
     encrypt(data: string): Promise<string>;
     encrypt(data: Uint8Array): Promise<Uint8Array>;
+    encryptFile(filePath: string | URL): Promise<this>;
+    encryptFiles(...filesPath: (string | URL)[]): Promise<this>;
   }
   ```
 - ```ts
-  function createSymmetricCryptor(key: SymmetricCryptorKeyType, times?: number): Promise<SymmetricCryptor>;
-  function createSymmetricCryptor(input: SymmetricCryptorKeyInput, times?: number): Promise<SymmetricCryptor>;
-  function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[]): Promise<SymmetricCryptor>;
+  enum SymmetricCryptorAlgorithm {
+    "AES-CBC" = "AES-CBC",
+    "AES-CTR" = "AES-CTR",
+    "AES-GCM" = "AES-GCM",
+    AESCBC = "AES-CBC",
+    AESCTR = "AES-CTR",
+    AESGCM = "AES-GCM"
+  }
+  ```
+- ```ts
+  function createSymmetricCryptor(key: SymmetricCryptorKeyType, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
+  function createSymmetricCryptor(input: SymmetricCryptorKeyInput, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
+  function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
+  ```
+- ```ts
+  interface SymmetricCryptorOptions {
+    /**
+     * Decoder of the stringify cipher text, must also define and exchangeable with property `encoder`. Default to ASCII85 decoder.
+     */
+    decoder?: SymmetricCryptorCipherTextDecoder;
+    /**
+     * Encoder of the stringify cipher text, must also define and exchangeable with property `decoder`. Default to ASCII85 encoder.
+     */
+    encoder?: SymmetricCryptorCipherTextEncoder;
+    /**
+     * Times of the crypto.
+     * @default 1
+     */
+    times?: number;
+  }
   ```
 - ```ts
   interface SymmetricCryptorKeyInput {
@@ -96,7 +127,7 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
      * Algorithm of the symmetric cryptor.
      * @default "AES-CBC"
      */
-    algorithm?: SymmetricCryptorAlgorithmNameType;
+    algorithm?: SymmetricCryptorAlgorithm | keyof typeof SymmetricCryptorAlgorithm;
     /**
      * Key of the symmetric cryptor.
      */
@@ -104,7 +135,10 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   }
   ```
 - ```ts
-  type SymmetricCryptorAlgorithmNameType = "AES-CBC" | "AES-CTR" | "AES-GCM";
+  type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array;
+  ```
+- ```ts
+  type SymmetricCryptorCipherTextEncoder = (input: Uint8Array) => string;
   ```
 - ```ts
   type SymmetricCryptorKeyType = string | ArrayBuffer | DataView | Uint8Array | Uint16Array | Uint32Array | BigUint64Array;
