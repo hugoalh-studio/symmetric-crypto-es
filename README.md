@@ -75,7 +75,7 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
 
 *This module does not require any permission.*
 
-## 🧩 API
+## 🧩 APIs
 
 - ```ts
   class SymmetricCryptor {
@@ -151,7 +151,7 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
 > - [Deno CLI `deno doc`](https://deno.land/manual/tools/documentation_generator)
 > - [JSR](https://jsr.io/@hugoalh/symmetric-crypto)
 
-## ✍️ Example
+## ✍️ Examples
 
 - ```ts
   const data = "qwertyuiop";
