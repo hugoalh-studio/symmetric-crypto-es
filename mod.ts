@@ -463,6 +463,6 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 		//@ts-ignore Access private constructor.
 		return new SymmetricCryptor(cryptors, decoder, encoder);
 	}
-	throw new Error(`Argument \`input\` is not defined!`);
+	throw new Error(`Argument \`inputs\` is not defined!`);
 }
 export default createSymmetricCryptor;

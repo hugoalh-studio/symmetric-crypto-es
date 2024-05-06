@@ -23,7 +23,7 @@
 
 | **Versions** | **Release Date** | **Long Term Support Date** | **End Of Life Date** |
 |:-:|:-:|:-:|:-:|
-| v4.X.X | *Unknown* | *Unknown* | *Unknown* |
+| v4.X.X | 2024-05-06 | *Unknown* | *Unknown* |
 | v3.X.X | 2024-01-11 | 2024-01-11 | *Unknown* |
 | v2.X.X | 2022-09-22 | 2022-10-15 | 2024-03-01 |
 
