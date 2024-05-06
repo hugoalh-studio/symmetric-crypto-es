@@ -1,3 +1,4 @@
+import { decodeAscii85, encodeAscii85 } from "jsr:@std/encoding@0.224.0/ascii85";
 import { readFile as nodejsReadFile, writeFile as nodejsWriteFile } from "node:fs/promises";
 /**
  * Enum of the algorithm of the symmetric cryptor.
@@ -425,9 +426,8 @@ export async function createSymmetricCryptor(input: SymmetricCryptorKeyInput, op
  */
 export async function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
 export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | SymmetricCryptorKeyType | (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options: SymmetricCryptorOptions = {}): Promise<SymmetricCryptor> {
-	const { decoder, encoder } = await (async () => {
+	const { decoder, encoder } = (() => {
 		if (typeof options.decoder === "undefined" && typeof options.encoder === "undefined") {
-			const { decodeAscii85, encodeAscii85 } = await import("jsr:@std/encoding@0.224.0/ascii85");
 			return {
 				decoder: decodeAscii85 as SymmetricCryptorCipherTextDecoder,
 				encoder: encodeAscii85 as SymmetricCryptorCipherTextEncoder
