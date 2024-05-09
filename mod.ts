@@ -102,7 +102,7 @@ export class SymmetricCryptor {
 					decryptParameterData = storage.slice(12);
 					break;
 				default:
-					throw new Error(`\`${algorithm}\` is not a valid crypto algorithm! (How did you get to here?)`);
+					throw new Error(`\`${algorithm}\` is not a symmetric crypto algorithm which able to process! How did you get to here?`);
 			}
 			storage = new Uint8Array(await crypto.subtle.decrypt(decryptParameterAlgorithm, key, decryptParameterData));
 		}
@@ -253,7 +253,7 @@ export class SymmetricCryptor {
 					};
 					break;
 				default:
-					throw new Error(`\`${algorithm}\` is not a valid crypto algorithm! (How did you get to here?)`);
+					throw new Error(`\`${algorithm}\` is not a symmetric crypto algorithm which can be processed! How did you get to here?`);
 			}
 			storage = Uint8Array.from([...token, ...new Uint8Array(await crypto.subtle.encrypt(encryptParameterAlgorithm, key, storage))]);
 		}
@@ -376,7 +376,7 @@ async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCrypt
 	} else {
 		const algorithmResolve: `${SymmetricCryptorAlgorithm}` | undefined = SymmetricCryptorAlgorithm[input.algorithm ?? "AES-CBC"];
 		if (typeof algorithmResolve === "undefined") {
-			throw new RangeError(`\`${input.algorithm}\` is not a valid symmetric cryptor algorithm! Only accept these values: ${Array.from(new Set<string>(Object.keys(SymmetricCryptorAlgorithm).sort()).values()).join(", ")}`);
+			throw new RangeError(`\`${input.algorithm}\` is not a valid symmetric crypto algorithm! Only accept these values: ${Array.from(new Set<string>(Object.keys(SymmetricCryptorAlgorithm).sort()).values()).join(", ")}`);
 		}
 		algorithm = algorithmResolve;
 		key = input.key;
@@ -439,7 +439,7 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 				encoder: options.encoder
 			};
 		}
-		throw new ReferenceError(`Arguments \`options.decoder\` and \`options.encoder\` are not defined or undefined!`);
+		throw new ReferenceError(`Arguments \`options.decoder\` and \`options.encoder\` are not all defined or all undefined!`);
 	})();
 	const cryptors: SymmetricCryptorCryptor[] = [];
 	if (Array.isArray(param0)) {
@@ -463,6 +463,6 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 		//@ts-ignore Access private constructor.
 		return new SymmetricCryptor(cryptors, decoder, encoder);
 	}
-	throw new Error(`Argument \`inputs\` is not defined!`);
+	throw new ReferenceError(`Argument \`inputs\` is not defined!`);
 }
 export default createSymmetricCryptor;
