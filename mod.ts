@@ -253,7 +253,7 @@ export class SymmetricCryptor {
 					};
 					break;
 				default:
-					throw new Error(`\`${algorithm}\` is not a symmetric crypto algorithm which can be processed! How did you get to here?`);
+					throw new Error(`\`${algorithm}\` is not a symmetric crypto algorithm which able to process! How did you get to here?`);
 			}
 			storage = Uint8Array.from([...token, ...new Uint8Array(await crypto.subtle.encrypt(encryptParameterAlgorithm, key, storage))]);
 		}
@@ -439,7 +439,7 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 				encoder: options.encoder
 			};
 		}
-		throw new ReferenceError(`Arguments \`options.decoder\` and \`options.encoder\` are not all defined or all undefined!`);
+		throw new ReferenceError(`Parameters \`options.decoder\` and \`options.encoder\` are not all defined or all undefined!`);
 	})();
 	const cryptors: SymmetricCryptorCryptor[] = [];
 	if (Array.isArray(param0)) {
@@ -452,7 +452,7 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 			cryptors.push(cryptor);
 		} else {
 			if (!(Number.isSafeInteger(options.times) && options.times >= 1)) {
-				throw new TypeError(`Argument \`options.times\` is not a number which is integer, safe, and >= 1!`);
+				throw new TypeError(`\`${options.times}\` (parameter \`options.times\`) is not a number which is integer, safe, and >= 1!`);
 			}
 			for (let index = 0; index < options.times; index += 1) {
 				cryptors.push(cryptor);
@@ -463,6 +463,6 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 		//@ts-ignore Access private constructor.
 		return new SymmetricCryptor(cryptors, decoder, encoder);
 	}
-	throw new ReferenceError(`Argument \`inputs\` is not defined!`);
+	throw new ReferenceError(`Parameter \`inputs\` is not defined!`);
 }
 export default createSymmetricCryptor;
