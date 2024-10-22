@@ -25,7 +25,7 @@ export type SymmetricCryptorKeyType = string | ArrayBuffer | DataView | Uint8Arr
 export interface SymmetricCryptorKeyInput {
 	/**
 	 * Algorithm of the symmetric cryptor.
-	 * @default "AES-CBC"
+	 * @default {"AES-CBC"}
 	 */
 	algorithm?: SymmetricCryptorAlgorithm | keyof typeof SymmetricCryptorAlgorithm;
 	/**
