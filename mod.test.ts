@@ -1,4 +1,4 @@
-import { assertEquals } from "STD/assert/assert-equals";
+import { assertEquals } from "STD/assert/equals";
 import { createSymmetricCryptor } from "./mod.ts";
 const sample1String = "qwertyuiop";
 const sample1UInt8 = new TextEncoder().encode(sample1String);

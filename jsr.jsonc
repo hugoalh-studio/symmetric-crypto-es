@@ -1,11 +1,12 @@
 {
 	"$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
 	"name": "@hugoalh/symmetric-crypto",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"exports": {
 		".": "./mod.ts"
 	},
-	"imports": { },
+	"imports": {
+	},
 	"publish": {
 		"exclude": [
 			"**/*_bench.ts",
@@ -20,8 +21,8 @@
 			"**/bench.tsx",
 			"**/test.ts",
 			"**/test.tsx",
-			".dnt.ts",
-			"npm/**"
+			"npm/**",
+			".dnt.ts"
 		],
 		"include": [
 			"**/*.json",
