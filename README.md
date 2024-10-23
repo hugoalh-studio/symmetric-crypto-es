@@ -58,12 +58,10 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   class SymmetricCryptor {
     decrypt(data: string): Promise<string>;
     decrypt(data: Uint8Array): Promise<Uint8Array>;
-    decryptFile(filePath: string | URL): Promise<this>;
-    decryptFiles(...filesPath: (string | URL)[]): Promise<this>;
+    decryptFile(...filesPath: (string | URL)[]): Promise<this>;
     encrypt(data: string): Promise<string>;
     encrypt(data: Uint8Array): Promise<Uint8Array>;
-    encryptFile(filePath: string | URL): Promise<this>;
-    encryptFiles(...filesPath: (string | URL)[]): Promise<this>;
+    encryptFile(...filesPath: (string | URL)[]): Promise<this>;
   }
   ```
 - ```ts
