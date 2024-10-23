@@ -26,7 +26,7 @@ jobs:
           Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "value=$($DenoInfo.denoDir)" -Confirm:$False -Encoding 'UTF8NoBOM'
       - name: "Restore Deno Cache"
         id: "deno-cache-restore"
-        uses: "actions/cache/restore@v4.1.1"
+        uses: "actions/cache/restore@v4.1.2"
         with:
           key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           restore-keys: |-
@@ -79,7 +79,7 @@ jobs:
           include-hidden-files: "true"
       - name: "Save Deno Cache"
         if: "${{!cancelled() && steps.deno-cache-restore.outcome == 'success'}}"
-        uses: "actions/cache/save@v4.1.1"
+        uses: "actions/cache/save@v4.1.2"
         with:
           key: "Deno/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           path: "${{steps.deno-cache-path.outputs.value}}"
@@ -120,7 +120,7 @@ jobs:
           Add-Content -LiteralPath $Env:GITHUB_OUTPUT -Value "value=$($NpmCachePath)" -Confirm:$False -Encoding 'UTF8NoBOM'
       - name: "Restore NPM Cache"
         id: "npm-cache-restore"
-        uses: "actions/cache/restore@v4.1.1"
+        uses: "actions/cache/restore@v4.1.2"
         with:
           key: "NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           restore-keys: |-
@@ -228,7 +228,7 @@ jobs:
           gh release upload '${{github.event.release.tag_name}}' '${{steps.metadata.outputs.ballname}}' --clobber --repo $Env:GITHUB_REPOSITORY
       - name: "Save NPM Cache"
         if: "${{!cancelled() && steps.npm-cache-restore.outcome == 'success'}}"
-        uses: "actions/cache/save@v4.1.1"
+        uses: "actions/cache/save@v4.1.2"
         with:
           key: "NPM/${{runner.os}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}"
           path: "${{steps.npm-cache-path.outputs.value}}"
