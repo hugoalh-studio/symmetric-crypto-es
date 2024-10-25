@@ -18,15 +18,15 @@ await invokeDenoNodeJSTransformer({
 			"crypto",
 			"symmetric"
 		],
-		homepage: "https://github.com/hugoalh-studio/symmetric-crypto-es#readme",
+		homepage: "https://github.com/hugoalh/symmetric-crypto-es#readme",
 		bugs: {
-			url: "https://github.com/hugoalh-studio/symmetric-crypto-es/issues"
+			url: "https://github.com/hugoalh/symmetric-crypto-es/issues"
 		},
 		license: "MIT",
 		author: "hugoalh",
 		repository: {
 			type: "git",
-			url: "git+https://github.com/hugoalh-studio/symmetric-crypto-es.git"
+			url: "git+https://github.com/hugoalh/symmetric-crypto-es.git"
 		},
 		scripts: {
 		},

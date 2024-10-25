@@ -4,8 +4,8 @@ title: "Symmetric Crypto (ES)"
 message: "If you use this software, please cite it using the metadata from this file."
 type: "software"
 authors:
-  - name: "hugoalh Studio"
-repository-code: "https://github.com/hugoalh-studio/symmetric-crypto-es"
+  - name: "hugoalh"
+repository-code: "https://github.com/hugoalh/symmetric-crypto-es"
 keywords:
   - "crypto"
   - "es"
