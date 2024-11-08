@@ -6,7 +6,6 @@
 |:-:|:-:|:-:|:-:|
 | v4.X.X | 2024-05-06 | 2024-09-01 | *Unknown* |
 | v3.X.X | 2024-01-11 | 2024-01-11 | 2025-01-31 |
-| v2.X.X | 2022-09-22 | 2022-10-15 | 2024-03-01 |
 
 > [!NOTE]
 > - The date format is according to the specification ISO 8601.
