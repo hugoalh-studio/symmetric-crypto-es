@@ -52,7 +52,7 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
 
 *This module does not require any runtime permission.*
 
-## 🧩 APIs
+## 🧩 APIs (Excerpt)
 
 - ```ts
   class SymmetricCryptor {
@@ -75,37 +75,19 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   }
   ```
 - ```ts
-  function createSymmetricCryptor(key: SymmetricCryptorKeyType, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
-  function createSymmetricCryptor(input: SymmetricCryptorKeyInput, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
-  function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
+  function createSymmetricCryptor(key: SymmetricCryptorKeyInput | SymmetricCryptorKeyType, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
+  function createSymmetricCryptor(keys: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
   ```
 - ```ts
   interface SymmetricCryptorOptions {
-    /**
-     * Decoder of the stringify cipher text, must also define and exchangeable with property `encoder`. Default to ASCII85 decoder.
-     */
     decoder?: SymmetricCryptorCipherTextDecoder;
-    /**
-     * Encoder of the stringify cipher text, must also define and exchangeable with property `decoder`. Default to ASCII85 encoder.
-     */
     encoder?: SymmetricCryptorCipherTextEncoder;
-    /**
-     * Times of the crypto.
-     * @default 1
-     */
     times?: number;
   }
   ```
 - ```ts
   interface SymmetricCryptorKeyInput {
-    /**
-     * Algorithm of the symmetric cryptor.
-     * @default "AES-CBC"
-     */
     algorithm?: SymmetricCryptorAlgorithm | keyof typeof SymmetricCryptorAlgorithm;
-    /**
-     * Key of the symmetric cryptor.
-     */
     key: SymmetricCryptorKeyType;
   }
   ```
@@ -120,7 +102,7 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   ```
 
 > [!NOTE]
-> - For the prettier documentation, can visit via:
+> - For the full or prettier documentation, can visit via:
 >   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/documentation_generator/)
 >   - [JSR](https://jsr.io/@hugoalh/symmetric-crypto)
 
