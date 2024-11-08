@@ -58,7 +58,7 @@ export class SymmetricCryptor {
 	}
 	/**
 	 * Decrypt data.
-	 * @param {string} data Data encoded with ASCII85 that need to symmetric decrypt.
+	 * @param {string} data Data that need to symmetric decrypt.
 	 * @returns {Promise<string>} A decrypted data.
 	 */
 	async decrypt(data: string): Promise<string>;
@@ -72,19 +72,12 @@ export class SymmetricCryptor {
 		if (data.length === 0) {
 			return data;
 		}
-		let resultIsString = false;
-		let storage: Uint8Array;
-		if (typeof data === "string") {
-			resultIsString = true;
-			storage = this.#decoder(data);
-		} else {
-			storage = data;
-		}
-		for (let index = this.#cryptors.length - 1; index >= 0; index -= 1) {
-			const {
-				algorithm,
-				key
-			}: SymmetricCryptorCryptor = this.#cryptors[index];
+		const resultIsString: boolean = typeof data === "string";
+		let storage: Uint8Array = resultIsString ? this.#decoder(data as string) : (data as Uint8Array);
+		for (const {
+			algorithm,
+			key
+		} of this.#cryptors.toReversed()) {
 			let decryptParameterAlgorithm: AlgorithmIdentifier | AesCbcParams | AesCtrParams | AesGcmParams;
 			let decryptParameterData: BufferSource;
 			switch (algorithm) {
@@ -127,6 +120,11 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
+	 * > - NodeJS (>= v20.9.0) 🧪
+	 * >   - File System - Read (`fs-read`)
+	 * >     - *Resources*
+	 * >   - File System - Write (`fs-write`)
+	 * >     - *Resources*
 	 * @param {...(string | URL)} filesPath Path of the files.
 	 * @returns {Promise<this>}
 	 */
@@ -159,15 +157,18 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
-	 * @param {...(string | URL)} filesPath Path of the files.
-	 * @returns {Promise<this>}
+	 * > - NodeJS (>= v20.9.0) 🧪
+	 * >   - File System - Read (`fs-read`)
+	 * >     - *Resources*
+	 * >   - File System - Write (`fs-write`)
+	 * >     - *Resources*
 	 * @deprecated Migrate to {@linkcode SymmetricCryptor.decryptFile}.
 	 */
 	decryptFiles: (...filesPath: (string | URL)[]) => Promise<this> = this.decryptFile;
 	/**
 	 * Encrypt data.
 	 * @param {string} data Data that need to symmetric encrypt.
-	 * @returns {Promise<string>} An encrypted data encoded with ASCII85.
+	 * @returns {Promise<string>} An encrypted data.
 	 */
 	async encrypt(data: string): Promise<string>;
 	/**
@@ -180,19 +181,12 @@ export class SymmetricCryptor {
 		if (data.length === 0) {
 			return data;
 		}
-		let resultIsString = false;
-		let storage: Uint8Array;
-		if (typeof data === "string") {
-			resultIsString = true;
-			storage = new TextEncoder().encode(data);
-		} else {
-			storage = data;
-		}
-		for (let index = 0; index < this.#cryptors.length; index += 1) {
-			const {
-				algorithm,
-				key
-			}: SymmetricCryptorCryptor = this.#cryptors[index];
+		const resultIsString: boolean = typeof data === "string";
+		let storage: Uint8Array = resultIsString ? new TextEncoder().encode(data as string) : (data as Uint8Array);
+		for (const {
+			algorithm,
+			key
+		} of this.#cryptors) {
 			let encryptParameterAlgorithm: AlgorithmIdentifier | AesCbcParams | AesCtrParams | AesGcmParams;
 			let token: Uint8Array;
 			switch (algorithm) {
@@ -235,6 +229,11 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
+	 * > - NodeJS (>= v20.9.0) 🧪
+	 * >   - File System - Read (`fs-read`)
+	 * >     - *Resources*
+	 * >   - File System - Write (`fs-write`)
+	 * >     - *Resources*
 	 * @param {...(string | URL)} filesPath Path of the files.
 	 * @returns {Promise<this>}
 	 */
@@ -267,8 +266,11 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
-	 * @param {...(string | URL)} filesPath Path of the files.
-	 * @returns {Promise<this>}
+	 * > - NodeJS (>= v20.9.0) 🧪
+	 * >   - File System - Read (`fs-read`)
+	 * >     - *Resources*
+	 * >   - File System - Write (`fs-write`)
+	 * >     - *Resources*
 	 * @deprecated Migrate to {@linkcode SymmetricCryptor.encryptFile}.
 	 */
 	encryptFiles: (...filesPath: (string | URL)[]) => Promise<this> = this.encryptFile;
@@ -295,7 +297,7 @@ async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCrypt
 	} else {
 		const algorithmResolve: `${SymmetricCryptorAlgorithm}` | undefined = SymmetricCryptorAlgorithm[input.algorithm ?? "AES-CBC"];
 		if (typeof algorithmResolve === "undefined") {
-			throw new RangeError(`\`${input.algorithm}\` is not a valid symmetric crypto algorithm! Only accept these values: ${Array.from(new Set<string>(Object.keys(SymmetricCryptorAlgorithm).sort()).values()).join(", ")}`);
+			throw new RangeError(`\`${input.algorithm}\` is not a valid symmetric crypto algorithm! Only accept these values: ${Array.from(new Set<string>(Object.keys(SymmetricCryptorAlgorithm)).values()).sort().join(", ")}`);
 		}
 		algorithm = algorithmResolve;
 		key = input.key;
@@ -305,16 +307,13 @@ async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCrypt
 		key: await crypto.subtle.importKey("raw", await crypto.subtle.digest("SHA-256", (typeof key === "string") ? new TextEncoder().encode(key) : key), { name: algorithm }, false, ["decrypt", "encrypt"])
 	};
 }
-/**
- * Options of the class {@linkcode SymmetricCryptor}.
- */
 export interface SymmetricCryptorOptions {
 	/**
-	 * Decoder of the stringify cipher text, must also define and exchangeable with property {@linkcode encoder}. Default to ASCII85 decoder.
+	 * Decoder of the stringify cipher text, must also define and exchangeable with property {@linkcode encoder}. Default to use ASCII85 decoder.
 	 */
 	decoder?: SymmetricCryptorCipherTextDecoder;
 	/**
-	 * Encoder of the stringify cipher text, must also define and exchangeable with property {@linkcode decoder}. Default to ASCII85 encoder.
+	 * Encoder of the stringify cipher text, must also define and exchangeable with property {@linkcode decoder}. Default to use ASCII85 encoder.
 	 */
 	encoder?: SymmetricCryptorCipherTextEncoder;
 	/**
@@ -325,44 +324,27 @@ export interface SymmetricCryptorOptions {
 }
 /**
  * Create an instance of the class {@linkcode SymmetricCryptor}.
- * @param {SymmetricCryptorKeyType} key Key of the symmetric cryptor.
- * @param {SymmetricCryptorOptions} [options] Options of the symmetric cryptor.
+ * @param {SymmetricCryptorKeyInput | SymmetricCryptorKeyType} key Key of the symmetric cryptor.
+ * @param {SymmetricCryptorOptions} [options={}] Options of the symmetric cryptor.
  * @returns {Promise<SymmetricCryptor>} An instance of the class {@linkcode SymmetricCryptor}.
  */
-export async function createSymmetricCryptor(key: SymmetricCryptorKeyType, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
+export async function createSymmetricCryptor(key: SymmetricCryptorKeyInput | SymmetricCryptorKeyType, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
 /**
  * Create an instance of the class {@linkcode SymmetricCryptor}.
- * @param {SymmetricCryptorKeyInput} input Input of the key of the symmetric cryptor.
- * @param {SymmetricCryptorOptions} [options] Options of the symmetric cryptor.
+ * @param {(SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[]} keys Keys of the symmetric cryptor.
+ * @param {Omit<SymmetricCryptorOptions, "times">} [options={}] Options of the symmetric cryptor.
  * @returns {Promise<SymmetricCryptor>} An instance of the class {@linkcode SymmetricCryptor}.
  */
-export async function createSymmetricCryptor(input: SymmetricCryptorKeyInput, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
-/**
- * Create an instance of the class {@linkcode SymmetricCryptor}.
- * @param {(SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[]} inputs Inputs of the key of the symmetric cryptor.
- * @param {Omit<SymmetricCryptorOptions, "times">} [options] Options of the symmetric cryptor.
- * @returns {Promise<SymmetricCryptor>} An instance of the class {@linkcode SymmetricCryptor}.
- */
-export async function createSymmetricCryptor(inputs: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
+export async function createSymmetricCryptor(keys: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
 export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | SymmetricCryptorKeyType | (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options: SymmetricCryptorOptions = {}): Promise<SymmetricCryptor> {
-	const {
-		decoder,
-		encoder
-	} = (() => {
-		if (typeof options.decoder === "undefined" && typeof options.encoder === "undefined") {
-			return {
-				decoder: decodeAscii85 as SymmetricCryptorCipherTextDecoder,
-				encoder: encodeAscii85 as SymmetricCryptorCipherTextEncoder
-			};
-		}
-		if (typeof options.decoder !== "undefined" && typeof options.encoder !== "undefined") {
-			return {
-				decoder: options.decoder,
-				encoder: options.encoder
-			};
-		}
+	if (!(
+		(typeof options.decoder !== "undefined" && typeof options.encoder !== "undefined") ||
+		(typeof options.decoder === "undefined" && typeof options.encoder === "undefined")
+	)) {
 		throw new ReferenceError(`Parameters \`options.decoder\` and \`options.encoder\` are not all defined or all undefined!`);
-	})();
+	}
+	const decoder: SymmetricCryptorCipherTextDecoder = options.decoder ?? decodeAscii85;
+	const encoder: SymmetricCryptorCipherTextEncoder = options.encoder ?? encodeAscii85;
 	const cryptors: SymmetricCryptorCryptor[] = [];
 	if (Array.isArray(param0)) {
 		cryptors.push(...await Promise.all(param0.map((input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorCryptor> => {
@@ -376,7 +358,7 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 			if (!(Number.isSafeInteger(options.times) && options.times >= 1)) {
 				throw new TypeError(`\`${options.times}\` (parameter \`options.times\`) is not a number which is integer, safe, and >= 1!`);
 			}
-			for (let index = 0; index < options.times; index += 1) {
+			for (let index: number = 0; index < options.times; index += 1) {
 				cryptors.push(cryptor);
 			}
 		}
@@ -385,6 +367,6 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 		//@ts-ignore Access private constructor.
 		return new SymmetricCryptor(cryptors, decoder, encoder);
 	}
-	throw new ReferenceError(`Parameter \`inputs\` is not defined!`);
+	throw new ReferenceError(`Parameter \`keys\` is not defined!`);
 }
 export default createSymmetricCryptor;
