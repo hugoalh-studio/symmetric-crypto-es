@@ -96,7 +96,7 @@ Deno.test("String AES-GCM 1", { permissions: "none" }, async () => {
 	const decrypted = await cryptor.decrypt(encrypted);
 	assertEquals(decrypted, sample1String);
 });
-Deno.test("String AES-GCM 1", { permissions: "none" }, async () => {
+Deno.test("String AES-GCM 100", { permissions: "none" }, async () => {
 	const cryptor = await createSymmetricCryptor({
 		algorithm: "AES-GCM",
 		key: "<PassWord123456>!!"
@@ -116,7 +116,7 @@ Deno.test("UInt8 AES-GCM 1", { permissions: "none" }, async () => {
 	const decrypted = await cryptor.decrypt(encrypted);
 	assertEquals(decrypted, sample1UInt8);
 });
-Deno.test("UInt8 AES-GCM 1", { permissions: "none" }, async () => {
+Deno.test("UInt8 AES-GCM 100", { permissions: "none" }, async () => {
 	const cryptor = await createSymmetricCryptor({
 		algorithm: "AES-GCM",
 		key: "<PassWord123456>!!"
