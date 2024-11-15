@@ -33,10 +33,6 @@ export interface SymmetricCryptorKeyInput {
 	 */
 	key: SymmetricCryptorKeyType;
 }
-function shimReverseArray<T>(items: T[]): T[] {
-	const itemsClone: T[] = [...items];
-	return itemsClone.reverse();
-}
 interface SymmetricCryptorInternalCryptor {
 	algorithm: `${SymmetricCryptorAlgorithm}`;
 	key: CryptoKey;
@@ -81,7 +77,7 @@ export class SymmetricCryptor {
 		for (const {
 			algorithm,
 			key
-		} of shimReverseArray(this.#cryptors)) {
+		} of this.#cryptors.toReversed()) {
 			let decryptParameterAlgorithm: AlgorithmIdentifier | AesCbcParams | AesCtrParams | AesGcmParams;
 			let decryptParameterData: BufferSource;
 			switch (algorithm) {
@@ -124,7 +120,7 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
+	 * > - NodeJS
 	 * >   - File System - Read (`fs-read`)
 	 * >     - *Resources*
 	 * >   - File System - Write (`fs-write`)
@@ -161,7 +157,7 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
+	 * > - NodeJS
 	 * >   - File System - Read (`fs-read`)
 	 * >     - *Resources*
 	 * >   - File System - Write (`fs-write`)
@@ -233,7 +229,7 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
+	 * > - NodeJS
 	 * >   - File System - Read (`fs-read`)
 	 * >     - *Resources*
 	 * >   - File System - Write (`fs-write`)
@@ -270,7 +266,7 @@ export class SymmetricCryptor {
 	 * >     - *Resources*
 	 * >   - File System - Write (`write`)
 	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
+	 * > - NodeJS
 	 * >   - File System - Read (`fs-read`)
 	 * >     - *Resources*
 	 * >   - File System - Write (`fs-write`)

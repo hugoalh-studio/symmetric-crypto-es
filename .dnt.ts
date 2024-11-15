@@ -31,7 +31,7 @@ await invokeDenoNodeJSTransformer({
 		scripts: {
 		},
 		engines: {
-			node: ">=16.13.0"
+			node: ">=20.9.0"
 		},
 		private: false,
 		publishConfig: {
