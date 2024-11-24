@@ -55,7 +55,7 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
 - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
   - *Resources* (Optional)
 
-## 🧩 APIs (Excerpt)
+## 🧩 APIs
 
 - ```ts
   class SymmetricCryptor {
