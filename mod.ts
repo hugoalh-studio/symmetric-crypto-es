@@ -117,18 +117,12 @@ export class SymmetricCryptor {
 	/**
 	 * Decrypt files in place. All of the files will not decrypted if any file fail to decrypt.
 	 * 
-	 * > **🛡️ Require Runtime Permissions**
+	 * > **🛡️ Runtime Permissions**
 	 * > 
-	 * > - Deno
-	 * >   - File System - Read (`read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`write`)
-	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
-	 * >   - File System - Read (`fs-read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`fs-write`)
-	 * >     - *Resources*
+	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+	 * >   - *Resources*
+	 * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+	 * >   - *Resources*
 	 * @param {...(string | URL)} filesPath Path of the files.
 	 * @returns {Promise<this>}
 	 */
@@ -154,18 +148,12 @@ export class SymmetricCryptor {
 	/**
 	 * Decrypt files in place. All of the files will not decrypted if any file fail to decrypt.
 	 * 
-	 * > **🛡️ Require Runtime Permissions**
+	 * > **🛡️ Runtime Permissions**
 	 * > 
-	 * > - Deno
-	 * >   - File System - Read (`read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`write`)
-	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
-	 * >   - File System - Read (`fs-read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`fs-write`)
-	 * >     - *Resources*
+	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+	 * >   - *Resources*
+	 * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+	 * >   - *Resources*
 	 * @deprecated Migrate to {@linkcode SymmetricCryptor.decryptFile}.
 	 */
 	decryptFiles: (...filesPath: (string | URL)[]) => Promise<this> = this.decryptFile;
@@ -226,18 +214,12 @@ export class SymmetricCryptor {
 	/**
 	 * Encrypt files in place. All of the files will not encrypted if any file fail to encrypt.
 	 * 
-	 * > **🛡️ Require Runtime Permissions**
+	 * > **🛡️ Runtime Permissions**
 	 * > 
-	 * > - Deno
-	 * >   - File System - Read (`read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`write`)
-	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
-	 * >   - File System - Read (`fs-read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`fs-write`)
-	 * >     - *Resources*
+	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+	 * >   - *Resources*
+	 * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+	 * >   - *Resources*
 	 * @param {...(string | URL)} filesPath Path of the files.
 	 * @returns {Promise<this>}
 	 */
@@ -263,18 +245,12 @@ export class SymmetricCryptor {
 	/**
 	 * Encrypt files in place. All of the files will not encrypted if any file fail to encrypt.
 	 * 
-	 * > **🛡️ Require Runtime Permissions**
+	 * > **🛡️ Runtime Permissions**
 	 * > 
-	 * > - Deno
-	 * >   - File System - Read (`read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`write`)
-	 * >     - *Resources*
-	 * > - NodeJS (>= v20.9.0) 🧪
-	 * >   - File System - Read (`fs-read`)
-	 * >     - *Resources*
-	 * >   - File System - Write (`fs-write`)
-	 * >     - *Resources*
+	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+	 * >   - *Resources*
+	 * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+	 * >   - *Resources*
 	 * @deprecated Migrate to {@linkcode SymmetricCryptor.encryptFile}.
 	 */
 	encryptFiles: (...filesPath: (string | URL)[]) => Promise<this> = this.encryptFile;
