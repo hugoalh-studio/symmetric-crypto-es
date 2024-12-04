@@ -33,9 +33,8 @@ export interface SymmetricCryptorKeyInput {
 	 */
 	key: SymmetricCryptorKeyType;
 }
-function shimReverseArray<T>(items: T[]): T[] {
-	const itemsClone: T[] = [...items];
-	return itemsClone.reverse();
+function shimReverseArray<T>(item: T[]): T[] {
+	return [...item].reverse();
 }
 interface SymmetricCryptorInternalCryptor {
 	algorithm: `${SymmetricCryptorAlgorithm}`;
