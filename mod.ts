@@ -59,24 +59,11 @@ export class SymmetricCryptor {
 		this.#decoder = decoder;
 		this.#encoder = encoder;
 	}
-	/**
-	 * Decrypt data.
-	 * @param {string} data Data that need to symmetric decrypt.
-	 * @returns {Promise<string>} A decrypted data.
-	 */
-	async decrypt(data: string): Promise<string>;
-	/**
-	 * Decrypt data.
-	 * @param {Uint8Array} data Data that need to symmetric decrypt.
-	 * @returns {Promise<Uint8Array>} A decrypted data.
-	 */
-	async decrypt(data: Uint8Array): Promise<Uint8Array>;
-	async decrypt(data: string | Uint8Array): Promise<string | Uint8Array> {
+	async #decrypt(data: Uint8Array): Promise<Uint8Array> {
 		if (data.length === 0) {
 			return data;
 		}
-		const resultIsString: boolean = typeof data === "string";
-		let storage: Uint8Array = resultIsString ? this.#decoder(data as string) : (data as Uint8Array);
+		let storage: Uint8Array = new Uint8Array(data);
 		for (const {
 			algorithm,
 			key
@@ -111,7 +98,25 @@ export class SymmetricCryptor {
 			}
 			storage = new Uint8Array(await crypto.subtle.decrypt(decryptParameterAlgorithm, key, decryptParameterData));
 		}
-		return (resultIsString ? new TextDecoder().decode(storage) : storage);
+		return storage;
+	}
+	/**
+	 * Decrypt data.
+	 * @param {string} data Data that need to symmetric decrypt.
+	 * @returns {Promise<string>} A decrypted data.
+	 */
+	async decrypt(data: string): Promise<string>;
+	/**
+	 * Decrypt data.
+	 * @param {Uint8Array} data Data that need to symmetric decrypt.
+	 * @returns {Promise<Uint8Array>} A decrypted data.
+	 */
+	async decrypt(data: Uint8Array): Promise<Uint8Array>;
+	async decrypt(data: string | Uint8Array): Promise<string | Uint8Array> {
+		if (typeof data === "string") {
+			return new TextDecoder().decode(await this.#decrypt(this.#decoder(data)));
+		}
+		return this.#decrypt(data);
 	}
 	/**
 	 * Decrypt files in place. All of the files will not decrypted if any file fail to decrypt.
@@ -129,7 +134,7 @@ export class SymmetricCryptor {
 		const result: SymmetricCryptorInternalFileIO[] = await Promise.all(filesPath.map(async (filePath: string | URL): Promise<SymmetricCryptorInternalFileIO> => {
 			try {
 				return {
-					context: await this.decrypt(await Deno.readFile(filePath)),
+					context: await this.#decrypt(await Deno.readFile(filePath)),
 					filePath
 				};
 			} catch (error) {
@@ -156,24 +161,11 @@ export class SymmetricCryptor {
 	 * @deprecated Migrate to {@linkcode SymmetricCryptor.decryptFile}.
 	 */
 	decryptFiles: (...filesPath: (string | URL)[]) => Promise<this> = this.decryptFile;
-	/**
-	 * Encrypt data.
-	 * @param {string} data Data that need to symmetric encrypt.
-	 * @returns {Promise<string>} An encrypted data.
-	 */
-	async encrypt(data: string): Promise<string>;
-	/**
-	 * Encrypt data.
-	 * @param {Uint8Array} data Data that need to symmetric encrypt.
-	 * @returns {Promise<Uint8Array>} An encrypted data.
-	 */
-	async encrypt(data: Uint8Array): Promise<Uint8Array>;
-	async encrypt(data: string | Uint8Array): Promise<string | Uint8Array> {
+	async #encrypt(data: Uint8Array): Promise<Uint8Array> {
 		if (data.length === 0) {
 			return data;
 		}
-		const resultIsString: boolean = typeof data === "string";
-		let storage: Uint8Array = resultIsString ? new TextEncoder().encode(data as string) : (data as Uint8Array);
+		let storage: Uint8Array = new Uint8Array(data);
 		for (const {
 			algorithm,
 			key
@@ -208,7 +200,25 @@ export class SymmetricCryptor {
 			}
 			storage = Uint8Array.from([...token, ...new Uint8Array(await crypto.subtle.encrypt(encryptParameterAlgorithm, key, storage))]);
 		}
-		return (resultIsString ? this.#encoder(storage) : storage);
+		return storage;
+	}
+	/**
+	 * Encrypt data.
+	 * @param {string} data Data that need to symmetric encrypt.
+	 * @returns {Promise<string>} An encrypted data.
+	 */
+	async encrypt(data: string): Promise<string>;
+	/**
+	 * Encrypt data.
+	 * @param {Uint8Array} data Data that need to symmetric encrypt.
+	 * @returns {Promise<Uint8Array>} An encrypted data.
+	 */
+	async encrypt(data: Uint8Array): Promise<Uint8Array>;
+	async encrypt(data: string | Uint8Array): Promise<string | Uint8Array> {
+		if (typeof data === "string") {
+			return this.#encoder(await this.#encrypt(new TextEncoder().encode(data)));
+		}
+		return this.#encrypt(data);
 	}
 	/**
 	 * Encrypt files in place. All of the files will not encrypted if any file fail to encrypt.
@@ -226,7 +236,7 @@ export class SymmetricCryptor {
 		const result: SymmetricCryptorInternalFileIO[] = await Promise.all(filesPath.map(async (filePath: string | URL): Promise<SymmetricCryptorInternalFileIO> => {
 			try {
 				return {
-					context: await this.encrypt(await Deno.readFile(filePath)),
+					context: await this.#encrypt(await Deno.readFile(filePath)),
 					filePath
 				};
 			} catch (error) {
