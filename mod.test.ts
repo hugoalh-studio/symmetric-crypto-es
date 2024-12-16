@@ -1,5 +1,9 @@
 import { assertEquals } from "STD/assert/equals";
 import { createSymmetricCryptor } from "./mod.ts";
+const ignore = !(
+	Deno.args.includes("--force") ||
+	Deno.env.get("GITHUB_ACTIONS") === "true"
+);
 const sample1String = "qwertyuiop";
 const sample1UInt8 = new TextEncoder().encode(sample1String);
 const sample2String = `Accusam lorem nisl amet feugait commodo liber et. Diam sed amet et kasd et id lorem accusam voluptua elitr eirmod et justo diam clita consequat consetetur. Odio nonumy sadipscing dolor minim voluptua gubergren dolore vulputate vero dolor at sed lorem vero stet. Accusam justo ut lorem invidunt justo invidunt lobortis nobis. Erat duo ipsum sit eirmod lorem stet dolore dolor ipsum. Ipsum consetetur sit elitr et sit eum amet dolor et ut sanctus praesent sed et sed et.
@@ -171,6 +175,7 @@ Deno.test("UInt8 Large AES-CBC,AES-CTR,AES-GCM", { permissions: "none" }, async 
 	assertEquals(decrypted, sample2UInt8);
 });
 Deno.test("File Large AES-CBC,AES-CTR,AES-GCM", {
+	ignore,
 	permissions: {
 		read: true,
 		write: true
