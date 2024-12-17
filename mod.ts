@@ -13,8 +13,8 @@ export enum SymmetricCryptorAlgorithm {
 	AESCTR = "AES-CTR",
 	AESGCM = "AES-GCM"
 }
-export type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array;
-export type SymmetricCryptorCipherTextEncoder = (input: Uint8Array) => string;
+export type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array | Promise<Uint8Array>;
+export type SymmetricCryptorCipherTextEncoder = (input: Uint8Array) => string | Promise<string>;
 /**
  * Type of the key of the symmetric cryptor.
  */
@@ -33,14 +33,11 @@ export interface SymmetricCryptorKeyInput {
 	 */
 	key: SymmetricCryptorKeyType;
 }
-function shimReverseArray<T>(item: T[]): T[] {
-	return [...item].reverse();
-}
-interface SymmetricCryptorInternalCryptor {
+interface SymmetricCryptorKey {
 	algorithm: `${SymmetricCryptorAlgorithm}`;
 	key: CryptoKey;
 }
-interface SymmetricCryptorInternalFileIO {
+interface SymmetricCryptorFileIO {
 	context: Uint8Array;
 	filePath: string | URL;
 }
@@ -51,10 +48,10 @@ export class SymmetricCryptor {
 	get [Symbol.toStringTag](): string {
 		return "SymmetricCryptor";
 	}
-	#cryptors: SymmetricCryptorInternalCryptor[];
+	#cryptors: readonly SymmetricCryptorKey[];
 	#decoder: SymmetricCryptorCipherTextDecoder;
 	#encoder: SymmetricCryptorCipherTextEncoder;
-	private constructor(cryptors: SymmetricCryptorInternalCryptor[], decoder: SymmetricCryptorCipherTextDecoder, encoder: SymmetricCryptorCipherTextEncoder) {
+	private constructor(cryptors: SymmetricCryptorKey[], decoder: SymmetricCryptorCipherTextDecoder, encoder: SymmetricCryptorCipherTextEncoder) {
 		this.#cryptors = cryptors;
 		this.#decoder = decoder;
 		this.#encoder = encoder;
@@ -67,7 +64,7 @@ export class SymmetricCryptor {
 		for (const {
 			algorithm,
 			key
-		} of shimReverseArray(this.#cryptors)) {
+		} of [...this.#cryptors].reverse()) {
 			let decryptParameterAlgorithm: AlgorithmIdentifier | AesCbcParams | AesCtrParams | AesGcmParams;
 			let decryptParameterData: BufferSource;
 			switch (algorithm) {
@@ -101,25 +98,25 @@ export class SymmetricCryptor {
 		return storage;
 	}
 	/**
-	 * Decrypt data.
-	 * @param {string} data Data that need to symmetric decrypt.
-	 * @returns {Promise<string>} A decrypted data.
+	 * Decrypt the data.
+	 * @param {string} data Data that need to decrypt.
+	 * @returns {Promise<string>} The decrypted data.
 	 */
 	async decrypt(data: string): Promise<string>;
 	/**
-	 * Decrypt data.
-	 * @param {Uint8Array} data Data that need to symmetric decrypt.
-	 * @returns {Promise<Uint8Array>} A decrypted data.
+	 * Decrypt the data.
+	 * @param {Uint8Array} data Data that need to decrypt.
+	 * @returns {Promise<Uint8Array>} The decrypted data.
 	 */
 	async decrypt(data: Uint8Array): Promise<Uint8Array>;
 	async decrypt(data: string | Uint8Array): Promise<string | Uint8Array> {
 		if (typeof data === "string") {
-			return new TextDecoder().decode(await this.#decrypt(this.#decoder(data)));
+			return new TextDecoder().decode(await this.#decrypt(await this.#decoder(data)));
 		}
 		return this.#decrypt(data);
 	}
 	/**
-	 * Decrypt files in place. All of the files will not decrypted if any file fail to decrypt.
+	 * Decrypt the files in place. All of the files will not decrypted if any file fail to decrypt.
 	 * 
 	 * > **🛡️ Runtime Permissions**
 	 * > 
@@ -131,26 +128,26 @@ export class SymmetricCryptor {
 	 * @returns {Promise<this>}
 	 */
 	async decryptFile(...filesPath: (string | URL)[]): Promise<this> {
-		const result: SymmetricCryptorInternalFileIO[] = await Promise.all(filesPath.map(async (filePath: string | URL): Promise<SymmetricCryptorInternalFileIO> => {
+		const result: SymmetricCryptorFileIO[] = await Promise.all(filesPath.map(async (filePath: string | URL): Promise<SymmetricCryptorFileIO> => {
 			try {
 				return {
 					context: await this.#decrypt(await Deno.readFile(filePath)),
 					filePath
 				};
 			} catch (error) {
-				throw new Error(`Unable to decrypt file \`${filePath}\`: ${(error as Error)?.message ?? error}`);
+				throw new Error(`Unable to decrypt the file \`${filePath}\`: ${(error as Error)?.message ?? error}`);
 			}
 		}));
 		await Promise.all(result.map(({
 			context,
 			filePath
-		}: SymmetricCryptorInternalFileIO): Promise<void> => {
+		}: SymmetricCryptorFileIO): Promise<void> => {
 			return Deno.writeFile(filePath, context, { create: false });
 		}));
 		return this;
 	}
 	/**
-	 * Decrypt files in place. All of the files will not decrypted if any file fail to decrypt.
+	 * Decrypt the files in place. All of the files will not decrypted if any file fail to decrypt.
 	 * 
 	 * > **🛡️ Runtime Permissions**
 	 * > 
@@ -203,15 +200,15 @@ export class SymmetricCryptor {
 		return storage;
 	}
 	/**
-	 * Encrypt data.
-	 * @param {string} data Data that need to symmetric encrypt.
-	 * @returns {Promise<string>} An encrypted data.
+	 * Encrypt the data.
+	 * @param {string} data Data that need to encrypt.
+	 * @returns {Promise<string>} The encrypted data.
 	 */
 	async encrypt(data: string): Promise<string>;
 	/**
-	 * Encrypt data.
-	 * @param {Uint8Array} data Data that need to symmetric encrypt.
-	 * @returns {Promise<Uint8Array>} An encrypted data.
+	 * Encrypt the data.
+	 * @param {Uint8Array} data Data that need to encrypt.
+	 * @returns {Promise<Uint8Array>} The encrypted data.
 	 */
 	async encrypt(data: Uint8Array): Promise<Uint8Array>;
 	async encrypt(data: string | Uint8Array): Promise<string | Uint8Array> {
@@ -221,7 +218,7 @@ export class SymmetricCryptor {
 		return this.#encrypt(data);
 	}
 	/**
-	 * Encrypt files in place. All of the files will not encrypted if any file fail to encrypt.
+	 * Encrypt the files in place. All of the files will not encrypted if any file fail to encrypt.
 	 * 
 	 * > **🛡️ Runtime Permissions**
 	 * > 
@@ -233,26 +230,26 @@ export class SymmetricCryptor {
 	 * @returns {Promise<this>}
 	 */
 	async encryptFile(...filesPath: (string | URL)[]): Promise<this> {
-		const result: SymmetricCryptorInternalFileIO[] = await Promise.all(filesPath.map(async (filePath: string | URL): Promise<SymmetricCryptorInternalFileIO> => {
+		const result: SymmetricCryptorFileIO[] = await Promise.all(filesPath.map(async (filePath: string | URL): Promise<SymmetricCryptorFileIO> => {
 			try {
 				return {
 					context: await this.#encrypt(await Deno.readFile(filePath)),
 					filePath
 				};
 			} catch (error) {
-				throw new Error(`Unable to encrypt file \`${filePath}\`: ${(error as Error)?.message ?? error}`);
+				throw new Error(`Unable to encrypt the file \`${filePath}\`: ${(error as Error)?.message ?? error}`);
 			}
 		}));
 		await Promise.all(result.map(({
 			context,
 			filePath
-		}: SymmetricCryptorInternalFileIO): Promise<void> => {
+		}: SymmetricCryptorFileIO): Promise<void> => {
 			return Deno.writeFile(filePath, context, { create: false });
 		}));
 		return this;
 	}
 	/**
-	 * Encrypt files in place. All of the files will not encrypted if any file fail to encrypt.
+	 * Encrypt the files in place. All of the files will not encrypted if any file fail to encrypt.
 	 * 
 	 * > **🛡️ Runtime Permissions**
 	 * > 
@@ -263,13 +260,68 @@ export class SymmetricCryptor {
 	 * @deprecated Migrate to {@linkcode SymmetricCryptor.encryptFile}.
 	 */
 	encryptFiles: (...filesPath: (string | URL)[]) => Promise<this> = this.encryptFile;
+	/**
+	 * Read the encrypted file.
+	 * 
+	 * > **🛡️ Runtime Permissions**
+	 * > 
+	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+	 * >   - *Resources*
+	 * @param {string | URL} filePath Path of the file.
+	 * @param {Deno.ReadFileOptions} [options] Options.
+	 * @returns {Promise<Uint8Array>} Decrypted data of the file.
+	 */
+	async readEncryptedFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<Uint8Array> {
+		return this.#decrypt(await Deno.readFile(filePath, options));
+	}
+	/**
+	 * Read the encrypted text file.
+	 * 
+	 * > **🛡️ Runtime Permissions**
+	 * > 
+	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
+	 * >   - *Resources*
+	 * @param {string | URL} filePath Path of the file.
+	 * @param {Deno.ReadFileOptions} [options] Options.
+	 * @returns {Promise<string>} Decrypted text data of the file.
+	 */
+	async readEncryptedTextFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<string> {
+		return new TextDecoder().decode(await this.readEncryptedFile(filePath, options));
+	}
+	/**
+	 * Write the encrypted file.
+	 * 
+	 * > **🛡️ Runtime Permissions**
+	 * > 
+	 * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+	 * >   - *Resources*
+	 * @param {string | URL} filePath Path of the file.
+	 * @param {Uint8Array} data Data of the file.
+	 * @param {Deno.WriteFileOptions} [options] Options.
+	 * @returns {Promise<this>}
+	 */
+	async writeEncryptedFile(filePath: string | URL, data: Uint8Array, options?: Deno.WriteFileOptions): Promise<this> {
+		await Deno.writeFile(filePath, await this.#encrypt(data), options);
+		return this;
+	}
+	/**
+	 * Write the encrypted text file.
+	 * 
+	 * > **🛡️ Runtime Permissions**
+	 * > 
+	 * > - File System - Write \[Deno: `write`; NodeJS (>= v20.9.0) 🧪: `fs-write`\]
+	 * >   - *Resources*
+	 * @param {string | URL} filePath Path of the file.
+	 * @param {string} data Text data of the file.
+	 * @param {Deno.WriteFileOptions} [options] Options.
+	 * @returns {Promise<this>}
+	 */
+	async writeEncryptedTextFile(filePath: string | URL, data: string, options?: Deno.WriteFileOptions): Promise<this> {
+		await this.writeEncryptedFile(filePath, new TextEncoder().encode(data), options);
+		return this;
+	}
 }
-/**
- * Create the key for the cryptor.
- * @param {SymmetricCryptorKeyInput | SymmetricCryptorKeyType} input Input.
- * @returns {Promise<SymmetricCryptorInternalCryptor>} Key for the cryptor.
- */
-async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorInternalCryptor> {
+async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorKey> {
 	let algorithm: `${SymmetricCryptorAlgorithm}`;
 	let key: SymmetricCryptorKeyType;
 	if (
@@ -298,11 +350,11 @@ async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCrypt
 }
 export interface SymmetricCryptorOptions {
 	/**
-	 * Decoder of the stringify cipher text, must also define and exchangeable with property {@linkcode encoder}. Default to use ASCII85 decoder.
+	 * Decoder of the stringify cipher text, must also define and exchangeable with property {@linkcode encoder}. Default to use the ASCII85 decoder.
 	 */
 	decoder?: SymmetricCryptorCipherTextDecoder;
 	/**
-	 * Encoder of the stringify cipher text, must also define and exchangeable with property {@linkcode decoder}. Default to use ASCII85 encoder.
+	 * Encoder of the stringify cipher text, must also define and exchangeable with property {@linkcode decoder}. Default to use the ASCII85 encoder.
 	 */
 	encoder?: SymmetricCryptorCipherTextEncoder;
 	/**
@@ -334,13 +386,13 @@ export async function createSymmetricCryptor(param0: SymmetricCryptorKeyInput | 
 	}
 	const decoder: SymmetricCryptorCipherTextDecoder = options.decoder ?? decodeAscii85;
 	const encoder: SymmetricCryptorCipherTextEncoder = options.encoder ?? encodeAscii85;
-	const cryptors: SymmetricCryptorInternalCryptor[] = [];
+	const cryptors: SymmetricCryptorKey[] = [];
 	if (Array.isArray(param0)) {
-		cryptors.push(...await Promise.all(param0.map((input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorInternalCryptor> => {
+		cryptors.push(...await Promise.all(param0.map((input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorKey> => {
 			return createCryptorKey(input);
 		})));
 	} else {
-		const cryptor: SymmetricCryptorInternalCryptor = await createCryptorKey(param0);
+		const cryptor: SymmetricCryptorKey = await createCryptorKey(param0);
 		if (typeof options.times === "undefined") {
 			cryptors.push(cryptor);
 		} else {

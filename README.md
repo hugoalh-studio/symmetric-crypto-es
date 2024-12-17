@@ -65,6 +65,10 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
     encrypt(data: string): Promise<string>;
     encrypt(data: Uint8Array): Promise<Uint8Array>;
     encryptFile(...filesPath: (string | URL)[]): Promise<this>;
+    readEncryptedFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<Uint8Array>;
+    readEncryptedTextFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<string>;
+    writeEncryptedFile(filePath: string | URL, data: Uint8Array, options?: Deno.WriteFileOptions): Promise<this>;
+    writeEncryptedTextFile(filePath: string | URL, data: string, options?: Deno.WriteFileOptions): Promise<this>;
   }
   ```
 - ```ts
@@ -95,10 +99,10 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   }
   ```
 - ```ts
-  type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array;
+  type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array | Promise<Uint8Array>;
   ```
 - ```ts
-  type SymmetricCryptorCipherTextEncoder = (input: Uint8Array) => string;
+  type SymmetricCryptorCipherTextEncoder = (input: Uint8Array) => string | Promise<string>;
   ```
 - ```ts
   type SymmetricCryptorKeyType = string | ArrayBuffer | DataView | Uint8Array | Uint16Array | Uint32Array | BigUint64Array;
