@@ -67,8 +67,8 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
     encryptFile(...filesPath: (string | URL)[]): Promise<this>;
     readEncryptedFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<Uint8Array>;
     readEncryptedTextFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<string>;
-    writeEncryptedFile(filePath: string | URL, data: Uint8Array, options?: Deno.WriteFileOptions): Promise<this>;
-    writeEncryptedTextFile(filePath: string | URL, data: string, options?: Deno.WriteFileOptions): Promise<this>;
+    writeEncryptedFile(filePath: string | URL, data: Uint8Array, options?: Omit<Deno.WriteFileOptions, "append">): Promise<this>;
+    writeEncryptedTextFile(filePath: string | URL, data: string, options?: Omit<Deno.WriteFileOptions, "append">): Promise<this>;
   }
   ```
 - ```ts

@@ -297,11 +297,14 @@ export class SymmetricCryptor {
 	 * >   - *Resources*
 	 * @param {string | URL} filePath Path of the file.
 	 * @param {Uint8Array} data Data of the file.
-	 * @param {Deno.WriteFileOptions} [options={}] Options.
+	 * @param {Omit<Deno.WriteFileOptions, "append">} [options={}] Options.
 	 * @returns {Promise<this>}
 	 */
-	async writeEncryptedFile(filePath: string | URL, data: Uint8Array, options?: Deno.WriteFileOptions): Promise<this> {
-		await Deno.writeFile(filePath, await this.#encrypt(data), options);
+	async writeEncryptedFile(filePath: string | URL, data: Uint8Array, options?: Omit<Deno.WriteFileOptions, "append">): Promise<this> {
+		await Deno.writeFile(filePath, await this.#encrypt(data), {
+			...options,
+			append: false
+		});
 		return this;
 	}
 	/**
@@ -313,10 +316,10 @@ export class SymmetricCryptor {
 	 * >   - *Resources*
 	 * @param {string | URL} filePath Path of the file.
 	 * @param {string} data Text data of the file.
-	 * @param {Deno.WriteFileOptions} [options={}] Options.
+	 * @param {Omit<Deno.WriteFileOptions, "append">} [options={}] Options.
 	 * @returns {Promise<this>}
 	 */
-	async writeEncryptedTextFile(filePath: string | URL, data: string, options?: Deno.WriteFileOptions): Promise<this> {
+	async writeEncryptedTextFile(filePath: string | URL, data: string, options?: Omit<Deno.WriteFileOptions, "append">): Promise<this> {
 		await this.writeEncryptedFile(filePath, new TextEncoder().encode(data), options);
 		return this;
 	}
