@@ -51,7 +51,7 @@ export class SymmetricCryptor {
 	#cryptors: readonly SymmetricCryptorKey[];
 	#decoder: SymmetricCryptorCipherTextDecoder;
 	#encoder: SymmetricCryptorCipherTextEncoder;
-	private constructor(cryptors: SymmetricCryptorKey[], decoder: SymmetricCryptorCipherTextDecoder, encoder: SymmetricCryptorCipherTextEncoder) {
+	private constructor(cryptors: readonly SymmetricCryptorKey[], decoder: SymmetricCryptorCipherTextDecoder, encoder: SymmetricCryptorCipherTextEncoder) {
 		this.#cryptors = cryptors;
 		this.#decoder = decoder;
 		this.#encoder = encoder;
@@ -268,7 +268,7 @@ export class SymmetricCryptor {
 	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
 	 * >   - *Resources*
 	 * @param {string | URL} filePath Path of the file.
-	 * @param {Deno.ReadFileOptions} [options] Options.
+	 * @param {Deno.ReadFileOptions} [options={}] Options.
 	 * @returns {Promise<Uint8Array>} Decrypted data of the file.
 	 */
 	async readEncryptedFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<Uint8Array> {
@@ -282,7 +282,7 @@ export class SymmetricCryptor {
 	 * > - File System - Read \[Deno: `read`; NodeJS (>= v20.9.0) 🧪: `fs-read`\]
 	 * >   - *Resources*
 	 * @param {string | URL} filePath Path of the file.
-	 * @param {Deno.ReadFileOptions} [options] Options.
+	 * @param {Deno.ReadFileOptions} [options={}] Options.
 	 * @returns {Promise<string>} Decrypted text data of the file.
 	 */
 	async readEncryptedTextFile(filePath: string | URL, options?: Deno.ReadFileOptions): Promise<string> {
@@ -297,7 +297,7 @@ export class SymmetricCryptor {
 	 * >   - *Resources*
 	 * @param {string | URL} filePath Path of the file.
 	 * @param {Uint8Array} data Data of the file.
-	 * @param {Deno.WriteFileOptions} [options] Options.
+	 * @param {Deno.WriteFileOptions} [options={}] Options.
 	 * @returns {Promise<this>}
 	 */
 	async writeEncryptedFile(filePath: string | URL, data: Uint8Array, options?: Deno.WriteFileOptions): Promise<this> {
@@ -313,7 +313,7 @@ export class SymmetricCryptor {
 	 * >   - *Resources*
 	 * @param {string | URL} filePath Path of the file.
 	 * @param {string} data Text data of the file.
-	 * @param {Deno.WriteFileOptions} [options] Options.
+	 * @param {Deno.WriteFileOptions} [options={}] Options.
 	 * @returns {Promise<this>}
 	 */
 	async writeEncryptedTextFile(filePath: string | URL, data: string, options?: Deno.WriteFileOptions): Promise<this> {
