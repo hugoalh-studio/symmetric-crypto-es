@@ -2,17 +2,18 @@ import {
 	decodeAscii85,
 	encodeAscii85
 } from "jsr:@std/encoding@^1.0.5";
-/**
- * Enum of the algorithm of the symmetric cryptor.
- */
-export enum SymmetricCryptorAlgorithm {
-	"AES-CBC" = "AES-CBC",
-	"AES-CTR" = "AES-CTR",
-	"AES-GCM" = "AES-GCM",
-	AESCBC = "AES-CBC",
-	AESCTR = "AES-CTR",
-	AESGCM = "AES-GCM"
-}
+export type SymmetricCryptorAlgorithm =
+	| "AES-CBC"
+	| "AES-CTR"
+	| "AES-GCM";
+const algorithms: Readonly<Record<string, SymmetricCryptorAlgorithm>> = {
+	"AES-CBC": "AES-CBC",
+	"AES-CTR": "AES-CTR",
+	"AES-GCM": "AES-GCM",
+	AESCBC: "AES-CBC",
+	AESCTR: "AES-CTR",
+	AESGCM: "AES-GCM"
+};
 export type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array | Promise<Uint8Array>;
 export type SymmetricCryptorCipherTextEncoder = (input: Uint8Array) => string | Promise<string>;
 /**
@@ -27,7 +28,7 @@ export interface SymmetricCryptorKeyInput {
 	 * Algorithm of the symmetric cryptor.
 	 * @default {"AES-CBC"}
 	 */
-	algorithm?: SymmetricCryptorAlgorithm | keyof typeof SymmetricCryptorAlgorithm;
+	algorithm?: SymmetricCryptorAlgorithm;
 	/**
 	 * Key of the symmetric cryptor.
 	 */
@@ -325,7 +326,7 @@ export class SymmetricCryptor {
 	}
 }
 async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCryptorKeyType): Promise<SymmetricCryptorKey> {
-	let algorithm: `${SymmetricCryptorAlgorithm}`;
+	let algorithm: SymmetricCryptorAlgorithm;
 	let key: SymmetricCryptorKeyType;
 	if (
 		typeof input === "string" ||
@@ -339,9 +340,9 @@ async function createCryptorKey(input: SymmetricCryptorKeyInput | SymmetricCrypt
 		algorithm = "AES-CBC";
 		key = input;
 	} else {
-		const algorithmFmt: `${SymmetricCryptorAlgorithm}` | undefined = SymmetricCryptorAlgorithm[input.algorithm ?? "AES-CBC"];
+		const algorithmFmt: SymmetricCryptorAlgorithm | undefined = algorithms[input.algorithm ?? "AES-CBC"];
 		if (typeof algorithmFmt === "undefined") {
-			throw new RangeError(`\`${input.algorithm}\` is not a valid symmetric crypto algorithm! Only accept these values: ${Array.from(new Set<string>(Object.keys(SymmetricCryptorAlgorithm)).values()).sort().join(", ")}`);
+			throw new RangeError(`\`${input.algorithm}\` is not a valid symmetric crypto algorithm! Only accept these values: ${Object.keys(algorithms).sort().join(", ")}`);
 		}
 		algorithm = algorithmFmt;
 		key = input.key;

@@ -72,16 +72,6 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   }
   ```
 - ```ts
-  enum SymmetricCryptorAlgorithm {
-    "AES-CBC" = "AES-CBC",
-    "AES-CTR" = "AES-CTR",
-    "AES-GCM" = "AES-GCM",
-    AESCBC = "AES-CBC",
-    AESCTR = "AES-CTR",
-    AESGCM = "AES-GCM"
-  }
-  ```
-- ```ts
   function createSymmetricCryptor(key: SymmetricCryptorKeyInput | SymmetricCryptorKeyType, options?: SymmetricCryptorOptions): Promise<SymmetricCryptor>;
   function createSymmetricCryptor(keys: (SymmetricCryptorKeyInput | SymmetricCryptorKeyType)[], options?: Omit<SymmetricCryptorOptions, "times">): Promise<SymmetricCryptor>;
   ```
@@ -94,9 +84,15 @@ An ES (JavaScript & TypeScript) module to provide an easier symmetric crypto.
   ```
 - ```ts
   interface SymmetricCryptorKeyInput {
-    algorithm?: SymmetricCryptorAlgorithm | keyof typeof SymmetricCryptorAlgorithm;
+    algorithm?: SymmetricCryptorAlgorithm;
     key: SymmetricCryptorKeyType;
   }
+  ```
+- ```ts
+  type SymmetricCryptorAlgorithm =
+    | "AES-CBC"
+    | "AES-CTR"
+    | "AES-GCM";
   ```
 - ```ts
   type SymmetricCryptorCipherTextDecoder = (input: string) => Uint8Array | Promise<Uint8Array>;
